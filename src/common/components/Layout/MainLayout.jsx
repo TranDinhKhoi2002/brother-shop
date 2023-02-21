@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Footer from '../Footer/Footer';
 import Header from '../Header';
+import Sidebar from './Sidebar';
 
 function Layout(props) {
   const [sideBarActive, setSideBarActive] = useState(false);
@@ -30,6 +31,7 @@ function Layout(props) {
   return (
     <Fragment>
       <Header showSideBar={openSideBarHandler} />
+      <Sidebar isVisible={sideBarActive} onHide={closeSideBarHandler} />
       <main>{props.children}</main>
       <Footer />
     </Fragment>

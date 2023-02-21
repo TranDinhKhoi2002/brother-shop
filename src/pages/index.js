@@ -1,18 +1,18 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import images from 'src/assets/images';
 import config from '../config';
 import MainCarousel from '@/common/components/Carousel';
 import Intro from '@/common/components/Intro';
 import Products from '@/modules/product/components/Products';
 import Button from '@/common/components/UI/Button';
 
-import { getDiscountProducts, getHotProducts, getTrouserProducts, getTShirtProducts } from '@/services/productRequests';
+import { getDiscountProducts, getHotProducts, getProductsByType } from '@/services/productRequests';
 import { getIntroImages } from '@/services/imageRequests';
 import { getReadyToSellEvent } from '@/services/eventRequests';
 
 import 'lightgallery.js/dist/css/lightgallery.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useRouter } from 'next/router';
 
 export default function Home({
   hotProducts,
@@ -22,6 +22,12 @@ export default function Home({
   introImages,
   readyToSellEvent,
 }) {
+  const router = useRouter();
+
+  const navigateToProductsPage = (type) => {
+    router.push(`/shop/products?type=${type}`);
+  };
+
   return (
     <>
       <Head>
@@ -32,7 +38,7 @@ export default function Home({
       </Head>
       <main className="xl:px-[3%]">
         <div className="animate-image flex justify-center pt-[70px] lg:pt-[79px]">
-          <Image to={config.routes.home} alt="Discount" src={images.banner} priority />
+          <Image alt="Discount" src="/assets/images/banner.jpg" width={1200} height={1200} priority />
         </div>
         <MainCarousel events={readyToSellEvent} />
 
@@ -55,7 +61,7 @@ export default function Home({
 
         <Products products={tshirtProducts} />
         <div className="text-center my-3">
-          <Button>Xem tất cả áo thun</Button>
+          <Button onClick={navigateToProductsPage.bind(this, 'Áo Thun')}>Xem tất cả áo thun</Button>
         </div>
 
         <div className="flex justify-center mt-3">
@@ -70,7 +76,7 @@ export default function Home({
 
         <Products products={trouserProducts} />
         <div className="text-center my-3">
-          <Button>Xem tất cả quần</Button>
+          <Button onClick={navigateToProductsPage.bind(this, 'Quần')}>Xem tất cả quần</Button>
         </div>
 
         <div className="text-center">
@@ -87,8 +93,8 @@ export async function getStaticProps() {
   const promises = [
     getHotProducts(),
     getDiscountProducts(),
-    getTShirtProducts(),
-    getTrouserProducts(),
+    getProductsByType('Áo Thun'),
+    getProductsByType('Quần'),
     getIntroImages(),
     getReadyToSellEvent(),
   ];

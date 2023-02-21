@@ -3,8 +3,16 @@ import Products from '@/modules/product/components/Products';
 import { Image } from 'cloudinary-react';
 import Head from 'next/head';
 import { getEventByTag, getReadyToSellEvent } from '@/services/eventRequests';
+import { useRouter } from 'next/router';
+import RelatedProducts from '@/modules/product/components/RelatedProducts';
 
 function DetailEvent({ event }) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   const { title, description, subImgs, relatedProducts } = event;
   const headTitle = `Sự Kiện ${title} | Brother Shop`;
 
@@ -21,8 +29,7 @@ function DetailEvent({ event }) {
           </div>
         ))}
 
-        <p className="text-center text-2xl font-medium my-3">Sản phẩm liên quan</p>
-        <Products products={relatedProducts} />
+        <RelatedProducts products={relatedProducts} />
       </NavigationLayout>
     </>
   );

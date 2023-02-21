@@ -40,3 +40,22 @@ button {
   top: 30px;
   left: -18px;
 }
+
+.slick-next:before,
+.slick-prev:before {
+  font-size: 35px !important;
+  color: #343a40 !important;
+}
+
+.slick-next:before {
+  content: '→';
+}
+
+.slick-prev:before {
+  content: '←';
+}
+
+.imageContainer img {
+  max-width: unset !important;
+  max-height: unset !important;
+}

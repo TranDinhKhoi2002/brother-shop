@@ -10,6 +10,10 @@ function ProductType({ products }) {
   const { title } = router.query;
   const headTitle = `Dòng sản phẩm ${title} | Brother Shop`;
 
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Head>

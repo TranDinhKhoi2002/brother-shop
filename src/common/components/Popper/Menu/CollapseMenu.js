@@ -4,7 +4,7 @@ import { useState } from 'react';
 import useCollapse from 'react-collapsed';
 import Link from 'next/link';
 
-function CollapseMenu(props) {
+function CollapseMenu({ to, title, items }) {
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({
     isExpanded,
@@ -13,11 +13,11 @@ function CollapseMenu(props) {
   return (
     <div className="relative">
       <Link
-        href={props.to}
-        state={{ title: props.title, products: props.products }}
+        href={{ pathname: to, query: { title: title } }}
+        as={to}
         className="text-xl px-5 py-[5px] hover:text-primary transition duration-300"
       >
-        {props.title}
+        {title}
       </Link>
       <span
         className="w-9 h-9 leading-9 rounded-full text-center bg-transparent hover:bg-[#f8f9fa] absolute right-0"
@@ -28,10 +28,13 @@ function CollapseMenu(props) {
         <FontAwesomeIcon icon={faAngleDown} className={`${isExpanded && 'rotate-180'} transition duration-300`} />
       </span>
       <ul {...getCollapseProps()} className="ml-10">
-        {props.children.map((item, index) => (
-          <li key={index} className="my-2">
-            <Link href={item.path} state={{ title: item.name, products: item.products }}>
-              {item.name}
+        {items.map((item) => (
+          <li key={item._id} className="my-2">
+            <Link
+              href={{ pathname: `/category/${item._id}`, query: { title: item.type } }}
+              as={`/category/${item._id}`}
+            >
+              {item.type}
             </Link>
           </li>
         ))}

@@ -28,10 +28,10 @@ function Menu({ items = [], children, detail = false }) {
                     <Link
                       className="hover:text-primary transition duration-300"
                       href={{
-                        pathname: item._id,
+                        pathname: `/category/${item._id}`,
                         query: { title: item.name },
                       }}
-                      as={item._id}
+                      as={`/category/${item._id}`}
                     >
                       {item.name}
                     </Link>
@@ -40,10 +40,10 @@ function Menu({ items = [], children, detail = false }) {
                         <li className="hover:text-primary transition duration-300" key={index}>
                           <Link
                             href={{
-                              pathname: child._id,
+                              pathname: `/category/${child._id}`,
                               query: { title: child.type },
                             }}
-                            as={child._id}
+                            as={`/category/${child._id}`}
                           >
                             {child.type}
                           </Link>
