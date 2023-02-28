@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import classes from './Cart.module.css';
-import { useRouter } from 'next/router';
-import { clearCart } from '@/redux/slices/cart';
+import Router, { useRouter } from 'next/router';
+import { checkOut } from '@/redux/slices/cart';
 import FormProvider from '@/common/components/Form/FormProvider';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,7 @@ import RHFTextField from '@/common/components/Form/RHFTextField';
 import DeliveryMethods from './DeliveryMethods';
 import BranchList from './BranchList';
 import Link from 'next/link';
+import Title from '@/common/components/UI/Title';
 
 function OrderForm() {
   const [codShip, setCodShip] = useState(true);
@@ -20,13 +21,17 @@ function OrderForm() {
   const OrderSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
     phone: Yup.string().required('Vui lòng nhập số điện thoại'),
+    email: Yup.string().email('Email không hợp lệ').required('Vui lòng nhập email'),
     address: Yup.string().required('Vui lòng nhập địa chỉ nhận hàng'),
+    note: Yup.string(),
   });
 
   const defaultValues = {
     name: '',
     phone: '',
+    email: '',
     address: '',
+    note: '',
   };
 
   const methods = useForm({
@@ -41,8 +46,19 @@ function OrderForm() {
     getValues,
   } = methods;
 
-  const onSubmit = async (values) => {
-    console.log(values);
+  const onSubmit = (values) => {
+    const { name, phone, email, address, note } = values;
+
+    Router.push({
+      pathname: '/checkout/payment',
+      query: {
+        toName: name,
+        toPhone: phone,
+        toEmail: email,
+        toAddress: address,
+        toNote: note,
+      },
+    });
   };
 
   const changeDeliveryMethodsHandler = () => {
@@ -56,10 +72,11 @@ function OrderForm() {
 
   return (
     <div className={classes.delivery}>
-      <h4>Người mua/nhận hàng</h4>
+      <Title>THÔNG TIN ĐẶT HÀNG</Title>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <RHFTextField name="name" label="Họ tên" id="name" placeholder="Họ tên người nhận" />
         <RHFTextField name="phone" label="Điện thoại liên lạc" id="name" placeholder="Số điện thoại" />
+        <RHFTextField name="email" label="Email" id="email" placeholder="Địa chỉ email" />
 
         <DeliveryMethods onChange={changeDeliveryMethodsHandler} codShip={codShip} />
 
@@ -72,17 +89,14 @@ function OrderForm() {
           </>
         )}
 
-        <div>
-          <label htmlFor="customerNote">Ghi chú</label>
-          <textarea className="!py-[0.375rem] !h-24" type="text" id="note" />
-        </div>
+        <RHFTextField name="note" label="Ghi chú" id="note" placeholder="Ghi chú" tag="textarea" isRequired={false} />
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full cursor-pointer h-[43px] text-[13px] text-white bg-[#17a2b8] border-[#17a2b8] rounded hover:bg-[#138496] hover:border-[#117a8b]"
+          className="w-full cursor-pointer h-[43px] text-[13px] text-white mt-5 bg-[#17a2b8] border-[#17a2b8] rounded hover:bg-[#138496] hover:border-[#117a8b]"
         >
-          ĐẶT HÀNG
+          THANH TOÁN
         </button>
         <hr className="my-4" />
         <Link href={'/'}>

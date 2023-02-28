@@ -38,7 +38,7 @@ export default function Home({
       </Head>
       <main className="xl:px-[3%]">
         <div className="animate-image flex justify-center pt-[70px] lg:pt-[79px]">
-          <Image alt="Discount" src="/assets/images/banner.jpg" width={1200} height={1200} priority />
+          <Image alt="Discount" src="/assets/images/banner.jpg" width={1400} height={1400} priority />
         </div>
         <MainCarousel events={readyToSellEvent} />
 

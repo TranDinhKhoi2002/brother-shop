@@ -1,4 +1,3 @@
-import { Image } from 'cloudinary-react';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import ProductItem from './ProductItem';
@@ -31,7 +30,7 @@ function RelatedProducts({ products }) {
     dotsClass: 'slick-dots slick-thumb',
     infinite: true,
     speed: 500,
-    slidesToShow: products.length >= 6 ? 6 : 10,
+    slidesToShow: products.length >= 6 ? 6 : products.length,
     slidesToScroll: 3,
     autoplay: true,
     speed: 1000,

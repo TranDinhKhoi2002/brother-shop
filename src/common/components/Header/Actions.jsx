@@ -4,14 +4,15 @@ import { faBagShopping, faBars, faSearch } from '@fortawesome/free-solid-svg-ico
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import config from '@/config';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 function Actions(props) {
   const products = useSelector((state) => state.cart.products);
   const router = useRouter();
   const isLoggedin = useSelector((state) => state.auth.isAuth);
 
-  const previewCartHandler = () => {
-    router.push(config.routes.cart);
+  const checkoutHandler = () => {
+    router.push(config.routes.checkoutLogin);
   };
 
   const authHandler = () => {
@@ -21,6 +22,16 @@ function Actions(props) {
       router.push(config.routes.login);
     }
   };
+
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
+  if (!loaded) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="flex items-center">
@@ -37,7 +48,7 @@ function Actions(props) {
         <FontAwesomeIcon className="ml-[6px] text-[16px]" icon={faUser} />
       </button>
       <button
-        onClick={previewCartHandler}
+        onClick={checkoutHandler}
         className="relative w-4 h-4 leading-4 bg-transparent text-[#868995] cursor-pointer mx-3 transition duration-300 ease-linear hover:text-[#3d3f45]"
       >
         <FontAwesomeIcon className="ml-[6px] text-[16px]" icon={faBagShopping} />

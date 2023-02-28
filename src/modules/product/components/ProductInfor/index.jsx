@@ -1,7 +1,6 @@
 import { addToCart } from '@/redux/slices/cart';
 import { useDispatch } from 'react-redux';
 
-import ProductItem from '../ProductItem';
 import GeneralInfor from './Generalnfor';
 import GuidanceSize from './GuidanceSize';
 import PreviewImages from './PreviewImages';

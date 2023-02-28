@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { removeFromCart, updateAmountOfProduct } from '@/redux/slices/cart';
 import { printNumberWithCommas } from '@/utils/printPriceWithComma';
 import { Image } from 'cloudinary-react';
+import Title from '@/common/components/UI/Title';
 
 function DetailCart() {
   const products = useSelector((state) => state.cart.products);
@@ -38,13 +39,10 @@ function DetailCart() {
 
   return (
     <div>
-      <h4>Chi tiết đơn hàng</h4>
+      <Title>ĐƠN HÀNG CỦA BẠN</Title>
       <table className="w-full text-[#111] mt-2">
         <tbody>
           {products.map((cartProduct, index) => {
-            console.log(cartProduct);
-            const formatedPrice = cartProduct.product.price.toString().replace(',', '');
-
             totalPrice += cartProduct.product.price * cartProduct.amount;
 
             return (
@@ -58,7 +56,7 @@ function DetailCart() {
                       style={{ width: '100px' }}
                     />
                     <button
-                      onClick={() => removeFromCartHandler(cartProduct.product.id, cartProduct.size)}
+                      onClick={() => removeFromCartHandler(cartProduct.product._id, cartProduct.size)}
                       className="flex items-center font-light hover:text-[#0056b3]"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr w-3 h-3" />
@@ -83,7 +81,7 @@ function DetailCart() {
                         onSubmit={(e) => {
                           e.preventDefault();
 
-                          updateAmountHandler(cartProduct.product.id, cartProduct.size, index);
+                          updateAmountHandler(cartProduct.product._id, cartProduct.size, index);
                         }}
                         className="flex"
                       >

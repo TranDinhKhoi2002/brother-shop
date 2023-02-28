@@ -6,7 +6,6 @@ import Head from 'next/head';
 
 function ProductInforPage({ product, relatedProducts }) {
   const headTitle = `Sản phẩm ${product.name} | Brother Shop`;
-  console.log(relatedProducts);
 
   return (
     <>

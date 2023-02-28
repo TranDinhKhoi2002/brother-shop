@@ -30,7 +30,7 @@ const MyApp = (props) => {
             </MainLayout>,
           )}
         </ThemeProvider>
-        <ToastContainer autoClose={3000} limit={3} pauseOnFocusLoss={false} theme="colored" />
+        <ToastContainer autoClose={3000} limit={5} pauseOnFocusLoss={false} theme="colored" />
       </CacheProvider>
     </Provider>
   );
