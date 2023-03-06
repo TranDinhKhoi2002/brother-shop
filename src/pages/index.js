@@ -13,6 +13,8 @@ import { getReadyToSellEvent } from '@/services/eventRequests';
 import 'lightgallery.js/dist/css/lightgallery.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useRouter } from 'next/router';
+import { Carousel } from 'react-responsive-carousel';
+import { Box, Stack, Typography } from '@mui/material';
 
 export default function Home({
   hotProducts,
@@ -37,19 +39,36 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="xl:px-[3%]">
-        <div className="animate-image flex justify-center pt-[70px] lg:pt-[79px]">
-          <Image alt="Discount" src="/assets/images/banner.jpg" width={1400} height={1400} priority />
-        </div>
+        <Carousel
+          showThumbs={false}
+          emulateTouch={true}
+          animationHandler="slide"
+          autoPlay={true}
+          interval={3000}
+          infiniteLoop={true}
+          showArrows={true}
+          showStatus={false}
+          stopOnHover={false}
+        >
+          <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px]">
+            <Image alt="Discount" src="/assets/images/banner1.jpg" width={1400} height={1400} priority />
+          </div>
+          <div className="animate-image flex justify-center pt-[70px] lg:pt-[79px]">
+            <Image alt="Discount" src="/assets/images/banner2.jpg" width={1400} height={1400} priority />
+          </div>
+        </Carousel>
         <MainCarousel events={readyToSellEvent} />
 
         <Intro images={introImages} />
 
-        <div className="text-center">
-          <p className="text-2xl pt-5 pb-2">Top sản phẩm HOT</p>
-          <p>Những sản phẩm thời trang mới nhất/Hot nhất</p>
-        </div>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
+            Top sản phẩm HOT
+          </Typography>
+          <Typography sx={{ fontWeight: 'light' }}>Những sản phẩm thời trang mới nhất/Hot nhất</Typography>
+        </Box>
         <Products products={hotProducts} />
-        <div className="flex justify-center">
+        <Stack justifyContent="center">
           <Image
             src="https://cmsv2.yame.vn/uploads/91ecb60f-ecf4-4572-9a80-7ba29483cd97/Banner_MB_13.01_(G)_02.jpg?quality=80&w=0&h=0"
             alt=""
@@ -57,32 +76,34 @@ export default function Home({
             height={1000}
             className="w-full"
           />
-        </div>
+        </Stack>
 
         <Products products={tshirtProducts} />
-        <div className="text-center my-3">
+        <Box sx={{ textAlign: 'center', marginY: 3 }}>
           <Button onClick={navigateToProductsPage.bind(this, 'Áo Thun')}>Xem tất cả áo thun</Button>
-        </div>
+        </Box>
 
-        <div className="flex justify-center mt-3">
+        <Stack justifyContent="center" sx={{ mt: 3 }}>
           <Image
             src="https://cmsv2.yame.vn/uploads/7c59b59c-11d3-44ae-b7b0-aa93b9a7deec/Thum_MB_06.01_(04).jpg?quality=80&w=0&h=0"
             alt=""
             width={1000}
             height={1000}
-            className="w-full h-auto"
+            className="w-full"
           />
-        </div>
+        </Stack>
 
         <Products products={trouserProducts} />
-        <div className="text-center my-3">
+        <Box sx={{ textAlign: 'center', marginY: 3 }}>
           <Button onClick={navigateToProductsPage.bind(this, 'Quần')}>Xem tất cả quần</Button>
-        </div>
+        </Box>
 
-        <div className="text-center">
-          <p className="text-2xl pt-5 pb-2">Các sản phẩm giảm giá</p>
-          <p>Đừng bỏ lỡ - Hãy mua ngay</p>
-        </div>
+        <Box sx={{ textAlign: 'center', marginY: 3 }}>
+          <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
+            Các sản phẩm giảm giá
+          </Typography>
+          <Typography sx={{ fontWeight: 'light' }}>Đừng bỏ lỡ - Hãy mua ngay</Typography>
+        </Box>
         <Products products={discountProducts} />
       </main>
     </>

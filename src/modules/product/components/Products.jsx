@@ -1,14 +1,17 @@
+import { Box, Grid } from '@mui/material';
 import ProductItem from './ProductItem';
 
 function Products({ products, forDetail }) {
   return (
-    <div className="mt-6">
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
+    <Box sx={{ mt: 4 }}>
+      <Grid container>
         {products.map((product, index) => (
-          <ProductItem forDetail={forDetail} key={index} product={product} />
+          <Grid key={index} item xs={6} sm={3}>
+            <ProductItem forDetail={forDetail} product={product} />
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+    </Box>
   );
 }
 

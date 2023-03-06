@@ -2,7 +2,7 @@
 import { Image } from 'cloudinary-react';
 import { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { printNumberWithCommas } from '@/utils/printPriceWithComma';
+import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import Link from 'next/link';
 
 function ProductItem({ product, forDetail }) {

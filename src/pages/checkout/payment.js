@@ -1,11 +1,11 @@
 import Head from 'next/head';
+import { createCipher } from 'crypto';
 import NavigationLayout from '@/common/components/Layout/NavigationLayout';
 import Title from '@/common/components/UI/Title';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import { Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { printNumberWithCommas } from '@/utils/printPriceWithComma';
 import { useEffect, useRef, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import request from '@/services/baseRequest';
@@ -39,46 +39,56 @@ function CheckoutPayment() {
   const totalPrice = totalProductsPrice + shippingPrice;
 
   const payHandler = async () => {
+    const { companyName, companyAddress, companyTaxNumber } = ref.current.getInvoiceCompany();
+
+    const formatedCartProducts = cartProducts.map((cartProduct) => ({
+      product: cartProduct.product._id,
+      name: cartProduct.product.name,
+      price: cartProduct.product.price,
+      amount: cartProduct.amount,
+      size: cartProduct.size,
+      image: `https://res.cloudinary.com/ddajkcbs2/image/upload/${cartProduct.product.images.mainImg}`,
+    }));
+
+    const shippingInfor = JSON.parse(localStorage.getItem('shippingInfor'));
+
+    const order = {
+      toName: toName || shippingInfor.name,
+      toPhone: toPhone || shippingInfor.phone,
+      toEmail: toEmail || shippingInfor.email,
+      toAddress: toAddress || shippingInfor.address,
+      toNote: toNote || shippingInfor.note,
+      products: formatedCartProducts,
+      totalProductsPrice,
+      shippingPrice,
+      totalPrice,
+      companyName,
+      companyAddress,
+      companyTaxNumber,
+    };
+
+    const { message, orderId } = await createOrder(order);
+
+    const cipher = createCipher('aes-256-cbc', 'secret');
+    let encrypted = cipher.update(orderId);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    const encryptedOrderId = encrypted.toString('base64');
+    localStorage.setItem('encryptedOrderId', encryptedOrderId);
+
     if (paymentMethod === 'cod') {
+      toast.success(message);
       router.push(
         {
           pathname: '/checkout/success',
           query: {
-            name: 'Trần Đình Khôi',
-            email: 'trandinhkhoi102@gmail.com',
+            name: toName || shippingInfor.name,
+            email: toEmail || shippingInfor.email,
+            method: 'cod',
+            orderId,
           },
         },
         '/checkout/success',
       );
-
-      const formatedCartProducts = cartProducts.map((cartProduct) => ({
-        product: cartProduct.product._id,
-        name: cartProduct.product.name,
-        price: cartProduct.product.price,
-        amount: cartProduct.amount,
-        size: cartProduct.size,
-        image: `https://res.cloudinary.com/ddajkcbs2/image/upload/${cartProduct.product.images.mainImg}`,
-      }));
-
-      const { companyName, companyAddress, companyTaxNumber } = ref.current.getInvoiceCompany();
-
-      const order = {
-        toName,
-        toPhone,
-        toEmail,
-        toAddress,
-        toNote,
-        products: formatedCartProducts,
-        totalProductsPrice,
-        shippingPrice,
-        totalPrice,
-        companyName,
-        companyAddress,
-        companyTaxNumber,
-      };
-
-      const { message } = await createOrder(order);
-      toast.success(message);
       return;
     }
 

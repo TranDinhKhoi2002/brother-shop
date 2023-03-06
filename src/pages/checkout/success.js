@@ -1,15 +1,25 @@
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import NavigationLayout from '@/common/components/Layout/NavigationLayout';
 import SuccessCheckout from '@/modules/payment/components/SuccessCheckout';
-import Head from 'next/head';
+import FailedCheckout from '@/modules/payment/components/FailedCheckout';
 
 function CheckoutSuccessPage() {
+  const router = useRouter();
+  console.log(router.query.vnp_ResponseCode);
+
   return (
     <>
       <Head>
         <title>Đặt Hàng | Brother Shop</title>
       </Head>
       <NavigationLayout title="Đặt hàng">
-        <SuccessCheckout />
+        {/* <SuccessCheckout /> */}
+        {router.query.vnp_ResponseCode && router.query.vnp_ResponseCode !== '00' ? (
+          <FailedCheckout />
+        ) : (
+          <SuccessCheckout />
+        )}
       </NavigationLayout>
     </>
   );

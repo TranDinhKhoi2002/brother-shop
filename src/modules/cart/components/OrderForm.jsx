@@ -49,6 +49,9 @@ function OrderForm() {
   const onSubmit = (values) => {
     const { name, phone, email, address, note } = values;
 
+    const shippingInfor = { ...values };
+    localStorage.setItem('shippingInfor', JSON.stringify(shippingInfor));
+
     Router.push({
       pathname: '/checkout/payment',
       query: {

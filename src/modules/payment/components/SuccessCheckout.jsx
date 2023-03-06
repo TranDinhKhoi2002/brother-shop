@@ -1,13 +1,35 @@
 import Button from '@/common/components/UI/Button';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
+import { updateOrderPaid } from '@/services/orderRequests';
+import { createDecipher } from 'crypto';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 function SuccessCheckout() {
   const router = useRouter();
   const { name, email } = router.query;
+
+  useEffect(() => {
+    const updateOrder = async () => {
+      const encryptedOrderId = localStorage.getItem('encryptedOrderId');
+      const encryptedBytes = Buffer.from(encryptedOrderId, 'base64');
+
+      const decipher = createDecipher('aes-256-cbc', 'secret');
+      let decrypted = decipher.update(encryptedBytes);
+      decrypted = Buffer.concat([decrypted, decipher.final()]);
+      const decryptedString = decrypted.toString();
+
+      if (router.query.vnp_ResponseCode) {
+        console.log('here');
+        await updateOrderPaid(decryptedString);
+      }
+    };
+
+    updateOrder();
+  }, [router.query.vnp_ResponseCode]);
 
   return (
     <>

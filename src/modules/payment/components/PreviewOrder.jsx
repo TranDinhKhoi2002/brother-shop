@@ -3,7 +3,7 @@ import { Card, CardActions, CardContent, Divider } from '@mui/material';
 
 import Title from '@/common/components/UI/Title';
 import Button from '@/common/components/UI/Button';
-import { printNumberWithCommas } from '@/utils/printPriceWithComma';
+import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 
 function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
   return (

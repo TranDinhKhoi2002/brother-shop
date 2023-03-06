@@ -17,7 +17,7 @@ function responsiveFontSizes({ sm, md, lg }) {
 }
 
 const typography = {
-  fontWeightRegular: 400,
+  fontWeightRegular: 300,
   fontWeightMedium: 500,
   fontWeightBold: 700,
   h1: {

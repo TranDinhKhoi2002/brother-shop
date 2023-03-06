@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import Link from 'next/link';
-import { Image } from 'cloudinary-react';
-import { LightgalleryProvider, LightgalleryItem } from 'react-lightgallery';
+import CarouselItem from './CarouselItem';
 
 function MainCarousel({ events }) {
   const [loaded, setLoaded] = useState(false);
@@ -14,6 +12,13 @@ function MainCarousel({ events }) {
   if (!loaded) {
     return <p>Loading....</p>;
   }
+
+  const content = [];
+  for (let i = 0; i < events.length - 1; i++) {
+    content.push(<CarouselItem key={i} item1={events[i]} item2={events[i + 1]} />);
+  }
+
+  console.log(content);
 
   return (
     <Carousel
@@ -28,29 +33,7 @@ function MainCarousel({ events }) {
       showStatus={false}
       stopOnHover={false}
     >
-      {events.map((event, index) => (
-        <div key={index} className="grid grid-cols-1 mx-[4px] gap-1 animate-image mt-8">
-          <LightgalleryProvider>
-            <h4 className="inline-block md:float-left font-normal lg:text-2xl pb-3 text-[#444444] hover:text-[#0056b3] transition duration-300">
-              <Link href={`/events/${event.tag}`}>{event.title}</Link>
-            </h4>
-            <Image cloudName="ddajkcbs2" publicId={event.mainImg} alt={event.title} />
-
-            <div className="grid grid-cols-4 gap-1">
-              {event.relatedProducts.map((product, index) => (
-                <LightgalleryItem
-                  key={index}
-                  group="mainCarousel"
-                  src={`https://res.cloudinary.com/ddajkcbs2/image/upload/${product.images.mainImg}`}
-                  thumb={`https://res.cloudinary.com/ddajkcbs2/image/upload/${product.images.mainImg}`}
-                >
-                  <Image cloudName="ddajkcbs2" publicId={product.images.mainImg} alt="" />
-                </LightgalleryItem>
-              ))}
-            </div>
-          </LightgalleryProvider>
-        </div>
-      ))}
+      {content}
     </Carousel>
   );
 }

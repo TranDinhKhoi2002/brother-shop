@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { removeFromCart, updateAmountOfProduct } from '@/redux/slices/cart';
-import { printNumberWithCommas } from '@/utils/printPriceWithComma';
+import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import { Image } from 'cloudinary-react';
 import Title from '@/common/components/UI/Title';
 

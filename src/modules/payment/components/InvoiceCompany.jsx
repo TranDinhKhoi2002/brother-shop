@@ -1,5 +1,5 @@
 import { Document, Font, Line, Page, StyleSheet, Svg, Text, View, Image } from '@react-pdf/renderer';
-import { printNumberWithCommas } from '@/utils/printPriceWithComma';
+import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import InvoiceTable from './InvoiceTable';
 
 Font.register({

@@ -1,4 +1,4 @@
-import { printNumberWithCommas } from '@/utils/printPriceWithComma';
+import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 
 function GeneralInfor(props) {
   return (

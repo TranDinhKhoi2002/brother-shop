@@ -1,23 +1,26 @@
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import useCollapse from "react-collapsed";
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { useState } from 'react';
+import useCollapse from 'react-collapsed';
 
 function CollapseFooter(props) {
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 
   return (
-    <div>
-      <div
-        className="text-[#00ffff] cursor-pointer inline-block text-[13px] relative"
+    <Box>
+      <Box
+        sx={{ color: '#00ffff', cursor: 'pointer', fontSize: '13px', display: 'relative' }}
         {...getToggleProps({
           onClick: () => setExpanded((prevExpanded) => !prevExpanded),
         })}
       >
-        <span>Xem thêm Thông tin YaMe</span>
+        <Typography component="span" sx={{ fontWeight: 'light' }}>
+          Xem thêm Thông tin Brother Shop
+        </Typography>
         <FontAwesomeIcon icon={faAngleDown} className="ml-2 cursor-pointer" />
-      </div>
+      </Box>
 
       <ul {...getCollapseProps()} className="mt-3">
         <li>Giới thiệu về YaMe.vn</li>
@@ -40,7 +43,7 @@ function CollapseFooter(props) {
           <li>Đối tác cung cấp</li>
         </ul>
       </ul>
-    </div>
+    </Box>
   );
 }
 

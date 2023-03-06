@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import { Image } from 'cloudinary-react';
 import { useEffect, useState } from 'react';
 import { LightgalleryProvider, LightgalleryItem } from 'react-lightgallery';
@@ -15,15 +16,15 @@ function Intro({ images }) {
 
   return (
     <LightgalleryProvider>
-      <div className="grid grid-cols-2 md:grid-cols-4 mt-6 gap-2">
+      <Grid container spacing={1} sx={{ mt: 6 }}>
         {images.map((image) => (
-          <div key={image.public_id} className="cursor-pointer">
+          <Grid item xs={6} md={3} key={image.public_id}>
             <LightgalleryItem group="intro" src={image.url} thumb={image.url}>
-              <Image cloudName="ddajkcbs2" publicId={image.public_id} alt="" />
+              <Image cloudName="ddajkcbs2" publicId={image.public_id} alt="" style={{ cursor: 'pointer' }} />
             </LightgalleryItem>
-          </div>
+          </Grid>
         ))}
-      </div>
+      </Grid>
     </LightgalleryProvider>
   );
 }

@@ -1,5 +1,6 @@
 import { setData } from '@/redux/slices/data';
 import { getCategories } from '@/services/categoryRequests';
+import { Box } from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Footer from '../Footer/Footer';
@@ -32,7 +33,7 @@ function Layout(props) {
     <Fragment>
       <Header showSideBar={openSideBarHandler} />
       <Sidebar isVisible={sideBarActive} onHide={closeSideBarHandler} />
-      <main>{props.children}</main>
+      <Box>{props.children}</Box>
       <Footer />
     </Fragment>
   );
