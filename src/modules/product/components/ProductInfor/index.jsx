@@ -1,4 +1,5 @@
 import { addToCart } from '@/redux/slices/cart';
+import { Box, Grid, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
 import GeneralInfor from './Generalnfor';
@@ -14,29 +15,33 @@ function ProductInfor({ product }) {
   };
 
   return (
-    <div className="md:grid grid-cols-3 gap-6 mt-3">
-      <div className="xsm:min-h-[510px]">
+    <Grid container spacing={3} sx={{ mt: '12px' }}>
+      <Grid item xs={12} md={4}>
         <PreviewImages images={product.images} />
-      </div>
-      <div className="col-span-2 px-4">
-        <div className="md:grid grid-cols-3 gap-8">
-          <div className="col-span-2">
-            <GeneralInfor
-              name={product.name}
-              id={product._id.slice(0, 8).toUpperCase()}
-              price={product.price}
-              oldPrice={product.oldPrice}
-            />
-            <TableSize onAddToCart={addToCartHandler} product={product} />
-            <GuidanceSize />
-          </div>
-          <div className="mb-4">
-            <h5 className="text-2xl font-light my-3">Mô tả sản phẩm</h5>
-            <p>{product.description}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      </Grid>
+      <Grid item xs={12} md={8}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={8}>
+            <Box sx={{ px: 2 }}>
+              <GeneralInfor
+                name={product.name}
+                id={product._id.slice(0, 8).toUpperCase()}
+                price={product.price}
+                oldPrice={product.oldPrice}
+              />
+              <TableSize onAddToCart={addToCartHandler} product={product} />
+              <GuidanceSize />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4} sx={{ mb: 5 }}>
+            <Box sx={{ px: 2 }}>
+              <Typography sx={{ fontSize: '1.5rem', my: '12px' }}>Mô tả sản phẩm</Typography>
+              <Typography>{product.description}</Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }
 

@@ -1,14 +1,15 @@
+import { Box, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 
 function ShippingMethod({ method, title, desc }) {
   return (
-    <div className="flex items-center gap-5">
+    <Stack direction="row" alignItems="center" spacing="20px">
       <Image src={`/assets/images/${method}.svg`} alt="" width={50} height={50} />
-      <div>
-        <h4 className="font-medium uppercase">{title}</h4>
-        <p className="text-sm font-light">{desc}</p>
-      </div>
-    </div>
+      <Box>
+        <Typography sx={{ fontWeight: 500, textTransform: 'uppercase' }}>{title}</Typography>
+        <Typography sx={{ fontSize: '14px' }}>{desc}</Typography>
+      </Box>
+    </Stack>
   );
 }
 

@@ -1,81 +1,75 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import Link from 'next/link';
-import CSSTransition from 'react-transition-group/CSSTransition';
-import CollapseMenu from '@/common/components/Popper/Menu/CollapseMenu';
-import Backdrop from './Backdrop';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCategories } from '@/redux/slices/data';
+import { useEffect } from 'react';
+import CollapseButton from './CollapseButton';
+import { Stack, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useTheme } from '@mui/styles';
+import Link from 'next/link';
 
-import styles from './Sidebar.module.css';
-
-const animationTiming = {
-  enter: 300,
-  exit: 1000,
-};
-
-const Sidebar = ({ isVisible, onHide }) => {
-  const [loaded, setLoaded] = useState(false);
+export default function TemporarySidebar({ isVisible, onClose }) {
   const categories = useSelector(selectCategories);
+  const theme = useTheme();
 
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
+  return (
+    <Drawer anchor="right" open={isVisible} onClose={onClose}>
+      <Box sx={{ width: '18rem' }}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ px: 3, height: '62px', backgroundColor: theme.palette.grey['900'] }}
+        >
+          <Typography variant="h4" sx={{ color: theme.palette.grey['200'], fontWeight: '300' }}>
+            Danh mục
+          </Typography>
+          <CloseIcon
+            onClick={onClose}
+            sx={{
+              color: theme.palette.grey['200'],
+              ':hover': { opacity: 0.6 },
+              transition: 'all linear 300ms',
+              cursor: 'pointer',
+            }}
+          />
+        </Stack>
 
-  if (!loaded) {
-    return <p>Loading...</p>;
-  }
+        <Box sx={{ p: 2 }}>
+          <List
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+          >
+            {categories.map((category) => {
+              if (category.types.length > 0) {
+                return <CollapseButton key={category._id} item={category} />;
+              }
 
-  return ReactDOM.createPortal(
-    <CSSTransition
-      in={isVisible}
-      timeout={animationTiming}
-      mountOnEnter
-      unmountOnExit
-      classNames={{
-        enter: '',
-        enterActive: styles.SidebarOpen,
-        exit: '',
-        exitActive: styles.SidebarClosed,
-      }}
-    >
-      <>
-        <div className={styles.Sidebar}>
-          <div className="flex justify-between items-center px-3 w-full h-[62px] bg-[#111]">
-            <h3 className="text-white text-xl">Danh mục</h3>
-            <FontAwesomeIcon
-              icon={faXmark}
-              onClick={onHide}
-              className="text-white hover:text-[#3d3f45] transition duration-300 w-6 h-6 cursor-pointer"
-            />
-          </div>
-          <div className="overflow-y-scroll p-5 h-[calc(100vh-140px)]">
-            <ul>
-              {categories.map((category) => (
-                <li key={category._id} className="my-3">
-                  {category.types.length > 0 ? (
-                    <CollapseMenu to={`/category/${category._id}`} title={category.name} items={category.types} />
-                  ) : (
-                    <Link
-                      href={{ pathname: `/category/${category._id}`, query: { title: category.name } }}
-                      as={`/category/${category._id}`}
-                      className="text-xl px-5 py-[5px] hover:text-primary transition duration-300"
-                    >
-                      {category.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <Backdrop isVisible={isVisible} onHideSidebar={onHide} />
-      </>
-    </CSSTransition>,
-    document.getElementById('__next'),
+              return (
+                <Link
+                  key={category._id}
+                  href={{ pathname: `/category/${category._id}`, query: { title: category.name } }}
+                  as={`/category/${category._id}`}
+                >
+                  <ListItemButton>
+                    <ListItemText
+                      sx={{ '.css-107jk5d-MuiTypography-root': { fontSize: '1.25rem' } }}
+                      primary={category.name}
+                    />
+                  </ListItemButton>
+                </Link>
+              );
+            })}
+          </List>
+        </Box>
+      </Box>
+    </Drawer>
   );
-};
-
-export default Sidebar;
+}

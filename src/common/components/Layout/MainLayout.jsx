@@ -32,7 +32,7 @@ function Layout(props) {
   return (
     <Fragment>
       <Header showSideBar={openSideBarHandler} />
-      <Sidebar isVisible={sideBarActive} onHide={closeSideBarHandler} />
+      <Sidebar isVisible={sideBarActive} onClose={closeSideBarHandler} />
       <Box>{props.children}</Box>
       <Footer />
     </Fragment>

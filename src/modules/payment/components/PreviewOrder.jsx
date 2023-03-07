@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Card, CardActions, CardContent, Divider } from '@mui/material';
+import { Card, CardActions, CardContent, Divider, Stack, Typography } from '@mui/material';
 
 import Title from '@/common/components/UI/Title';
 import Button from '@/common/components/UI/Button';
@@ -11,10 +11,10 @@ function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
       <CardContent>
         <Title>Đơn hàng của bạn</Title>
         <Divider sx={{ marginY: '12px', marginX: 2 }} />
-        <div className="flex justify-between items-center">
-          <span className="font-medium">Sản phẩm</span>
-          <span className="font-medium">Thành tiền</span>
-        </div>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Typography sx={{ fontWeight: 500 }}>Sản phẩm</Typography>
+          <Typography sx={{ fontWeight: 500 }}>Thành tiền</Typography>
+        </Stack>
         <ul>
           {cartProducts.map((cartProduct) => (
             <li key={`${cartProduct.product._id}-${cartProduct.size}`} className="my-2">
@@ -36,14 +36,14 @@ function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
         </ul>
 
         <Divider sx={{ marginY: 2 }} orientation="horizontal" />
-        <div className="flex justify-between items-center my-1">
-          <span>Phí vận chuyển</span>
-          <span>{printNumberWithCommas(shippingPrice)}đ</span>
-        </div>
-        <div className="flex justify-between items-center my-1">
-          <span>Tổng thanh toán</span>
-          <span className="font-medium text-lg">{printNumberWithCommas(totalPrice)}đ</span>
-        </div>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ my: '4px' }}>
+          <Typography>Phí vận chuyển</Typography>
+          <Typography>{printNumberWithCommas(shippingPrice)}đ</Typography>
+        </Stack>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ my: '4px' }}>
+          <Typography>Tổng thanh toán</Typography>
+          <Typography sx={{ fontWeight: 500, fontSize: '18px' }}>{printNumberWithCommas(totalPrice)}đ</Typography>
+        </Stack>
 
         <CardActions>
           <Button className="w-full my-3" onClick={onPay} name="redirect">

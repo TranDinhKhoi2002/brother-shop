@@ -66,7 +66,7 @@ function Actions(props) {
       </Tooltip>
       <Tooltip title="Giỏ hàng">
         <IconButton className={styles.actionItem} onClick={checkoutHandler}>
-          <Badge badgeContent={products.length}>
+          <Badge badgeContent={products.length} color="info">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>

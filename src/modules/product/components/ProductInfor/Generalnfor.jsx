@@ -1,19 +1,26 @@
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { Box, Stack, Typography } from '@mui/material';
 
 function GeneralInfor(props) {
   return (
-    <div className="my-3">
-      <h4 className="text-2xl text-black">{props.name}</h4>
-      <p className="text-black my-2">Mã số: {props.id}</p>
+    <Box sx={{ my: '12px' }}>
+      <Typography sx={{ fontSize: '1.5rem' }}>{props.name}</Typography>
+      <Typography sx={{ my: '8px' }}>Mã số: {props.id}</Typography>
       {props.oldPrice ? (
-        <div className="flex items-center">
-          <h5 className="text-lg font-normal mr-3 line-through">{printNumberWithCommas(props.oldPrice)}</h5>
-          <h5 className="text-primary text-lg font-normal">{printNumberWithCommas(props.price)} đ</h5>
-        </div>
+        <Stack direction="row" alignItems="center">
+          <Typography sx={{ fontSize: '1.125rem', fontWeight: 400, mr: '12px', textDecorationLine: 'line-through' }}>
+            {printNumberWithCommas(props.oldPrice)}
+          </Typography>
+          <Typography sx={{ fontSize: '1.125rem', fontWeight: 400 }} className="text-primary">
+            {printNumberWithCommas(props.price)} đ
+          </Typography>
+        </Stack>
       ) : (
-        <h5 className="text-primary text-lg font-normal">{printNumberWithCommas(props.price)} đ</h5>
+        <Typography sx={{ fontSize: '1.125rem', fontWeight: 400 }} className="text-primary">
+          {printNumberWithCommas(props.price)} đ
+        </Typography>
       )}
-    </div>
+    </Box>
   );
 }
 

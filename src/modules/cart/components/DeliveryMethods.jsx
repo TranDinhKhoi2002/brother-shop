@@ -1,41 +1,26 @@
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import PropTypes from 'prop-types';
 
-function DeliveryMethods({ onChange, codShip }) {
+function DeliveryMethods({ onChange, method }) {
   return (
-    <div>
-      <div className="flex items-center">
-        <input
-          onChange={onChange}
-          checked={codShip}
-          name="choosePickupAddress"
-          type="radio"
-          id="shipToHome"
-          className="!w-[16px] !h-8"
-        />
-        <label htmlFor="shipToHome" className="!mb-0 ml-2">
-          Nhận hàng tại nhà/công ty/bưu điện
-        </label>
-      </div>
-      <div className="flex items-center">
-        <input
-          onChange={onChange}
-          checked={!codShip}
-          name="choosePickupAddress"
-          type="radio"
-          id="pickFromShop"
-          className="!w-[16px] !h-8"
-        />
-        <label htmlFor="pickFromShop" className="!mb-0 ml-2">
-          Nhận hàng tại cửa hàng YaMe gần nhất
-        </label>
-      </div>
-    </div>
+    <FormControl sx={{ '.css-1ol09wb-MuiButtonBase-root-MuiRadio-root.Mui-checked': { color: '#ee4266' } }}>
+      <FormLabel id="demo-controlled-radio-buttons-group">Chọn hình thức nhận hàng</FormLabel>
+      <RadioGroup
+        aria-labelledby="demo-controlled-radio-buttons-group"
+        name="controlled-radio-buttons-group"
+        value={method}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <FormControlLabel value="cod" control={<Radio />} label="Nhận hàng tại nhà/công ty/bưu điện" />
+        <FormControlLabel value="in-store" control={<Radio />} label="Nhận hàng tại cửa hàng YaMe gần nhất" />
+      </RadioGroup>
+    </FormControl>
   );
 }
 
 DeliveryMethods.propTypes = {
   onChange: PropTypes.func.isRequired,
-  codShip: PropTypes.bool.isRequired,
+  method: PropTypes.string.isRequired,
 };
 
 export default DeliveryMethods;

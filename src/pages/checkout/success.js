@@ -6,7 +6,6 @@ import FailedCheckout from '@/modules/payment/components/FailedCheckout';
 
 function CheckoutSuccessPage() {
   const router = useRouter();
-  console.log(router.query.vnp_ResponseCode);
 
   return (
     <>
@@ -14,7 +13,6 @@ function CheckoutSuccessPage() {
         <title>Đặt Hàng | Brother Shop</title>
       </Head>
       <NavigationLayout title="Đặt hàng">
-        {/* <SuccessCheckout /> */}
         {router.query.vnp_ResponseCode && router.query.vnp_ResponseCode !== '00' ? (
           <FailedCheckout />
         ) : (

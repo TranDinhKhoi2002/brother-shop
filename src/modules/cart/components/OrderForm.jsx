@@ -14,9 +14,12 @@ import DeliveryMethods from './DeliveryMethods';
 import BranchList from './BranchList';
 import Link from 'next/link';
 import Title from '@/common/components/UI/Title';
+import { Button, Divider } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 function OrderForm() {
-  const [codShip, setCodShip] = useState(true);
+  const [deliveryMethod, setDeliveryMethod] = useState('cod');
+  const theme = useTheme();
 
   const OrderSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
@@ -64,8 +67,8 @@ function OrderForm() {
     });
   };
 
-  const changeDeliveryMethodsHandler = () => {
-    setCodShip((prevState) => !prevState);
+  const changeDeliveryMethodsHandler = (method) => {
+    setDeliveryMethod(method);
     setValue('address', '');
   };
 
@@ -81,9 +84,9 @@ function OrderForm() {
         <RHFTextField name="phone" label="Điện thoại liên lạc" id="name" placeholder="Số điện thoại" />
         <RHFTextField name="email" label="Email" id="email" placeholder="Địa chỉ email" />
 
-        <DeliveryMethods onChange={changeDeliveryMethodsHandler} codShip={codShip} />
+        <DeliveryMethods onChange={changeDeliveryMethodsHandler} method={deliveryMethod} />
 
-        {codShip ? (
+        {deliveryMethod === 'cod' ? (
           <RHFTextField name="address" label="Địa chỉ" id="name" placeholder="Địa chỉ nhận hàng" />
         ) : (
           <>
@@ -94,18 +97,43 @@ function OrderForm() {
 
         <RHFTextField name="note" label="Ghi chú" id="note" placeholder="Ghi chú" tag="textarea" isRequired={false} />
 
-        <button
+        <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full cursor-pointer h-[43px] text-[13px] text-white mt-5 bg-[#17a2b8] border-[#17a2b8] rounded hover:bg-[#138496] hover:border-[#117a8b]"
+          fullWidth
+          sx={{
+            fontWeight: 300,
+            height: '43px',
+            fontSize: '13px',
+            color: 'white',
+            mt: 2,
+            backgroundColor: '#17a2b8 !important',
+            ':hover': {
+              backgroundColor: '#138496 !important',
+            },
+            borderRadius: '4px',
+          }}
         >
           THANH TOÁN
-        </button>
-        <hr className="my-4" />
+        </Button>
+        <Divider sx={{ backgroundColor: '#111', my: 2 }} />
         <Link href={'/'}>
-          <button className="w-full cursor-pointer h-[43px] text-[13px] text-[#212529] bg-[#ffc107] border-[#ffc107] rounded hover:bg-[#e0a800] hover:border-[#d39e00]">
+          <Button
+            fullWidth
+            sx={{
+              fontWeight: 300,
+              height: '43px',
+              fontSize: '13px',
+              color: theme.palette.grey['800'],
+              backgroundColor: '#ffc107 !important',
+              borderRadius: '4px',
+              ':hover': {
+                backgroundColor: '#e0a800 !important',
+              },
+            }}
+          >
             CẦN SẢN PHẨM KHÁC? TIẾP TỤC MUA HÀNG
-          </button>
+          </Button>
         </Link>
       </FormProvider>
     </div>

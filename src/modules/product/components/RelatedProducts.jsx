@@ -1,3 +1,5 @@
+import Title from '@/common/components/UI/Title';
+import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import ProductItem from './ProductItem';
@@ -50,14 +52,14 @@ function RelatedProducts({ products }) {
   };
 
   return (
-    <div className="mt-5 mb-10">
-      <h3 className="text-center text-2xl font-medium">Sản phẩm liên quan</h3>
+    <Box sx={{ mt: 8, mb: 5 }}>
+      <Title sx={{ textAlign: 'center' }}>Sản phẩm liên quan</Title>
       <Slider {...settings} className="my-3">
         {products.map((product) => (
           <ProductItem key={product._id} product={product} />
         ))}
       </Slider>
-    </div>
+    </Box>
   );
 }
 

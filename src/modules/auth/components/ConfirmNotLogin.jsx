@@ -1,19 +1,24 @@
 import Button from '@/common/components/UI/Button';
+import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
 function ConfirmNotLogin() {
   return (
     <>
-      <p className="block md:hidden my-8 text-center">Hoặc</p>
-      <div className="md:border-l-[1px]">
-        <h5 className="text-center font-medium text-xl my-3">Mua hàng không cần đăng nhập</h5>
-        <p className="text-center">Chào mừng! Bạn không cần tạo tài khoản để đặt hàng</p>
-        <div className="text-center my-5">
+      <Typography sx={{ display: { xs: 'block', md: 'none' }, my: 4, textAlign: 'center' }}>Hoặc</Typography>
+      <Box>
+        <Typography sx={{ textAlign: 'center', fontWeight: 500, fontSize: '1.25rem', my: '12px' }} variant="h5">
+          Mua hàng không cần đăng nhập
+        </Typography>
+        <Typography sx={{ textAlign: 'center', fontWeight: 400 }}>
+          Chào mừng! Bạn không cần tạo tài khoản để đặt hàng
+        </Typography>
+        <Box sx={{ textAlign: 'center', my: '20px' }}>
           <Link href="/checkout/shipping">
             <Button>Xác nhận mua hàng không đăng nhập</Button>
           </Link>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 }

@@ -110,7 +110,7 @@ function CheckoutPayment() {
       <NavigationLayout title="Đặt hàng">
         <BuySteppers activeStep={3} />
         <div className="mt-5">
-          <Title className="ml-4 xl:ml-0">Phương thức thanh toán</Title>
+          <Title sx={{ ml: { xs: 3, xl: 0 } }}>Phương thức thanh toán</Title>
           <Grid container spacing={3} className="px-[5%] xl:px-0 mt-5 mb-10">
             <Grid item xs={12} sm={8}>
               <CheckoutMethods method={paymentMethod} onChangeMethod={changePaymentMethodHandler} />
