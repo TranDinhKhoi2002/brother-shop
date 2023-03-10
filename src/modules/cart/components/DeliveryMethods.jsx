@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function DeliveryMethods({ onChange, method }) {
   return (
-    <FormControl sx={{ '.css-1ol09wb-MuiButtonBase-root-MuiRadio-root.Mui-checked': { color: '#ee4266' } }}>
+    <FormControl>
       <FormLabel id="demo-controlled-radio-buttons-group">Chọn hình thức nhận hàng</FormLabel>
       <RadioGroup
         aria-labelledby="demo-controlled-radio-buttons-group"

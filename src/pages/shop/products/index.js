@@ -1,20 +1,14 @@
-import NavigationLayout from '@/common/components/Layout/NavigationLayout';
+import PageContainer from '@/common/components/Layout/PageContainer';
 import Products from '@/modules/product/components/Products';
 import { getProductsByType } from '@/services/productRequests';
-import Head from 'next/head';
 
 function ProductsPage({ products, type }) {
   const headTitle = `Sản phẩm ${type} | Brother Shop`;
 
   return (
-    <>
-      <Head>
-        <title>{headTitle}</title>
-      </Head>
-      <NavigationLayout title={type}>
-        <Products products={products} />
-      </NavigationLayout>
-    </>
+    <PageContainer barTitle={type} headTitle={headTitle}>
+      <Products products={products} />
+    </PageContainer>
   );
 }
 

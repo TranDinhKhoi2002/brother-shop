@@ -51,10 +51,10 @@ export default function Home({
           stopOnHover={false}
         >
           <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px]">
-            <Image alt="Discount" src="/assets/images/banner1.jpg" width={1400} height={1400} priority />
+            <Image alt="Discount" src="/assets/images/banner1.jpg" width={1400} height={1000} priority />
           </div>
           <div className="animate-image flex justify-center pt-[70px] lg:pt-[79px]">
-            <Image alt="Discount" src="/assets/images/banner2.jpg" width={1400} height={1400} priority />
+            <Image alt="Discount" src="/assets/images/banner2.jpg" width={1400} height={1000} priority />
           </div>
         </Carousel>
         <MainCarousel events={readyToSellEvent} />

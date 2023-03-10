@@ -59,3 +59,7 @@ button {
   max-width: unset !important;
   max-height: unset !important;
 }
+
+.css-1ol09wb-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+  color: #ee4266;
+}

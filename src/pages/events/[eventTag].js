@@ -1,10 +1,9 @@
-import NavigationLayout from '@/common/components/Layout/NavigationLayout';
-import Products from '@/modules/product/components/Products';
 import { Image } from 'cloudinary-react';
-import Head from 'next/head';
-import { getEventByTag, getReadyToSellEvent } from '@/services/eventRequests';
 import { useRouter } from 'next/router';
+
+import { getEventByTag, getReadyToSellEvent } from '@/services/eventRequests';
 import RelatedProducts from '@/modules/product/components/RelatedProducts';
+import PageContainer from '@/common/components/Layout/PageContainer';
 
 function DetailEvent({ event }) {
   const router = useRouter();
@@ -17,21 +16,16 @@ function DetailEvent({ event }) {
   const headTitle = `Sự Kiện ${title} | Brother Shop`;
 
   return (
-    <>
-      <Head>
-        <title>{headTitle}</title>
-      </Head>
-      <NavigationLayout title={title}>
-        <p className="px-3 xl:px-0 my-5">{description}</p>
-        {subImgs.map((img) => (
-          <div key={img}>
-            <Image cloudName="ddajkcbs2" publicId={img} alt="" />
-          </div>
-        ))}
+    <PageContainer barTitle={title} headTitle={headTitle}>
+      <p className="px-3 xl:px-0 my-5">{description}</p>
+      {subImgs.map((img) => (
+        <div key={img}>
+          <Image cloudName="ddajkcbs2" publicId={img} alt="" />
+        </div>
+      ))}
 
-        <RelatedProducts products={relatedProducts} />
-      </NavigationLayout>
-    </>
+      <RelatedProducts products={relatedProducts} />
+    </PageContainer>
   );
 }
 

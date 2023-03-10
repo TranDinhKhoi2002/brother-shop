@@ -4,9 +4,18 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import Button from '@/common/components/UI/Button';
-import { Box, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { fetchUserLogin } from '@/redux/slices/auth';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import Link from 'next/link';
+import { assignProductsToCart } from '@/redux/slices/cart';
 
 function LoginForm() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
     password: Yup.string().required('Vui lòng nhập mật khẩu'),
@@ -24,8 +33,26 @@ function LoginForm() {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
+    const account = {
+      username: values.username,
+      password: values.password,
+    };
+
+    try {
+      const { success, user } = await dispatch(fetchUserLogin(account)).unwrap();
+
+      if (success) {
+        toast.success('Đăng nhập thành công!!');
+        router.replace('/');
+
+        dispatch(assignProductsToCart({ cart: user.cart }));
+      } else {
+        toast.error('Tên đăng nhập hoặc mật khẩu không đúng');
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    }
   };
 
   return (
@@ -40,13 +67,23 @@ function LoginForm() {
       </Typography>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <RHFTextField name="username" label="Email/ Số điện thoại" id="username" placeholder="Tên đăng nhập" />
-        <RHFTextField name="password" label="Mật khẩu" id="password" placeholder="Mật khẩu" />
+        <RHFTextField name="password" label="Mật khẩu" id="password" type="password" placeholder="Mật khẩu" />
 
-        <Typography sx={{ textDecorationLine: 'underline', fontStyle: 'italic', textAlign: 'center' }}>
-          Quên mật khẩu?
-        </Typography>
-        <Button className="w-full my-4">Đăng nhập</Button>
+        <Link href="/reset-password">
+          <Typography sx={{ textDecorationLine: 'underline', fontStyle: 'italic', textAlign: 'center' }}>
+            Quên mật khẩu?
+          </Typography>
+        </Link>
+        <Button className="w-full my-4" type="submit">
+          Đăng nhập
+        </Button>
       </FormProvider>
+      <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
+        <Typography sx={{ fontSize: '0.875rem', opacity: '0.7' }}>Chưa có tài khoản?</Typography>
+        <Link href="/signup" style={{ fontWeight: 400 }}>
+          Đăng ký
+        </Link>
+      </Stack>
     </Box>
   );
 }

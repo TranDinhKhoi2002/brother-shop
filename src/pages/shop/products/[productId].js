@@ -1,22 +1,16 @@
-import NavigationLayout from '@/common/components/Layout/NavigationLayout';
+import PageContainer from '@/common/components/Layout/PageContainer';
 import ProductInfor from '@/modules/product/components/ProductInfor';
 import RelatedProducts from '@/modules/product/components/RelatedProducts';
 import { getAllProducts, getProductById, getProductsByType } from '@/services/productRequests';
-import Head from 'next/head';
 
 function ProductInforPage({ product, relatedProducts }) {
   const headTitle = `Sản phẩm ${product.name} | Brother Shop`;
 
   return (
-    <>
-      <Head>
-        <title>{headTitle}</title>
-      </Head>
-      <NavigationLayout title={product.name}>
-        <ProductInfor product={product} />
-        <RelatedProducts products={relatedProducts} />
-      </NavigationLayout>
-    </>
+    <PageContainer barTitle={product.name} headTitle={headTitle}>
+      <ProductInfor product={product} />
+      <RelatedProducts products={relatedProducts} />
+    </PageContainer>
   );
 }
 

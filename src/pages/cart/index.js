@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
-import NavigationLayout from '@/common/components/Layout/NavigationLayout';
-import Head from 'next/head';
 import { selectCartProducts } from '@/redux/slices/cart';
 import EmptyCart from '@/modules/cart/components/EmptyCart';
 import CartInfor from '@/modules/cart/components/CartInfor';
 import { useEffect, useState } from 'react';
+import PageContainer from '@/common/components/Layout/PageContainer';
 
 function CartPage(props) {
   const [loaded, setLoaded] = useState(false);
@@ -19,14 +18,9 @@ function CartPage(props) {
   }
 
   return (
-    <>
-      <Head>
-        <title>Giỏ Hàng | Brother Shop</title>
-      </Head>
-      <NavigationLayout title="Thông tin giỏ hàng của bạn">
-        {products.length === 0 ? <EmptyCart /> : <CartInfor />}
-      </NavigationLayout>
-    </>
+    <PageContainer barTitle="Thông tin giỏ hàng của bạn" headTitle="Giỏ Hàng">
+      {products.length === 0 ? <EmptyCart /> : <CartInfor />}
+    </PageContainer>
   );
 }
 
