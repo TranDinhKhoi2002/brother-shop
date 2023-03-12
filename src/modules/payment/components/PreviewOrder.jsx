@@ -17,19 +17,19 @@ function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
         </Stack>
         <ul>
           {cartProducts.map((cartProduct) => (
-            <li key={`${cartProduct.product._id}-${cartProduct.size}`} className="my-2">
+            <li key={`${cartProduct.productId._id}-${cartProduct.size}`} className="my-2">
               <div className="flex justify-between gap-8">
                 <span>
-                  {cartProduct.amount} X{' '}
+                  {cartProduct.quantity} X{' '}
                   <Link
-                    href={`/shop/products/${cartProduct.product._id}`}
+                    href={`/shop/products/${cartProduct.productId._id}`}
                     className="hover:text-[#0056b3] transition duration-300"
                   >
-                    {cartProduct.product.name}
+                    {cartProduct.productId.name}
                   </Link>{' '}
                   - {cartProduct.size}
                 </span>
-                <span>{printNumberWithCommas(cartProduct.product.price * cartProduct.amount)}đ</span>
+                <span>{printNumberWithCommas(cartProduct.productId.price * cartProduct.quantity)}đ</span>
               </div>
             </li>
           ))}

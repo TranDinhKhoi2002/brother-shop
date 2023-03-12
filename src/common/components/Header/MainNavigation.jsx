@@ -27,7 +27,7 @@ function MainNavigation() {
                   as={`/category/${category._id}`}
                 >
                   {category.name}
-                  <KeyboardArrowDownIcon sx={{ ml: '6px', fontSize: '24px' }} />
+                  <KeyboardArrowDownIcon sx={{ ml: '2px', fontSize: '24px' }} />
                 </Link>
               </Menu>
             ) : (

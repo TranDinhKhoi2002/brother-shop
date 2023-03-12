@@ -1,5 +1,6 @@
-import { setData } from '@/redux/slices/data';
-import { getCategories } from '@/services/categoryRequests';
+import { setAuth } from '@/redux/slices/auth';
+import { assignProductsToCart } from '@/redux/slices/cart';
+import { fetchCommonData, setData } from '@/redux/slices/data';
 import { Box } from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -14,8 +15,12 @@ function Layout(props) {
 
   useEffect(() => {
     const getCommonData = async () => {
-      const categories = await getCategories();
-      dispatch(setData({ categories }));
+      const { success, customer } = await dispatch(fetchCommonData()).unwrap();
+
+      if (success && customer) {
+        dispatch(setAuth({ user: customer }));
+        dispatch(assignProductsToCart({ cart: customer.cart }));
+      }
     };
 
     getCommonData();

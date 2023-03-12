@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { assignProductsToCart } from '@/redux/slices/cart';
+import LoadingButton from '@/common/components/UI/LoadingButton';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -31,7 +32,10 @@ function LoginForm() {
     defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   const onSubmit = async (values) => {
     const account = {
@@ -74,9 +78,9 @@ function LoginForm() {
             Quên mật khẩu?
           </Typography>
         </Link>
-        <Button className="w-full my-4" type="submit">
+        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
           Đăng nhập
-        </Button>
+        </LoadingButton>
       </FormProvider>
       <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
         <Typography sx={{ fontSize: '0.875rem', opacity: '0.7' }}>Chưa có tài khoản?</Typography>

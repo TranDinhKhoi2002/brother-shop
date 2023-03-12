@@ -69,12 +69,12 @@ const InvoiceTable = ({ cartProducts }) => {
       {cartProducts.map((cartProduct, i) => (
         <View key={i} style={styles.row} wrap={false}>
           <Text style={[styles.row1, styles.textCenter]}>{i + 1}</Text>
-          <Text style={[styles.row2, styles.textCenter]}>{cartProduct.product.name}</Text>
+          <Text style={[styles.row2, styles.textCenter]}>{cartProduct.productId.name}</Text>
           <Text style={[styles.row3, styles.textCenter]}>{cartProduct.amount}</Text>
           <Text style={[styles.row4, styles.textCenter]}>{cartProduct.size}</Text>
-          <Text style={[styles.row5, styles.textCenter]}>{printNumberWithCommas(cartProduct.product.price)}</Text>
+          <Text style={[styles.row5, styles.textCenter]}>{printNumberWithCommas(cartProduct.productId.price)}</Text>
           <Text style={[styles.row6, styles.textCenter]}>
-            {printNumberWithCommas(cartProduct.amount * cartProduct.product.price)}
+            {printNumberWithCommas(cartProduct.amount * cartProduct.productId.price)}
           </Text>
         </View>
       ))}

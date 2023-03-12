@@ -31,6 +31,12 @@ const authSlice = createSlice({
       state.currentUser = undefined;
       state.isAuthenticated = false;
     },
+    setAuth(state, action) {
+      const { user } = action.payload;
+
+      state.currentUser = user;
+      state.isAuthenticated = true;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
@@ -64,7 +70,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setAuth } = authSlice.actions;
 
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectCurrentUser = (state) => state.auth.currentUser;

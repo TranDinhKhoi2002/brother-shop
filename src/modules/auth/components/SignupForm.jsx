@@ -13,6 +13,7 @@ import Link from 'next/link';
 import RHFDatePicker from '@/common/components/Form/RHFDatePicker';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import LoadingButton from '@/common/components/UI/LoadingButton';
 
 function SignupForm() {
   const [gender, setGender] = useState('Nam');
@@ -51,7 +52,10 @@ function SignupForm() {
     defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   const onSubmit = async (values) => {
     console.log(values);
@@ -121,9 +125,9 @@ function SignupForm() {
           <RHFDatePicker name="birthday" label="Ngày sinh" sx={{ width: '100%' }} />
         </Box>
 
-        <Button className="w-full my-4" type="submit">
-          Đăng nhập
-        </Button>
+        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
+          Đăng ký
+        </LoadingButton>
       </FormProvider>
       <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
         <Typography sx={{ fontSize: '0.875rem', opacity: '0.7' }}>Đã có tài khoản?</Typography>

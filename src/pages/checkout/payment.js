@@ -1,14 +1,11 @@
-import Head from 'next/head';
 import { createCipher } from 'crypto';
-import NavigationLayout from '@/common/components/Layout/NavigationLayout';
 import Title from '@/common/components/UI/Title';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import { Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { useEffect, useRef, useState } from 'react';
-import Router, { useRouter } from 'next/router';
-import request from '@/services/baseRequest';
+import { useRouter } from 'next/router';
 import { createOrder } from '@/services/orderRequests';
 import { toast } from 'react-toastify';
 import CheckoutMethods from '@/modules/payment/components/CheckoutMethods';
@@ -34,7 +31,7 @@ function CheckoutPayment() {
   }
 
   const totalProductsPrice = cartProducts.reduce((acc, currentItem) => {
-    return acc + currentItem.product.price * currentItem.amount;
+    return acc + currentItem.productId.price * currentItem.quantity;
   }, 0);
   const shippingPrice = 25000;
   const totalPrice = totalProductsPrice + shippingPrice;
@@ -43,12 +40,12 @@ function CheckoutPayment() {
     const { companyName, companyAddress, companyTaxNumber } = ref.current.getInvoiceCompany();
 
     const formatedCartProducts = cartProducts.map((cartProduct) => ({
-      product: cartProduct.product._id,
-      name: cartProduct.product.name,
-      price: cartProduct.product.price,
-      amount: cartProduct.amount,
+      product: cartProduct.productId._id,
+      name: cartProduct.productId.name,
+      price: cartProduct.productId.price,
+      amount: cartProduct.quantity,
       size: cartProduct.size,
-      image: `https://res.cloudinary.com/ddajkcbs2/image/upload/${cartProduct.product.images.mainImg}`,
+      image: `https://res.cloudinary.com/ddajkcbs2/image/upload/${cartProduct.productId.images.mainImg}`,
     }));
 
     const shippingInfor = JSON.parse(localStorage.getItem('shippingInfor'));

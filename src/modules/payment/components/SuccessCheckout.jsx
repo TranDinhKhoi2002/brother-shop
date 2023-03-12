@@ -1,7 +1,8 @@
 import Button from '@/common/components/UI/Button';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
-import { updateOrderPaid } from '@/services/orderRequests';
+import { checkOut } from '@/redux/slices/cart';
+import { checkOutOrder } from '@/services/orderRequests';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import { createDecipher } from 'crypto';
@@ -9,9 +10,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 function SuccessCheckout() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const { name, email } = router.query;
   const theme = useTheme();
 
@@ -25,13 +29,15 @@ function SuccessCheckout() {
       decrypted = Buffer.concat([decrypted, decipher.final()]);
       const decryptedString = decrypted.toString();
 
-      if (router.query.vnp_ResponseCode) {
-        await updateOrderPaid(decryptedString);
+      if (router.query.vnp_ResponseCode === '00') {
+        await checkOutOrder(decryptedString);
       }
+
+      dispatch(checkOut());
     };
 
     updateOrder();
-  }, [router.query.vnp_ResponseCode]);
+  }, [router.query.vnp_ResponseCode, dispatch]);
 
   return (
     <>

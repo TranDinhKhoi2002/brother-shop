@@ -4,6 +4,7 @@ import {
   removeItemsFromCart,
   checkoutCart,
   createReceipt,
+  removeItemFromCart,
 } from '@/services/cartRequests';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,6 +28,11 @@ export const fetchUpdateQuantity = createAsyncThunk('cart/fetchUpdateQuantity', 
 
 export const fetchRemoveItemsFromCart = createAsyncThunk('cart/fetchRemoveItemsFromCart', async (itemsData) => {
   const response = await removeItemsFromCart(itemsData);
+  return response;
+});
+
+export const fetchRemoveItemFromCart = createAsyncThunk('cart/fetchRemoveItemFromCart', async (itemData) => {
+  const response = await removeItemFromCart(itemData);
   return response;
 });
 
@@ -65,11 +71,9 @@ const cartSlice = createSlice({
       localStorage.setItem(`cart-${sessionID}`, JSON.stringify(state.products));
     },
     removeFromCart(state, action) {
-      console.log(action.payload);
+      const { id, size } = action.payload;
       state.products = state.products.filter(
-        (item) =>
-          (item.productId._id === action.payload.id && item.size !== action.payload.size) ||
-          item.productId._id !== action.payload.id,
+        (item) => (item.productId._id === id && item.size !== size) || item.productId._id !== id,
       );
 
       const sessionID = localStorage.getItem('sessionID');
@@ -81,17 +85,10 @@ const cartSlice = createSlice({
       localStorage.setItem(`cart-${sessionID}`, JSON.stringify(state.products));
     },
     updateAmountOfProduct(state, action) {
-      if (action.payload.quantity === 0) {
-        state.products = state.products.filter(
-          (item) => item.productId._id === action.payload.id && item.size !== action.payload.size,
-        );
-      } else {
-        const itemIndex = state.products.findIndex(
-          (item) => item.productId._id === action.payload.id && item.size === action.payload.size,
-        );
+      const { id, size, quantity } = action.payload;
 
-        state.products[itemIndex].quantity = action.payload.quantity;
-      }
+      const itemIndex = state.products.findIndex((item) => item.productId._id === id && item.size === size);
+      state.products[itemIndex].quantity = quantity;
 
       const sessionID = localStorage.getItem('sessionID');
       localStorage.setItem(`cart-${sessionID}`, JSON.stringify(state.products));
@@ -125,6 +122,13 @@ const cartSlice = createSlice({
       }
     });
     builder.addCase(fetchRemoveItemsFromCart.fulfilled, (state, { payload }) => {
+      const { success, cart } = payload;
+
+      if (success) {
+        state.products = cart;
+      }
+    });
+    builder.addCase(fetchRemoveItemFromCart.fulfilled, (state, { payload }) => {
       const { success, cart } = payload;
 
       if (success) {

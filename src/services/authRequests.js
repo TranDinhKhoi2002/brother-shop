@@ -15,7 +15,7 @@ export const login = async (account) => {
     const response = await request.post('/auth/login', account);
     return { ...response.data, success: true };
   } catch (error) {
-    return error.response ? error.response : { success: false, error: error.message };
+    return error.response ? error.response.data : { success: false, error: error.message };
   }
 };
 

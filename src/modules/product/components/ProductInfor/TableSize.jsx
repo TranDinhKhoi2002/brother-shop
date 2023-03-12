@@ -1,13 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { toast } from 'react-toastify';
 
 function TableSize({ product, onAddToCart }) {
   const sizes = product.sizes.map((size) => ({ name: size.name, remainingQuantity: size.quantity - size.sold }));
 
   const chooseSizeHandler = (size) => {
     onAddToCart(size);
-    toast.success('Đã thêm vào giỏ hàng');
   };
 
   return (

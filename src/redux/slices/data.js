@@ -1,18 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import * as dataServices from '@/services/dataRequests';
 
 const initialState = {
   categories: [],
 };
 
+export const fetchCommonData = createAsyncThunk('data/fetchCommonData', async () => {
+  const response = await dataServices.getCommonData();
+  return response;
+});
+
 const dataSlice = createSlice({
   name: 'data',
   initialState,
-  reducers: {
-    setData(state, action) {
-      const { categories } = action.payload;
-
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchCommonData.fulfilled, (state, { payload }) => {
+      const { categories } = payload;
       state.categories = categories;
-    },
+    });
   },
 });
 

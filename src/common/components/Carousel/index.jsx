@@ -18,8 +18,6 @@ function MainCarousel({ events }) {
     content.push(<CarouselItem key={i} item1={events[i]} item2={events[i + 1]} />);
   }
 
-  console.log(content);
-
   return (
     <Carousel
       showThumbs={false}
