@@ -2,14 +2,17 @@ import { Button, Stack, Typography } from '@mui/material';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import { useTheme } from '@mui/styles';
 
-function ProductSizes({ sizes, onChange, currentSize }) {
+function ProductSizes({ sizes, onChange, currentSize, onDisplayModal }) {
   const theme = useTheme();
 
   return (
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography sx={{ fontWeight: 400 }}>Chọn size:</Typography>
-        <Typography sx={{ fontWeight: 400, textDecorationLine: 'underline' }}>
+        <Typography
+          sx={{ fontWeight: 400, textDecorationLine: 'underline', cursor: 'pointer' }}
+          onClick={onDisplayModal}
+        >
           <StraightenIcon sx={{ mr: 1 }} />
           Hướng dẫn chọn size
         </Typography>

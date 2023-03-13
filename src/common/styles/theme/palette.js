@@ -29,7 +29,7 @@ const GREY = {
 const PRIMARY = {
   lighter: '#ffece1',
   light: '#ffd0b5',
-  main: '#a0a0a0',
+  main: '#111111',
   dark: '#e28048',
   darker: '#061B64',
   contrastText: '#fff',
