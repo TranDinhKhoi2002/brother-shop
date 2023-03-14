@@ -66,6 +66,12 @@ function ProductInfor({ product }) {
     setCurrentSize(size);
   };
 
+  const handleChooseSize = (sizeName) => {
+    const size = sizes.find((size) => size.name === sizeName);
+    setCurrentSize(size);
+    setModalIsVisible(false);
+  };
+
   return (
     <>
       <Grid container spacing={4} sx={{ mt: '12px' }}>
@@ -119,7 +125,11 @@ function ProductInfor({ product }) {
           </Box>
         </Grid>
       </Grid>
-      <SizeGuideModal isVisible={modalIsVisible} onClose={() => setModalIsVisible(false)} />
+      <SizeGuideModal
+        isVisible={modalIsVisible}
+        onClose={() => setModalIsVisible(false)}
+        onSelectSize={handleChooseSize}
+      />
     </>
   );
 }

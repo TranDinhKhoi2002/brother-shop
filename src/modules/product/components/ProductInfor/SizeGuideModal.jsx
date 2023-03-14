@@ -8,8 +8,8 @@ import { useState } from 'react';
 import {
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
+  IconButton,
   Radio,
   RadioGroup,
   Slider,
@@ -22,6 +22,8 @@ import { TabContext, TabPanel } from '@mui/lab';
 import ThinPersonIcon from '@/common/components/UI/ThinPersonIcon';
 import NormalPersonIcon from '@/common/components/UI/NormalPersonIcon';
 import FatPersonIcon from '@/common/components/UI/FatPersonIcon';
+import CloseIcon from '@mui/icons-material/Close';
+import TableSizes from './TableSizes';
 
 const style = {
   position: 'absolute',
@@ -35,7 +37,7 @@ const style = {
   p: 3,
 };
 
-export default function SizeGuideModal({ isVisible, onClose }) {
+export default function SizeGuideModal({ isVisible, onClose, onSelectSize }) {
   const [value, setValue] = useState('1');
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
@@ -65,7 +67,71 @@ export default function SizeGuideModal({ isVisible, onClose }) {
 
   const handleChooseSize = () => {
     console.log(height, weight, body, feeling);
-    setSelectedSize('XL');
+    if (height >= 165 && height <= 168 && weight >= 56 && weight <= 62) {
+      if (body === 'fat') {
+        setSelectedSize('wrong');
+        return;
+      }
+
+      if (feeling === 'wide') {
+        setSelectedSize('M');
+        return;
+      }
+
+      setSelectedSize('S');
+      return;
+    }
+
+    if (height >= 169 && height <= 172 && weight >= 63 && weight <= 69) {
+      if (body === 'fat') {
+        setSelectedSize('wrong');
+        return;
+      }
+
+      if (feeling === 'wide') {
+        setSelectedSize('L');
+        return;
+      }
+
+      setSelectedSize('M');
+      return;
+    }
+
+    if (height >= 173 && height <= 176 && weight >= 70 && weight <= 76) {
+      if (body === 'thin') {
+        setSelectedSize('wrong');
+        return;
+      }
+
+      if (feeling === 'wide') {
+        setSelectedSize('XL');
+        return;
+      }
+
+      setSelectedSize('L');
+      return;
+    }
+
+    if (height >= 177 && height <= 180 && weight >= 77 && weight <= 83) {
+      if (body === 'thin') {
+        setSelectedSize('wrong');
+        return;
+      }
+
+      setSelectedSize('XL');
+      return;
+    }
+
+    if (height >= 181 && weight >= 84) {
+      setSelectedSize('XL');
+      return;
+    }
+
+    setSelectedSize('wrong');
+  };
+
+  const handleChooseAgain = () => {
+    setSelectedSize(null);
   };
 
   return (
@@ -86,6 +152,9 @@ export default function SizeGuideModal({ isVisible, onClose }) {
       >
         <Fade in={isVisible}>
           <Box sx={style}>
+            <IconButton sx={{ position: 'absolute', right: 30, top: 17 }} onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
             {!selectedSize && (
               <Box>
                 <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
@@ -103,13 +172,13 @@ export default function SizeGuideModal({ isVisible, onClose }) {
                     <Typography>Chiều cao</Typography>
                     <Stack direction="row" spacing={3}>
                       <Slider value={height} size="small" onChange={handleHeightChange} min={1} max={200} />
-                      <Typography variant="body1">{height}cm</Typography>
+                      <Typography variant="body1">{height}&nbsp;cm</Typography>
                     </Stack>
 
                     <Typography sx={{ mt: 4 }}>Cân nặng</Typography>
                     <Stack direction="row" spacing={3}>
                       <Slider value={weight} size="small" onChange={handleWeightChange} min={1} max={150} />
-                      <Typography variant="body1">{weight}kg</Typography>
+                      <Typography variant="body1">{weight}&nbsp;kg</Typography>
                     </Stack>
 
                     <Typography sx={{ my: 5, textAlign: 'center', fontWeight: 400 }}>Dáng người của bạn</Typography>
@@ -167,20 +236,49 @@ export default function SizeGuideModal({ isVisible, onClose }) {
                       </Button>
                     </Box>
                   </TabPanel>
-                  <TabPanel value="2">Item Two</TabPanel>
+                  <TabPanel value="2">
+                    <TableSizes />
+                  </TabPanel>
                 </TabContext>
               </Box>
             )}
-            {selectedSize && (
-              <Box>
+            {selectedSize && selectedSize !== 'wrong' && (
+              <Box sx={{ textAlign: 'center' }}>
                 <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
                   Size phù hợp với bạn
                 </Typography>
-                <Box sx={{ textAlign: 'center', my: 6 }}>
-                  <Typography sx={{ px: 4, py: 1, border: '1px solid #111111', display: 'inline-block' }}>
+                <Box sx={{ my: 6 }}>
+                  <Typography
+                    sx={{ px: 4, py: 1, border: '1px solid #111111', display: 'inline-block', fontWeight: 500 }}
+                  >
                     {selectedSize}
                   </Typography>
                 </Box>
+                <Box>
+                  <Button className="rounded-none px-10 font-medium" onClick={onSelectSize.bind(this, selectedSize)}>
+                    Chọn size {selectedSize}
+                  </Button>
+                </Box>
+                <Box sx={{ mt: 2 }}>
+                  <Button className={`rounded-none font-medium !bg-transparent text-gray`} onClick={handleChooseAgain}>
+                    Tôi muốn chọn size khác
+                  </Button>
+                </Box>
+              </Box>
+            )}
+
+            {selectedSize && selectedSize === 'wrong' && (
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
+                  Size phù hợp với bạn
+                </Typography>
+                <Typography sx={{ fontWeight: 400, my: 3, px: 4 }}>
+                  Dường như những thông tin bạn chọn không khớp với nhau hoặc chúng tôi không tìm thấy size nào phù hợp
+                  với bạn
+                </Typography>
+                <Button className="rounded-none px-10 font-medium mt-3" onClick={handleChooseAgain}>
+                  Chọn lại
+                </Button>
               </Box>
             )}
           </Box>
