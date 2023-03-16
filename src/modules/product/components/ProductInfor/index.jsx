@@ -1,6 +1,6 @@
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { addToCart, assignProductsToCart, fetchAddToCart } from '@/redux/slices/cart';
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography, Button as ButtonMUI } from '@mui/material';
 import Button from '@/common/components/UI/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,8 +12,8 @@ import PreviewImages from './PreviewImages';
 import Policies from './Policies';
 import { useRef, useState } from 'react';
 import ProductSizes from './ProductSizes';
-import Image from 'next/image';
 import SizeGuideModal from './SizeGuideModal';
+import PreservationInstruction from './PreservationInstruction';
 
 const styles = {
   title: {
@@ -37,6 +37,7 @@ const styles = {
 function ProductInfor({ product }) {
   const [currentSize, setCurrentSize] = useState();
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   const inputRef = useRef();
   const dispatch = useDispatch();
@@ -45,6 +46,11 @@ function ProductInfor({ product }) {
   const sizes = product.sizes.map((size) => ({ name: size.name, remainingQuantity: size.quantity - size.sold }));
 
   const addToCartHandler = async (size) => {
+    if (!currentSize) {
+      toast.error('Bạn vui lòng chọn size');
+      return;
+    }
+
     if (!isAuthenticated) {
       dispatch(addToCart({ productId: product, size, quantity: +inputRef.current.getQuantity() }));
       toast.success('Đã thêm vào giỏ hàng');
@@ -112,16 +118,19 @@ function ProductInfor({ product }) {
               <Typography sx={{ my: 2 }}>{product.description}</Typography>
             </Box>
 
-            <Box sx={{ mt: 3 }}>
-              <Typography sx={styles.title}>HƯỚNG DẪN BẢO QUẢN</Typography>
-              <Image
-                src="/assets/images/hdbq.png"
-                width={1000}
-                height={1000}
-                style={{ width: '100%', marginTop: '16px' }}
-                alt="Hướng dẫn bảo quản"
-              />
-            </Box>
+            {!showMore && (
+              <Box sx={{ textAlign: 'center', mt: 4 }}>
+                <ButtonMUI
+                  variant="outlined"
+                  sx={{ borderRadius: 0, textTransform: 'uppercase', px: 4, py: 1 }}
+                  onClick={() => setShowMore(true)}
+                >
+                  Xem thêm
+                </ButtonMUI>
+              </Box>
+            )}
+
+            {showMore && <PreservationInstruction onCollapse={() => setShowMore(false)} />}
           </Box>
         </Grid>
       </Grid>

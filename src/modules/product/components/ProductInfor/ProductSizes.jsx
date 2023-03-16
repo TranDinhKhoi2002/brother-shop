@@ -4,6 +4,7 @@ import { useTheme } from '@mui/styles';
 
 function ProductSizes({ sizes, onChange, currentSize, onDisplayModal }) {
   const theme = useTheme();
+  console.log(sizes);
 
   return (
     <>
@@ -22,6 +23,7 @@ function ProductSizes({ sizes, onChange, currentSize, onDisplayModal }) {
           <Button
             key={size.name}
             variant="outlined"
+            disabled={currentSize?.remainingQuantity === 0}
             onClick={onChange.bind(this, size)}
             sx={{
               borderColor: theme.palette.grey['900'],
@@ -36,6 +38,12 @@ function ProductSizes({ sizes, onChange, currentSize, onDisplayModal }) {
           </Button>
         ))}
       </Stack>
+
+      {currentSize && (
+        <Typography sx={{ fontWeight: 400, fontSize: 14, mt: 1 }}>
+          Còn lại: {currentSize.remainingQuantity} sản phẩm
+        </Typography>
+      )}
     </>
   );
 }

@@ -23,7 +23,7 @@ import ThinPersonIcon from '@/common/components/UI/ThinPersonIcon';
 import NormalPersonIcon from '@/common/components/UI/NormalPersonIcon';
 import FatPersonIcon from '@/common/components/UI/FatPersonIcon';
 import CloseIcon from '@mui/icons-material/Close';
-import TableSizes from './TableSizes';
+import TableSizesForShirt from './TableSizesForShirt';
 
 const style = {
   position: 'absolute',
@@ -237,7 +237,7 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }) {
                     </Box>
                   </TabPanel>
                   <TabPanel value="2">
-                    <TableSizes />
+                    <TableSizesForShirt />
                   </TabPanel>
                 </TabContext>
               </Box>

@@ -36,7 +36,7 @@ const rows = [
   createData('XL', '177 - 180', '77 - 83', 48, 112, 110, 65, 25, 75),
 ];
 
-export default function TableSizes() {
+export default function TableSizesForShirt() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="caption table">
