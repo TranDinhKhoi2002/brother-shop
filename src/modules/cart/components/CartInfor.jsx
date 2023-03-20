@@ -7,7 +7,7 @@ import OrderForm from './OrderForm';
 function CartInfor() {
   return (
     <>
-      <BuySteppers activeStep={2} />
+      <BuySteppers activeStep={1} />
       <div className="px-[5%] xl:px-0">
         <Grid container spacing={4} sx={{ mt: '20px', mb: 4 }} className={`${classes.cart}`}>
           <Grid item xs={12} md={6}>

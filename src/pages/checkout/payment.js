@@ -102,7 +102,7 @@ function CheckoutPayment() {
 
   return (
     <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
-      <BuySteppers activeStep={3} />
+      <BuySteppers activeStep={2} />
       <div className="mt-5">
         <Title sx={{ ml: { xs: 3, xl: 0 } }}>Phương thức thanh toán</Title>
         <Grid container spacing={3} className="px-[5%] xl:px-0 mt-5 mb-10">

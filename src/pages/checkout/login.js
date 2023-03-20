@@ -19,7 +19,7 @@ function CheckoutLogin() {
         <EmptyCart />
       ) : (
         <>
-          <BuySteppers activeStep={1} />
+          <BuySteppers activeStep={0} />
           <Title sx={{ ml: { xs: 3, xl: 0 } }}>Đăng Nhập</Title>
           <div className="px-[5%] xl:px-0">
             <Grid container spacing={3} sx={{ mt: '20px', mb: 4 }}>

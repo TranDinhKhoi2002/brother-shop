@@ -8,7 +8,7 @@ import { Box, Typography } from '@mui/material';
 function FailedCheckout() {
   return (
     <>
-      <BuySteppers activeStep={4} />
+      <BuySteppers activeStep={3} />
       <Title sx={{ textAlign: 'center' }}>ĐÃ HỦY ĐƠN HÀNG</Title>
       <Image src={`/assets/images/pay-card.svg`} alt="" width={120} height={120} className="mx-auto my-10" />
       <Box sx={{ textAlign: 'center', px: '12px' }}>

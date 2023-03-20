@@ -4,6 +4,7 @@ import EmptyCart from '@/modules/cart/components/EmptyCart';
 import CartInfor from '@/modules/cart/components/CartInfor';
 import { useEffect, useState } from 'react';
 import PageContainer from '@/common/components/Layout/PageContainer';
+import CartTable from '@/modules/cart/components/CartTable';
 
 function CartPage(props) {
   const [loaded, setLoaded] = useState(false);
@@ -19,7 +20,7 @@ function CartPage(props) {
 
   return (
     <PageContainer barTitle="Thông tin giỏ hàng của bạn" headTitle="Giỏ Hàng">
-      {products.length === 0 ? <EmptyCart /> : <CartInfor />}
+      <CartTable />
     </PageContainer>
   );
 }

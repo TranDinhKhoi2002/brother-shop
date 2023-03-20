@@ -1,3 +1,4 @@
+import CartDrawer from '@/modules/cart/components/CartDrawer';
 import { setAuth } from '@/redux/slices/auth';
 import { assignProductsToCart } from '@/redux/slices/cart';
 import { fetchCommonData, setData } from '@/redux/slices/data';
@@ -10,6 +11,7 @@ import Sidebar from './Sidebar';
 
 function Layout(props) {
   const [sideBarActive, setSideBarActive] = useState(false);
+  const [cartPreviewActive, setCartPreviewActive] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -17,9 +19,13 @@ function Layout(props) {
     const getCommonData = async () => {
       const { success, customer } = await dispatch(fetchCommonData()).unwrap();
 
-      if (success && customer) {
+      console.log(customer);
+
+      if (customer) {
         dispatch(setAuth({ user: customer }));
         dispatch(assignProductsToCart({ cart: customer.cart }));
+      } else {
+        dispatch(assignProductsToCart({ cart: [] }));
       }
     };
 
@@ -34,10 +40,19 @@ function Layout(props) {
     setSideBarActive(false);
   };
 
+  const openCartPreviewHandler = () => {
+    setCartPreviewActive(true);
+  };
+
+  const closeCartPreviewHandler = () => {
+    setCartPreviewActive(false);
+  };
+
   return (
     <Fragment>
-      <Header showSideBar={openSideBarHandler} />
+      <Header showSideBar={openSideBarHandler} showCartPreview={openCartPreviewHandler} />
       <Sidebar isVisible={sideBarActive} onClose={closeSideBarHandler} />
+      <CartDrawer isVisible={cartPreviewActive} onClose={closeCartPreviewHandler} />
       <Box>{props.children}</Box>
       <Footer />
     </Fragment>

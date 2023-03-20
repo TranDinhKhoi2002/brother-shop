@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { IconButton, List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { makeStyles } from '@mui/styles';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/redux/slices/auth';
 
 const useStyles = makeStyles((theme) => ({
   actionItem: {
@@ -23,11 +25,17 @@ const useStyles = makeStyles((theme) => ({
 export default function ActionsPopper() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
+
   const styles = useStyles();
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -43,7 +51,7 @@ export default function ActionsPopper() {
                 <ListItem sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#e6e6e6' } }}>
                   <ListItemText>Lịch sử mua hàng</ListItemText>
                 </ListItem>
-                <ListItem sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#e6e6e6' } }}>
+                <ListItem sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#e6e6e6' } }} onClick={handleLogout}>
                   <ListItemText>Đăng xuất</ListItemText>
                 </ListItem>
               </List>

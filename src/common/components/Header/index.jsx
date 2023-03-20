@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = (props) => {
+const Header = ({ showSideBar, showCartPreview }) => {
   const [search, setSearch] = useState(false);
   const styles = useStyles();
 
@@ -72,7 +72,7 @@ const Header = (props) => {
         </Link>
       </Box>
       <MainNavigation />
-      <Actions openSearch={openSearchHandler} showSideBar={props.showSideBar} />
+      <Actions openSearch={openSearchHandler} showSideBar={showSideBar} showCartPewview={showCartPreview} />
     </Box>
   );
 };

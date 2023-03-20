@@ -24,6 +24,7 @@ import NormalPersonIcon from '@/common/components/UI/NormalPersonIcon';
 import FatPersonIcon from '@/common/components/UI/FatPersonIcon';
 import CloseIcon from '@mui/icons-material/Close';
 import TableSizesForShirt from './TableSizesForShirt';
+import SizeResult from './SizeResult';
 
 const style = {
   position: 'absolute',
@@ -242,44 +243,8 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }) {
                 </TabContext>
               </Box>
             )}
-            {selectedSize && selectedSize !== 'wrong' && (
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
-                  Size phù hợp với bạn
-                </Typography>
-                <Box sx={{ my: 6 }}>
-                  <Typography
-                    sx={{ px: 4, py: 1, border: '1px solid #111111', display: 'inline-block', fontWeight: 500 }}
-                  >
-                    {selectedSize}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Button className="rounded-none px-10 font-medium" onClick={onSelectSize.bind(this, selectedSize)}>
-                    Chọn size {selectedSize}
-                  </Button>
-                </Box>
-                <Box sx={{ mt: 2 }}>
-                  <Button className={`rounded-none font-medium !bg-transparent text-gray`} onClick={handleChooseAgain}>
-                    Tôi muốn chọn size khác
-                  </Button>
-                </Box>
-              </Box>
-            )}
-
-            {selectedSize && selectedSize === 'wrong' && (
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
-                  Size phù hợp với bạn
-                </Typography>
-                <Typography sx={{ fontWeight: 400, my: 3, px: 4 }}>
-                  Dường như những thông tin bạn chọn không khớp với nhau hoặc chúng tôi không tìm thấy size nào phù hợp
-                  với bạn
-                </Typography>
-                <Button className="rounded-none px-10 font-medium mt-3" onClick={handleChooseAgain}>
-                  Chọn lại
-                </Button>
-              </Box>
+            {selectedSize && (
+              <SizeResult selectedSize={selectedSize} onChooseSize={onSelectSize} onChooseAgain={handleChooseAgain} />
             )}
           </Box>
         </Fade>

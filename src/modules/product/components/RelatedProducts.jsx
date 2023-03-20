@@ -53,7 +53,7 @@ function RelatedProducts({ products }) {
 
   return (
     <Box sx={{ mt: 8, mb: 5 }}>
-      <Title sx={{ textAlign: 'center' }}>Sản phẩm Brother Shop gợi ý cho bạn</Title>
+      <Title sx={{ textAlign: 'center' }}>Sản phẩm được gợi ý cho bạn</Title>
       <Slider {...settings} className="my-3">
         {products.map((product) => (
           <ProductItem key={product._id} product={product} />

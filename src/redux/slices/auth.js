@@ -28,6 +28,8 @@ const authSlice = createSlice({
   reducers: {
     logout(state, action) {
       Cookies.remove('token');
+      Cookies.remove('accountId');
+
       state.currentUser = undefined;
       state.isAuthenticated = false;
     },
@@ -49,12 +51,13 @@ const authSlice = createSlice({
       }
     });
     builder.addCase(fetchUserLogin.fulfilled, (state, { payload }) => {
-      const { success, token, user } = payload;
+      const { success, token, user, accountId } = payload;
 
       if (success) {
         const remainingMilliseconds = 24 * 60 * 60 * 1000;
         const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
         Cookies.set('token', token, { expires: expiryDate });
+        Cookies.set('accountId', accountId);
 
         state.currentUser = user;
         state.isAuthenticated = true;

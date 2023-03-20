@@ -3,7 +3,7 @@ import request from './baseRequest';
 
 export const getCommonData = async () => {
   try {
-    const response = await request.get('/data', {
+    const response = await request.get(`/data?accountId=${Cookies.get('accountId')}`, {
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`,
       },

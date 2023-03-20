@@ -41,7 +41,7 @@ function SuccessCheckout() {
 
   return (
     <>
-      <BuySteppers activeStep={4} />
+      <BuySteppers activeStep={3} />
       <Title sx={{ textAlign: 'center' }}>ĐẶT HÀNG THÀNH CÔNG</Title>
       <Image src={`/assets/images/cod.svg`} alt="" width={120} height={120} className="mx-auto my-10" />
       <Box sx={{ textAlign: 'center' }}>

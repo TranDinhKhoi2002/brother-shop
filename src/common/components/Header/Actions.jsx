@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Actions(props) {
+function Actions({ openSearch, showSideBar, showCartPewview }) {
   const products = useSelector(selectCartProducts);
   const router = useRouter();
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -57,7 +57,7 @@ function Actions(props) {
   return (
     <Stack direction="row" alignItems="center" spacing={3}>
       <Tooltip title="Tìm kiếm sản phẩm">
-        <IconButton className={styles.actionItem} onClick={props.openSearch}>
+        <IconButton className={styles.actionItem} onClick={openSearch}>
           <SearchIcon />
         </IconButton>
       </Tooltip>
@@ -72,7 +72,7 @@ function Actions(props) {
       )}
 
       <Tooltip title="Giỏ hàng">
-        <IconButton className={styles.actionItem} onClick={checkoutHandler}>
+        <IconButton className={styles.actionItem} onClick={showCartPewview}>
           <Badge badgeContent={products.length} color="info">
             <ShoppingCartIcon />
           </Badge>
@@ -80,7 +80,7 @@ function Actions(props) {
       </Tooltip>
 
       <Button
-        onClick={props.showSideBar}
+        onClick={showSideBar}
         sx={{ ...styles, color: theme.palette.grey['200'], display: { xs: 'block', lg: 'none' } }}
       >
         <MenuIcon sx={{ fontSize: '30px' }} />

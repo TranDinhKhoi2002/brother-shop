@@ -151,7 +151,7 @@ function DetailCart() {
                           className="py-[0.5rem] px-3 text-base font-normal text-[#495057] border-[1px] border-solid border-[#ced4da] flex-1 rounded outline-none focus:border-[#ee4266] transition duration-150"
                         />
                         <button className="py-1 px-2 ml-2 text-[13px] leading-6 rounded-[0.2rem] text-[#343a40] border-[1px] border-solid border-[#343a40] hover:text-white hover:bg-[#343a40] hover:border-[#343a40]">
-                          UPDATE
+                          CẬP NHẬT
                         </button>
                       </form>{' '}
                       = <span>đ </span>

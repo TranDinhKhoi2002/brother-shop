@@ -4,17 +4,15 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCategories } from '@/redux/slices/data';
-import { useEffect } from 'react';
 import CollapseButton from './CollapseButton';
 import { Stack, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/styles';
 import Link from 'next/link';
 
-export default function TemporarySidebar({ isVisible, onClose }) {
+export default function NavigationSidebar({ isVisible, onClose }) {
   const categories = useSelector(selectCategories);
   const theme = useTheme();
 
