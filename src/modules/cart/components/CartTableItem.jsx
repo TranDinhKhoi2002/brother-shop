@@ -2,7 +2,7 @@ import { Checkbox, IconButton, Stack, TableCell, TableRow, Typography } from '@m
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Image } from 'cloudinary-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
@@ -14,6 +14,10 @@ function CartTableItem({ item, labelId, isItemSelected, onClick }) {
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setQuantity(item.quantity);
+  }, [item.quantity]);
 
   const handleUpdateQuantity = async (quantity) => {
     if (!isAuthenticated) {
@@ -28,7 +32,7 @@ function CartTableItem({ item, labelId, isItemSelected, onClick }) {
     }
 
     try {
-      const { cart, success, message } = await dispatch(
+      const { cart, success } = await dispatch(
         fetchUpdateQuantity({ productId: item.productId._id, size: item.size, quantity: quantity }),
       ).unwrap();
 

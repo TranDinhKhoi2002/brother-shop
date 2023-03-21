@@ -10,7 +10,7 @@ function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
     <Card>
       <CardContent>
         <Title>Đơn hàng của bạn</Title>
-        <Divider sx={{ marginY: '12px', marginX: 2 }} />
+        <Divider sx={{ marginY: '12px' }} />
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography sx={{ fontWeight: 500 }}>Sản phẩm</Typography>
           <Typography sx={{ fontWeight: 500 }}>Thành tiền</Typography>

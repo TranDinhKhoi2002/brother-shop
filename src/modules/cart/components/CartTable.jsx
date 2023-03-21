@@ -22,56 +22,6 @@ import CartTableItem from './CartTableItem';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import { toast } from 'react-toastify';
 
-function descendingComparator(a, b, orderBy) {
-  if (orderBy === 'amount') {
-    return 0;
-  }
-
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-
-  if (b.productId[orderBy] < a.productId[orderBy]) {
-    return -1;
-  }
-
-  if (b.productId[orderBy] > a.productId[orderBy]) {
-    return 1;
-  }
-
-  if (b.productId.price * b.quantity < a.productId.price * a.quantity) {
-    return -1;
-  }
-
-  if (b.productId.price * b.quantity > a.productId.price * a.quantity) {
-    return 1;
-  }
-
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
 function CartTable() {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('price');
@@ -100,7 +50,6 @@ function CartTable() {
       (row) => selected.findIndex((item) => item.productId._id === row.productId._id && item.size === row.size) === -1,
     );
 
-    console.log(selected);
     setRows(restRows);
     setSelected([]);
 
@@ -118,7 +67,7 @@ function CartTable() {
         setConfirmDelete(false);
       }
     } catch (error) {
-      toast.error('Something went wrong!! Please try again');
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
     }
   };
 
@@ -192,22 +141,20 @@ function CartTable() {
                     rowCount={rows.length}
                   />
                   <TableBody>
-                    {stableSort(rows, getComparator(order, orderBy))
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row, index) => {
-                        const isItemSelected = isSelected(row);
-                        const labelId = `enhanced-table-checkbox-${index}`;
+                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                      const isItemSelected = isSelected(row);
+                      const labelId = `enhanced-table-checkbox-${index}`;
 
-                        return (
-                          <CartTableItem
-                            key={index}
-                            item={row}
-                            labelId={labelId}
-                            isItemSelected={isItemSelected}
-                            onClick={handleClick}
-                          />
-                        );
-                      })}
+                      return (
+                        <CartTableItem
+                          key={index}
+                          item={row}
+                          labelId={labelId}
+                          isItemSelected={isItemSelected}
+                          onClick={handleClick}
+                        />
+                      );
+                    })}
                     {emptyRows > 0 && (
                       <TableRow
                         style={{
@@ -226,11 +173,15 @@ function CartTable() {
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
+                labelRowsPerPage="Số sản phẩm mỗi trang"
+                labelDisplayedRows={({ from, to, count }) =>
+                  `${from}–${to} trên ${count !== -1 ? count : `more than ${to}`}`
+                }
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
             </Paper>
-            <Stack direction="row" justifyContent="space-between">
+            {/* <Stack direction="row" justifyContent="space-between">
               <Button
                 variant="contained"
                 sx={{ paddingX: 8, paddingY: 2, fontSize: '1rem', borderRadius: 4, textTransform: 'uppercase' }}
@@ -245,7 +196,7 @@ function CartTable() {
               >
                 Check Out
               </Button>
-            </Stack>
+            </Stack> */}
           </>
         )}
 

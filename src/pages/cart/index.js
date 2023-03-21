@@ -1,14 +1,11 @@
-import { useSelector } from 'react-redux';
-import { selectCartProducts } from '@/redux/slices/cart';
-import EmptyCart from '@/modules/cart/components/EmptyCart';
-import CartInfor from '@/modules/cart/components/CartInfor';
 import { useEffect, useState } from 'react';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import CartTable from '@/modules/cart/components/CartTable';
+import PreviewInvoice from '@/modules/cart/components/PreviewInvoice';
+import { Container } from '@mui/material';
 
 function CartPage(props) {
   const [loaded, setLoaded] = useState(false);
-  const products = useSelector(selectCartProducts);
 
   useEffect(() => {
     setLoaded(true);
@@ -20,7 +17,10 @@ function CartPage(props) {
 
   return (
     <PageContainer barTitle="Thông tin giỏ hàng của bạn" headTitle="Giỏ Hàng">
-      <CartTable />
+      <Container maxWidth="xxl">
+        <CartTable />
+        <PreviewInvoice />
+      </Container>
     </PageContainer>
   );
 }

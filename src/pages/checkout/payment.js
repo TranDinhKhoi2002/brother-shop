@@ -12,6 +12,7 @@ import CheckoutMethods from '@/modules/payment/components/CheckoutMethods';
 import PreviewOrder from '@/modules/payment/components/PreviewOrder';
 import CompanyBill from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
+import { TRANSPORTATION_COST } from '@/constants';
 
 function CheckoutPayment() {
   const [loaded, setLoaded] = useState(false);
@@ -33,8 +34,8 @@ function CheckoutPayment() {
   const totalProductsPrice = cartProducts.reduce((acc, currentItem) => {
     return acc + currentItem.productId.price * currentItem.quantity;
   }, 0);
-  const shippingPrice = 25000;
-  const totalPrice = totalProductsPrice + shippingPrice;
+
+  const totalPrice = totalProductsPrice + TRANSPORTATION_COST;
 
   const payHandler = async () => {
     const { companyName, companyAddress, companyTaxNumber } = ref.current.getInvoiceCompany();
@@ -58,7 +59,7 @@ function CheckoutPayment() {
       toNote: toNote || shippingInfor.note,
       products: formatedCartProducts,
       totalProductsPrice,
-      shippingPrice,
+      shippingPrice: TRANSPORTATION_COST,
       totalPrice,
       companyName,
       companyAddress,
@@ -114,7 +115,7 @@ function CheckoutPayment() {
             <PreviewOrder
               cartProducts={cartProducts}
               totalPrice={totalPrice}
-              shippingPrice={shippingPrice}
+              shippingPrice={TRANSPORTATION_COST}
               onPay={payHandler}
             />
           </Grid>

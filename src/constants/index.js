@@ -1,0 +1,1 @@
+export const TRANSPORTATION_COST = 25000;
