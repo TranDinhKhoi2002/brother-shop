@@ -25,7 +25,9 @@ function Layout(props) {
         dispatch(setAuth({ user: customer }));
         dispatch(assignProductsToCart({ cart: customer.cart }));
       } else {
-        dispatch(assignProductsToCart({ cart: [] }));
+        const cart = JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`));
+        console.log(cart);
+        dispatch(assignProductsToCart({ cart }));
       }
     };
 

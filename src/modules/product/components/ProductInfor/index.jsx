@@ -5,6 +5,7 @@ import Button from '@/common/components/UI/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 import GeneralInfor from './Generalnfor';
 import NumberBox from './NumberBox';
@@ -52,7 +53,7 @@ function ProductInfor({ product }) {
     }
 
     if (!isAuthenticated) {
-      dispatch(addToCart({ productId: product, size, quantity: +inputRef.current.getQuantity() }));
+      dispatch(addToCart({ productId: product, size, quantity: +inputRef.current.getQuantity(), _id: uuidv4() }));
       toast.success('Đã thêm vào giỏ hàng');
       return;
     }
