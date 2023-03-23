@@ -1,7 +1,10 @@
+import Filter from '@/common/components/Filter';
 import NavigationLayout from '@/common/components/Layout/NavigationLayout';
+import CategoryFilter from '@/modules/filter';
 import Products from '@/modules/product/components/Products';
 import { getCategories } from '@/services/categoryRequests';
 import { getProductsByCategory } from '@/services/productRequests';
+import { Grid } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -20,7 +23,7 @@ function ProductType({ products }) {
         <title>{headTitle}</title>
       </Head>
       <NavigationLayout title={title}>
-        <Products products={products} />
+        <CategoryFilter loadedProducts={products} />
       </NavigationLayout>
     </>
   );

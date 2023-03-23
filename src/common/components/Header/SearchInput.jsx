@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import useDebounce from '@/hooks/useDebounce';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import { Box, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,7 +14,7 @@ function SearchInput(props) {
 
   useEffect(() => {
     if (debouncedValue) {
-      router.push({ pathname: '/search', query: { state: { keyword: debouncedValue } } });
+      router.push({ pathname: '/search', query: { keyword: debouncedValue } });
       props.closeSearch();
     }
   }, [debouncedValue, router, props]);

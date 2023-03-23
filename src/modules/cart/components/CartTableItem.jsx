@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import { toast } from 'react-toastify';
 import { assignProductsToCart, fetchUpdateQuantity, updateAmountOfProduct } from '@/redux/slices/cart';
+import Link from 'next/link';
 
 function CartTableItem({ item, labelId, isItemSelected, onClick }) {
   const [quantity, setQuantity] = useState(item.quantity);
@@ -76,7 +77,7 @@ function CartTableItem({ item, labelId, isItemSelected, onClick }) {
         />
       </TableCell>
       <TableCell align="center" sx={{ fontWeight: 500 }}>
-        {item.productId.name}
+        <Link href={`/shop/products/${item.productId._id}`}>{item.productId.name}</Link>
       </TableCell>
       <TableCell align="center">{printNumberWithCommas(item.productId.price)} đ</TableCell>
       <TableCell align="center">{printNumberWithCommas(item.size)}</TableCell>

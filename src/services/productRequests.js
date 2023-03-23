@@ -29,3 +29,13 @@ export const getProductsByType = async (type) => {
   const res = await request.get(`/products/type/${type}`);
   return res.data.products;
 };
+
+export const getProductsByKeyword = async (keyword, page) => {
+  const res = await request.get(`/products/search/${keyword}?page=${page}`);
+  return { ...res.data };
+};
+
+export const getProductsByFilters = async (types, priceFrom, priceTo) => {
+  const res = await request.get(`/products/filters?types=${types}&priceFrom=${priceFrom}&priceTo=${priceTo}`);
+  return { ...res.data };
+};

@@ -1,20 +1,8 @@
-import {
-  Box,
-  Button,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from '@mui/material';
 import EmptyCart from './EmptyCart';
 import CartTableToolbar from './CartTableToolbar';
 import CartTableHead from './CartTableHead';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { assignProductsToCart, fetchRemoveItemsFromCart, selectCartProducts } from '@/redux/slices/cart';
 import { selectCurrentUser, selectIsAuthenticated } from '@/redux/slices/auth';
@@ -31,7 +19,6 @@ function CartTable() {
   const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const router = useRouter();
   const cartProducts = useSelector(selectCartProducts);
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -61,8 +48,9 @@ function CartTable() {
 
     try {
       const removedItems = selected.map((item) => ({ productId: item.productId._id, size: item.size }));
-      const { success } = await dispatch(fetchRemoveItemsFromCart({ items: removedItems })).unwrap();
+      const { success, cart } = await dispatch(fetchRemoveItemsFromCart({ items: removedItems })).unwrap();
       if (success) {
+        dispatch(assignProductsToCart({ cart: cart }));
         toast.success('Đã xóa sản phẩm khỏi giỏ hàng');
         setConfirmDelete(false);
       }
@@ -110,14 +98,6 @@ function CartTable() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const handleContinueShopping = () => {
-    navigate('/');
-  };
-
-  const handleCheckout = async () => {
-    router.push('/checkout/login');
   };
 
   const isSelected = (row) => selected.findIndex((item) => item._id === row._id && item.size === row.size) !== -1;
@@ -181,22 +161,6 @@ function CartTable() {
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
             </Paper>
-            {/* <Stack direction="row" justifyContent="space-between">
-              <Button
-                variant="contained"
-                sx={{ paddingX: 8, paddingY: 2, fontSize: '1rem', borderRadius: 4, textTransform: 'uppercase' }}
-                onClick={handleContinueShopping}
-              >
-                Shop Now
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ paddingX: 8, paddingY: 2, fontSize: '1rem', borderRadius: 4, textTransform: 'uppercase' }}
-                onClick={handleCheckout}
-              >
-                Check Out
-              </Button>
-            </Stack> */}
           </>
         )}
 
