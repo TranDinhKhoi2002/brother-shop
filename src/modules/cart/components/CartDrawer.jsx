@@ -7,9 +7,12 @@ import { selectCartProducts } from '@/redux/slices/cart';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import { useRouter } from 'next/router';
 import CartDrawerItem from './CartDrawerItem';
+import { selectIsAuthenticated } from '@/redux/slices/auth';
 
 function CartDrawer({ isVisible, onClose }) {
   const cartProducts = useSelector(selectCartProducts);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
   const router = useRouter();
 
   const totalPrice = cartProducts.reduce((acc, cur) => {
@@ -17,7 +20,12 @@ function CartDrawer({ isVisible, onClose }) {
   }, 0);
 
   const handleCheckout = () => {
-    router.push('/checkout/login');
+    if (isAuthenticated) {
+      router.push('/checkout/shipping');
+    } else {
+      router.push('/checkout/login');
+    }
+
     onClose();
   };
 

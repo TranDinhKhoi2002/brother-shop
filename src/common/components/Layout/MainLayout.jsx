@@ -22,7 +22,7 @@ function Layout(props) {
     const getCommonData = async () => {
       const { success, customer } = await dispatch(fetchCommonData()).unwrap();
 
-      console.log(customer);
+      // console.log(customer);
 
       if (customer) {
         dispatch(setAuth({ user: customer }));

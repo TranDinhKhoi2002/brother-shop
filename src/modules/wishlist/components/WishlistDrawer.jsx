@@ -7,7 +7,6 @@ import WishlistDrawerItem from './WishlistDrawerItem';
 
 function WishlistDrawer({ isVisible, onClose }) {
   const wishlistProducts = useSelector(selectWishlistProducts);
-  console.log(wishlistProducts);
 
   return (
     <Drawer anchor="right" open={isVisible} onClose={onClose}>

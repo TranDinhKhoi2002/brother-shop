@@ -1,5 +1,5 @@
-import { Fragment, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { Fragment, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import classes from './Cart.module.css';
@@ -16,10 +16,14 @@ import Link from 'next/link';
 import Title from '@/common/components/UI/Title';
 import { Button, Divider } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import { selectCurrentUser } from '@/redux/slices/auth';
 
 function OrderForm() {
   const [deliveryMethod, setDeliveryMethod] = useState('cod');
   const theme = useTheme();
+
+  const currentUser = useSelector(selectCurrentUser);
+  console.log(currentUser);
 
   const OrderSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
@@ -47,7 +51,18 @@ function OrderForm() {
     formState: { isSubmitting },
     setValue,
     getValues,
+    reset,
   } = methods;
+
+  useEffect(() => {
+    reset({
+      name: currentUser?.name,
+      phone: currentUser?.phone,
+      email: currentUser?.email,
+      address: currentUser?.address,
+      note: '',
+    });
+  }, [currentUser, reset]);
 
   const onSubmit = (values) => {
     const { name, phone, email, address, note } = values;

@@ -11,10 +11,12 @@ import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { fetchRemoveFromWishlist } from '@/redux/slices/wishlist';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import { addToCart, fetchAddToCart, assignProductsToCart } from '@/redux/slices/cart';
+import { addToCart, fetchAddToCart, assignProductsToCart, selectCartProducts } from '@/redux/slices/cart';
 
 function WishlistDrawerItem({ product }) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const cartProducts = useSelector(selectCartProducts);
+  const isAddedToCart = cartProducts.findIndex((item) => item.productId._id === product._id) !== -1;
 
   const sizesRef = useRef();
   const quantityRef = useRef();
@@ -82,8 +84,12 @@ function WishlistDrawerItem({ product }) {
           <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
           <WishlistSizesMenu ref={sizesRef} />
           <WishlistQuantity ref={quantityRef} price={product.price} />
-          <Button className="w-[200px] rounded-none mt-2" onClick={handleAddToCart}>
-            Thêm vào giỏ hàng
+          <Button
+            className={`w-[200px] rounded-none mt-2 ${isAddedToCart && '!bg-lightGray100 !text-[#787878]'}`}
+            disabled={isAddedToCart}
+            onClick={handleAddToCart}
+          >
+            {isAddedToCart ? 'Đã thêm' : 'Thêm vào giỏ hàng'}
           </Button>
         </Box>
       </Stack>

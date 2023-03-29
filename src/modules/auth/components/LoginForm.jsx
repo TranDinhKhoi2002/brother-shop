@@ -84,7 +84,7 @@ function LoginForm({ onLogin }) {
             Quên mật khẩu?
           </Typography>
         </Link>
-        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
+        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 400 }}>
           Đăng nhập
         </LoadingButton>
       </FormProvider>

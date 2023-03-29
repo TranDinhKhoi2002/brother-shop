@@ -12,6 +12,7 @@ import { makeStyles, useTheme } from '@mui/styles';
 import AccountPopper from './AccountPopper';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
+import { selectWishlistProducts } from '@/redux/slices/wishlist';
 
 const useStyles = makeStyles((theme) => ({
   actionItem: {
@@ -26,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
-  const products = useSelector(selectCartProducts);
+  const cartProducts = useSelector(selectCartProducts);
+  const wishlistProducts = useSelector(selectWishlistProducts);
+
   const router = useRouter();
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
@@ -70,13 +73,15 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
 
       <Tooltip title="Danh sách yêu thích">
         <IconButton className={styles.actionItem} onClick={showWishlist}>
-          <FavoriteBorderIcon />
+          <Badge badgeContent={wishlistProducts.length} color="info">
+            <FavoriteBorderIcon />
+          </Badge>
         </IconButton>
       </Tooltip>
 
       <Tooltip title="Giỏ hàng">
         <IconButton className={styles.actionItem} onClick={showCartPreview}>
-          <Badge badgeContent={products.length} color="info">
+          <Badge badgeContent={cartProducts.length} color="info">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>

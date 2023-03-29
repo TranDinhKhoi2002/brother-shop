@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 
 function InvoiceCompany({ products, formData }) {
   const totalProductsPrice = products.reduce((acc, cur) => {
-    return acc + cur.productId.price * cur.amount;
+    return acc + cur.productId.price * cur.quantity;
   }, 0);
   const tax = totalProductsPrice * 0.1;
   const totalPrice = totalProductsPrice + tax + 25000;
