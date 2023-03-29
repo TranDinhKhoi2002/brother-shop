@@ -3,17 +3,32 @@ import TuneIcon from '@mui/icons-material/Tune';
 import FilterProductTypes from './FilterProductTypes';
 import FilterPrice from './FilterPrice';
 import FilterMaterial from './FilterMaterial';
+import FilterTextures from './FilterTextures';
+import useResponsive from '@/hooks/useResponsive';
 
-function Filter({ selectedFilters, onFilter, onChangePriceRange }) {
+function Filter({
+  selectedFilters,
+  selectedMaterials,
+  selectedTextures,
+  onFilter,
+  onChangePriceRange,
+  onChangeMaterial,
+  onChangeTexture,
+}) {
+  const isDesktop = useResponsive('up', 'lg');
+
   return (
     <Box>
-      <Typography sx={{ mt: 4, fontSize: 20, fontWeight: 400 }}>
-        Bộ lọc <TuneIcon />
-      </Typography>
+      {isDesktop && (
+        <Typography sx={{ mt: 4, fontSize: 20, fontWeight: 400 }}>
+          Bộ lọc <TuneIcon />
+        </Typography>
+      )}
       <List sx={{ width: '100%', bgcolor: 'background.paper' }} component="nav" aria-labelledby="nested-list-subheader">
         <FilterProductTypes onFilter={onFilter} selectedFilters={selectedFilters} />
         <FilterPrice onChangePriceRange={onChangePriceRange} />
-        <FilterMaterial />
+        <FilterMaterial selectedMaterials={selectedMaterials} onChangeMaterial={onChangeMaterial} />
+        <FilterTextures selectedTextures={selectedTextures} onChangeTexture={onChangeTexture} />
       </List>
     </Box>
   );

@@ -1,0 +1,43 @@
+import React, { useImperativeHandle, useState } from 'react';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+
+export default React.forwardRef(function WishlistQuantity({ price }, ref) {
+  const [quantity, setQuantity] = useState(1);
+
+  useImperativeHandle(ref, () => ({
+    getQuantity: () => {
+      return quantity;
+    },
+  }));
+
+  const handleDecreaseQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity - 1);
+  };
+
+  const handleIncreaseQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  return (
+    <Box>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ width: '100px', mt: 1, border: 1, py: '4px', px: 1 }}
+      >
+        <IconButton onClick={handleDecreaseQuantity} disabled={quantity === 1}>
+          <RemoveIcon sx={{ fontSize: '14px' }} />
+        </IconButton>
+        <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>{quantity}</Typography>
+        <IconButton onClick={handleIncreaseQuantity}>
+          <AddIcon sx={{ fontSize: '14px' }} />
+        </IconButton>
+      </Stack>
+      <Typography sx={{ fontWeight: 500, mt: 1 }}>{printNumberWithCommas(price * quantity)}đ</Typography>
+    </Box>
+  );
+});

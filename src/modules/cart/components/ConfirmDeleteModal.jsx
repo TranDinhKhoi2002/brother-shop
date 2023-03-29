@@ -32,9 +32,9 @@ export default function ConfirmDeleteModal({ isOpen, onClose, onDelete }) {
             Xóa sản phẩm?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng chứ?
+            Bạn có chắc muốn xóa sản phẩm chứ?
           </Typography>
-          <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
+          <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ mt: 2 }}>
             <Button variant="text" className="text-[#111] border-[#111] !bg-white" onClick={onClose}>
               Đóng
             </Button>

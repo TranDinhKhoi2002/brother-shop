@@ -4,7 +4,6 @@ import { useTheme } from '@mui/styles';
 
 function ProductSizes({ sizes, onChange, currentSize, onDisplayModal }) {
   const theme = useTheme();
-  console.log(sizes);
 
   return (
     <>

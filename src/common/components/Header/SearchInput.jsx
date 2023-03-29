@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import useDebounce from '@/hooks/useDebounce';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -10,20 +9,20 @@ function SearchInput(props) {
   const router = useRouter();
   const theme = useTheme();
 
-  const debouncedValue = useDebounce(searchValue, 500);
-
-  useEffect(() => {
-    if (debouncedValue) {
-      router.push({ pathname: '/search', query: { keyword: debouncedValue } });
-      props.closeSearch();
-    }
-  }, [debouncedValue, router, props]);
-
   const inputChangeHandler = (e) => {
     const searchInputValue = e.target.value;
 
     if (!searchInputValue.startsWith(' ')) {
       setSearchValue(searchInputValue);
+    }
+  };
+
+  const searchHandler = (e) => {
+    if (!searchValue) return;
+
+    if (e.key === 'Enter') {
+      router.push({ pathname: '/search', query: { keyword: searchValue } });
+      props.closeSearch();
     }
   };
 
@@ -36,6 +35,7 @@ function SearchInput(props) {
         onChange={inputChangeHandler}
         placeholder="Nhập sản phẩm cần tìm"
         spellCheck={false}
+        onKeyUp={searchHandler}
       />
       <IconButton onClick={props.closeSearch}>
         <CloseIcon

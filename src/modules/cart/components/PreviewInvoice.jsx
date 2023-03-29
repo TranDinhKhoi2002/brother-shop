@@ -13,7 +13,7 @@ function PreviewInvoice() {
 
   return (
     <Stack direction="row" justifyContent="flex-end">
-      <Card sx={{ width: { xs: '100%', md: '400px' }, mt: 4 }}>
+      <Card sx={{ width: { xs: '100%', md: '400px' }, mt: 4, mb: 6 }}>
         <CardContent>
           <Typography sx={{ fontSize: 18, fontWeight: 600, textTransform: 'uppercase', mb: 3 }}>Tạm tính</Typography>
 

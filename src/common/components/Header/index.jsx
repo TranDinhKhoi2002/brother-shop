@@ -21,18 +21,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.grey['900'],
     height: '80px',
-    paddingLeft: '12%',
-    [theme.breakpoints.up('600')]: {
-      paddingLeft: '10%',
-    },
-    paddingRight: '12%',
-    [theme.breakpoints.up('600')]: {
-      paddingRight: '10%',
-    },
+    paddingLeft: '5%',
+    paddingRight: '5%',
   },
 }));
 
-const Header = ({ showSideBar, showCartPreview }) => {
+const Header = ({ showSideBar, showCartPreview, showWishlist }) => {
   const [search, setSearch] = useState(false);
   const styles = useStyles();
 
@@ -72,7 +66,12 @@ const Header = ({ showSideBar, showCartPreview }) => {
         </Link>
       </Box>
       <MainNavigation />
-      <Actions openSearch={openSearchHandler} showSideBar={showSideBar} showCartPewview={showCartPreview} />
+      <Actions
+        openSearch={openSearchHandler}
+        showSideBar={showSideBar}
+        showCartPreview={showCartPreview}
+        showWishlist={showWishlist}
+      />
     </Box>
   );
 };

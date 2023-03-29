@@ -3,6 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import config from '@/config';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -24,17 +25,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Actions({ openSearch, showSideBar, showCartPewview }) {
+function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
   const products = useSelector(selectCartProducts);
   const router = useRouter();
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const theme = useTheme();
   const styles = useStyles();
-
-  const checkoutHandler = () => {
-    router.push(config.routes.checkoutLogin);
-  };
 
   const authHandler = () => {
     if (isAuthenticated) {
@@ -71,8 +68,14 @@ function Actions({ openSearch, showSideBar, showCartPewview }) {
         </Tooltip>
       )}
 
+      <Tooltip title="Danh sách yêu thích">
+        <IconButton className={styles.actionItem} onClick={showWishlist}>
+          <FavoriteBorderIcon />
+        </IconButton>
+      </Tooltip>
+
       <Tooltip title="Giỏ hàng">
-        <IconButton className={styles.actionItem} onClick={showCartPewview}>
+        <IconButton className={styles.actionItem} onClick={showCartPreview}>
           <Badge badgeContent={products.length} color="info">
             <ShoppingCartIcon />
           </Badge>

@@ -15,6 +15,8 @@ import { useRef, useState } from 'react';
 import ProductSizes from './ProductSizes';
 import SizeGuideModal from './SizeGuideModal';
 import PreservationInstruction from './PreservationInstruction';
+import LoginModal from '@/common/components/UI/LoginModal';
+import { fetchAddToWishlist } from '@/redux/slices/wishlist';
 
 const styles = {
   title: {
@@ -39,6 +41,7 @@ function ProductInfor({ product }) {
   const [currentSize, setCurrentSize] = useState();
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [loginModalIsVisible, setLoginModalIsVisible] = useState(false);
 
   const inputRef = useRef();
   const dispatch = useDispatch();
@@ -79,6 +82,25 @@ function ProductInfor({ product }) {
     setModalIsVisible(false);
   };
 
+  const handleAddToWishlist = async (product) => {
+    if (!isAuthenticated) {
+      setLoginModalIsVisible(true);
+      return;
+    }
+
+    try {
+      const { success, message } = await dispatch(fetchAddToWishlist({ product })).unwrap();
+
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.warn(message);
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    }
+  };
+
   return (
     <>
       <Grid container spacing={4} sx={{ mt: '12px' }}>
@@ -107,7 +129,10 @@ function ProductInfor({ product }) {
               <Button className="w-[250px] rounded-none" onClick={addToCartHandler.bind(this, currentSize?.name)}>
                 Mua ngay
               </Button>
-              <FavoriteBorderIcon sx={{ fontSize: '2.5rem', cursor: 'pointer' }} />
+              <FavoriteBorderIcon
+                sx={{ fontSize: '2.5rem', cursor: 'pointer' }}
+                onClick={handleAddToWishlist.bind(this, product)}
+              />
             </Stack>
 
             <Policies />
@@ -140,6 +165,8 @@ function ProductInfor({ product }) {
         onClose={() => setModalIsVisible(false)}
         onSelectSize={handleChooseSize}
       />
+
+      <LoginModal isVisible={loginModalIsVisible} onClose={() => setLoginModalIsVisible(false)} />
     </>
   );
 }

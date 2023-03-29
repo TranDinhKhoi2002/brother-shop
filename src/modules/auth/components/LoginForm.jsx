@@ -11,8 +11,9 @@ import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { assignProductsToCart } from '@/redux/slices/cart';
 import LoadingButton from '@/common/components/UI/LoadingButton';
+import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 
-function LoginForm() {
+function LoginForm({ onLogin }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -47,9 +48,15 @@ function LoginForm() {
 
       if (success) {
         toast.success('Đăng nhập thành công!!');
-        router.replace('/');
+
+        if (onLogin) {
+          onLogin();
+        } else {
+          router.replace('/');
+        }
 
         dispatch(assignProductsToCart({ cart: user.cart }));
+        dispatch(assignProductsToWishlist({ products: user.wishlist }));
       } else {
         toast.error('Tên đăng nhập hoặc mật khẩu không đúng');
       }

@@ -7,7 +7,7 @@ export const getAllProducts = async () => {
 
 export const getProductsByCategory = async (categoryId) => {
   const res = await request.get(`/categories/${categoryId}/products`);
-  return res.data.products;
+  return { ...res.data };
 };
 
 export const getProductById = async (productId) => {
@@ -35,7 +35,9 @@ export const getProductsByKeyword = async (keyword, page) => {
   return { ...res.data };
 };
 
-export const getProductsByFilters = async (types, priceFrom, priceTo) => {
-  const res = await request.get(`/products/filters?types=${types}&priceFrom=${priceFrom}&priceTo=${priceTo}`);
+export const getProductsByFilters = async (types, priceFrom, priceTo, materials, textures) => {
+  const res = await request.get(
+    `/products/filters?types=${types}&priceFrom=${priceFrom}&priceTo=${priceTo}&materials=${materials}&textures=${textures}`,
+  );
   return { ...res.data };
 };

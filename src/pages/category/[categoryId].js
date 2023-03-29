@@ -1,17 +1,13 @@
-import Filter from '@/common/components/Filter';
 import NavigationLayout from '@/common/components/Layout/NavigationLayout';
-import CategoryFilter from '@/modules/filter';
-import Products from '@/modules/product/components/Products';
+import CategoryFilter from '@/modules/filter/components';
 import { getCategories } from '@/services/categoryRequests';
 import { getProductsByCategory } from '@/services/productRequests';
-import { Grid } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-function ProductType({ products }) {
+function ProductType({ products, categoryName }) {
   const router = useRouter();
-  const { title } = router.query;
-  const headTitle = `Dòng sản phẩm ${title} | Brother Shop`;
+  const headTitle = `Dòng sản phẩm ${categoryName} | Brother Shop`;
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -22,8 +18,8 @@ function ProductType({ products }) {
       <Head>
         <title>{headTitle}</title>
       </Head>
-      <NavigationLayout title={title}>
-        <CategoryFilter loadedProducts={products} />
+      <NavigationLayout title={categoryName}>
+        <CategoryFilter loadedProducts={products} categoryName={categoryName} />
       </NavigationLayout>
     </>
   );
@@ -41,10 +37,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const categoryId = context.params.categoryId;
-  const products = await getProductsByCategory(categoryId);
+  const { products, categoryName } = await getProductsByCategory(categoryId);
 
   return {
-    props: { products },
+    props: { products, categoryName },
   };
 }
 

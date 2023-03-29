@@ -3,25 +3,23 @@ import { Checkbox, Collapse, FormControlLabel, FormGroup, ListItemButton, ListIt
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
-const materials = [
-  'Vải tổ ong',
-  'French Terry',
-  'Cotton Compact',
-  'Vải Poly',
-  'COTTON DOUBLE FACE',
-  'Vải dù',
-  'Cotton 4 chiều',
-  'Cotton Compact 2C',
-  'Vải Thun Cotton',
-  'Jean Cotton',
-  'Vải Quần Tây',
-  'MINI ZURRY',
-  'Vải thun gân',
-  'Nylon Fabric',
-  'Kaki',
+const textures = [
+  'In dẻo',
+  'In trame',
+  'In nước',
+  'In chuyển nhiệt',
+  'In cây',
+  'In bột nổi',
+  'In trục ống đồng',
+  'Thêu',
+  'Thêu 2D',
+  'Thêu 3D',
+  'May đắp logo',
+  'Ép silicon',
+  'Phối dây viên phản quang',
 ];
 
-function FilterMaterial({ selectedMaterials, onChangeMaterial }) {
+function FilterTextures({ selectedTextures, onChangeTexture }) {
   const [open, setOpen] = useState(true);
 
   const handleClick = () => {
@@ -33,23 +31,23 @@ function FilterMaterial({ selectedMaterials, onChangeMaterial }) {
       <ListItemButton onClick={handleClick}>
         <ListItemText
           sx={{ '.css-107jk5d-MuiTypography-root': { fontSize: '1.2rem', fontWeight: 500 } }}
-          primary="CHẤT LIỆU"
+          primary="HOẠ TIẾT"
         />
 
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit sx={{ mt: 2 }}>
         <FormGroup sx={{ pl: 3 }}>
-          {materials.map((material) => {
-            const isChecked = selectedMaterials.findIndex((item) => item === material) !== -1;
+          {textures.map((texture) => {
+            const isChecked = selectedTextures.findIndex((item) => item === texture) !== -1;
 
             return (
               <FormControlLabel
-                key={material}
+                key={texture}
                 control={<Checkbox />}
-                label={material}
+                label={texture}
                 checked={isChecked}
-                onChange={() => onChangeMaterial(material)}
+                onChange={() => onChangeTexture(texture)}
               />
             );
           })}
@@ -59,4 +57,4 @@ function FilterMaterial({ selectedMaterials, onChangeMaterial }) {
   );
 }
 
-export default FilterMaterial;
+export default FilterTextures;
