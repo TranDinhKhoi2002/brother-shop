@@ -13,6 +13,7 @@ import PreviewOrder from '@/modules/payment/components/PreviewOrder';
 import CompanyBill from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import { TRANSPORTATION_COST } from '@/constants';
+import Cookies from 'js-cookie';
 
 function CheckoutPayment() {
   const [loaded, setLoaded] = useState(false);
@@ -64,6 +65,8 @@ function CheckoutPayment() {
       companyName,
       companyAddress,
       companyTaxNumber,
+      paymentMethod,
+      accountId: Cookies.get('accountId'),
     };
 
     const { message, orderId } = await createOrder(order);
@@ -76,7 +79,7 @@ function CheckoutPayment() {
 
     if (paymentMethod === 'cod') {
       toast.success(message);
-      router.push(
+      router.replace(
         {
           pathname: '/checkout/success',
           query: {
@@ -91,7 +94,7 @@ function CheckoutPayment() {
       return;
     }
 
-    router.push(`http://localhost:3001/payments/vnpay?totalPrice=${totalPrice}`);
+    router.replace(`http://localhost:3001/payments/vnpay?totalPrice=${totalPrice}`);
     // await request.post('/payments/vnpay', {});
     // router.push('http://localhost:8888/order/create_payment_url');
   };

@@ -1,6 +1,9 @@
 function BranchList({ onChange }) {
   return (
-    <select onChange={(e) => onChange(e.target.value)} className="mt-4">
+    <select
+      onChange={(e) => onChange(e.target.value)}
+      className="mt-4 block w-full h-[43px] px-3 text-base leading-6 font-normal bg-white bg-clip-padding border-[1px] border-solid border-[#ced4da] rounded outline-none transition-[border-color] duration-150 ease-in-out"
+    >
       <option value="">Chọn cửa hàng nhận hàng</option>
       <optgroup label="Tp. Hồ Chí Minh">
         <option value="YaMe Q.10: 770F, Sư Vạn Hạnh (nd), P.12">YaMe Q.10: 770F, Sư Vạn Hạnh (nd), P.12</option>

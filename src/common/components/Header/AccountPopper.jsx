@@ -4,11 +4,13 @@ import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
-import { IconButton, List, ListItem, ListItemText, Tooltip } from '@mui/material';
+import { IconButton, List, ListItem, ListItemText, Tooltip, Typography } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { makeStyles } from '@mui/styles';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/redux/slices/auth';
+import { assignProductsToWishlist } from '@/redux/slices/wishlist';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   actionItem: {
@@ -22,12 +24,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const accountPopperItems = [
+  { title: 'Thông tin tài khoản', path: '/profile' },
+  { title: 'Lịch sử mua hàng', path: '/history' },
+  { title: 'Đăng xuất' },
+];
+
 export default function ActionsPopper() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
 
   const styles = useStyles();
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +46,11 @@ export default function ActionsPopper() {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(assignProductsToWishlist({ products: [] }));
+  };
+
+  const handleGoToPath = (path) => {
+    router.push(path);
   };
 
   return (
@@ -45,15 +60,17 @@ export default function ActionsPopper() {
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
               <List>
-                <ListItem sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#e6e6e6' } }}>
-                  <ListItemText>Thông tin tài khoản</ListItemText>
-                </ListItem>
-                <ListItem sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#e6e6e6' } }}>
-                  <ListItemText>Lịch sử mua hàng</ListItemText>
-                </ListItem>
-                <ListItem sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#e6e6e6' } }} onClick={handleLogout}>
-                  <ListItemText>Đăng xuất</ListItemText>
-                </ListItem>
+                {accountPopperItems.map((item) => (
+                  <ListItem
+                    key={item.title}
+                    sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#e6e6e6' } }}
+                    onClick={item.title === 'Đăng xuất' ? handleLogout : () => handleGoToPath(item.path)}
+                  >
+                    <ListItemText>
+                      <Typography sx={{ fontWeight: 400 }}>{item.title}</Typography>
+                    </ListItemText>
+                  </ListItem>
+                ))}
               </List>
             </Paper>
           </Fade>

@@ -21,7 +21,7 @@ export default function RHFTextField({ name, label, isRequired = true, ...other 
             <textarea
               {...field}
               value={field.value || other.text || ''}
-              className="block w-full px-3 text-base leading-6 font-normal text-darkGray200 bg-[white] bg-clip-padding border-[1px] border-solid border-lightGray100 rounded-[0.25rem] outline-none transition-all ease-in-out delay-100 focus:border-[var(--primary)] !py-[0.375rem] !h-24"
+              className="block w-full px-3 text-base leading-6 font-normal text-darkGray200 bg-[white] bg-clip-padding border-[1px] border-solid border-lightGray100 rounded-[0.25rem] outline-none transition-all ease-in-out delay-100 focus:border-[var(--primary)] py-[0.375rem]"
               {...other}
             />
           ) : (

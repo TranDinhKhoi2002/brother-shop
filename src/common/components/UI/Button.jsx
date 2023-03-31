@@ -13,7 +13,7 @@ function Button({ children, className, ...other }) {
         color: theme.palette.grey['200'],
         borderRadius: '4px',
         textTransform: 'uppercase',
-        fontWeight: '400',
+        fontWeight: '500',
       }}
       className={className}
       {...other}

@@ -83,7 +83,7 @@ function WishlistDrawerItem({ product }) {
         <Box>
           <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
           <WishlistSizesMenu ref={sizesRef} />
-          <WishlistQuantity ref={quantityRef} price={product.price} />
+          <WishlistQuantity ref={quantityRef} price={product.price} id={product._id} />
           <Button
             className={`w-[200px] rounded-none mt-2 ${isAddedToCart && '!bg-lightGray100 !text-[#787878]'}`}
             disabled={isAddedToCart}

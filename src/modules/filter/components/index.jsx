@@ -1,16 +1,17 @@
-import Filter from '@/common/components/Filter';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import Filter from '@/modules/filter/components/Filter';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Products from '../../product/components/Products';
 import { useRouter } from 'next/router';
 import { getProductsByFilters } from '@/services/productRequests';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
-import FilterTag from '@/common/components/Filter/FilterTag';
-import RemoveAllButton from '@/common/components/Filter/RemoveAllButton';
+import FilterTag from './FilterTag';
+import RemoveAllButton from './RemoveAllButton';
 import TuneIcon from '@mui/icons-material/Tune';
 
 import useResponsive from '@/hooks/useResponsive';
 import FilterDrawer from './FilterDrawer';
+import FilterSort from './FilterSort';
 
 function CategoryFilter({ loadedProducts, categoryName }) {
   const [products, setProducts] = useState(loadedProducts);
@@ -23,6 +24,11 @@ function CategoryFilter({ loadedProducts, categoryName }) {
   const router = useRouter();
 
   const isDesktop = useResponsive('up', 'lg');
+
+  useEffect(() => {
+    setProducts(loadedProducts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query.categoryId]);
 
   useEffect(() => {
     const existingTypeFilters = router.query.types === undefined ? [] : router.query.types?.split(',');
@@ -114,6 +120,27 @@ function CategoryFilter({ loadedProducts, categoryName }) {
     await getProducts(selectedTypes, priceRange, materials, updatedTextures);
   };
 
+  const handleSort = (key) => {
+    const sortedProducts = [...products];
+    console.log(sortedProducts);
+
+    switch (key) {
+      case 'priceDesc':
+        sortedProducts.sort((a, b) => b.price - a.price);
+        break;
+      case 'priceAsc':
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
+      case 'bestseller':
+        sortedProducts.sort((a, b) => b.totalSold - a.totalSold);
+        break;
+      default:
+        break;
+    }
+
+    setProducts(sortedProducts);
+  };
+
   const getProducts = async (types, priceRange, materials, textures) => {
     let path = `/category/${router.query.categoryId}?`;
 
@@ -142,6 +169,8 @@ function CategoryFilter({ loadedProducts, categoryName }) {
       materials.join(',') || null,
       textures.join(',') || null,
     );
+
+    console.log(products);
 
     if (products === null) {
       setProducts(loadedProducts);
@@ -175,6 +204,15 @@ function CategoryFilter({ loadedProducts, categoryName }) {
           )}
         </Grid>
         <Grid item xs={12} lg={9} sx={{ mt: 4 }}>
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            justifyContent="space-between"
+            alignItems={{ xs: 'flex-start', md: 'center' }}
+            sx={{ mb: 3 }}
+          >
+            <Typography sx={{ fontWeight: 400, fontSize: 18 }}>{products.length} sản phẩm</Typography>
+            <FilterSort onSort={handleSort} />
+          </Stack>
           <Grid container spacing={1}>
             {selectedTypes.map((filter) => (
               <Grid item key={filter}>

@@ -1,10 +1,7 @@
-import { Fragment, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import classes from './Cart.module.css';
-import Router, { useRouter } from 'next/router';
-import { checkOut } from '@/redux/slices/cart';
+import Router from 'next/router';
 import FormProvider from '@/common/components/Form/FormProvider';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -14,16 +11,14 @@ import DeliveryMethods from './DeliveryMethods';
 import BranchList from './BranchList';
 import Link from 'next/link';
 import Title from '@/common/components/UI/Title';
-import { Button, Divider } from '@mui/material';
-import { useTheme } from '@mui/styles';
+import { Box, Button as ButtonMUI, Divider } from '@mui/material';
+import Button from '@/common/components/UI/Button';
 import { selectCurrentUser } from '@/redux/slices/auth';
 
 function OrderForm() {
   const [deliveryMethod, setDeliveryMethod] = useState('cod');
-  const theme = useTheme();
 
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser);
 
   const OrderSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
@@ -92,7 +87,7 @@ function OrderForm() {
   };
 
   return (
-    <div className={classes.delivery}>
+    <Box>
       <Title>THÔNG TIN ĐẶT HÀNG</Title>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <RHFTextField name="name" label="Họ tên" id="name" placeholder="Họ tên người nhận" />
@@ -112,46 +107,17 @@ function OrderForm() {
 
         <RHFTextField name="note" label="Ghi chú" id="note" placeholder="Ghi chú" tag="textarea" isRequired={false} />
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          fullWidth
-          sx={{
-            fontWeight: 300,
-            height: '43px',
-            fontSize: '13px',
-            color: 'white',
-            mt: 2,
-            backgroundColor: '#17a2b8 !important',
-            ':hover': {
-              backgroundColor: '#138496 !important',
-            },
-            borderRadius: '4px',
-          }}
-        >
+        <Button type="submit" disabled={isSubmitting} fullWidth>
           THANH TOÁN
         </Button>
         <Divider sx={{ backgroundColor: '#111', my: 2 }} />
         <Link href={'/'}>
-          <Button
-            fullWidth
-            sx={{
-              fontWeight: 300,
-              height: '43px',
-              fontSize: '13px',
-              color: theme.palette.grey['800'],
-              backgroundColor: '#ffc107 !important',
-              borderRadius: '4px',
-              ':hover': {
-                backgroundColor: '#e0a800 !important',
-              },
-            }}
-          >
+          <ButtonMUI fullWidth variant="outlined" sx={{ py: '12px' }}>
             CẦN SẢN PHẨM KHÁC? TIẾP TỤC MUA HÀNG
-          </Button>
+          </ButtonMUI>
         </Link>
       </FormProvider>
-    </div>
+    </Box>
   );
 }
 

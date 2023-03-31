@@ -3,9 +3,14 @@ import { Box, IconButton, Stack, Typography } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { useSelector } from 'react-redux';
+import { selectCartProducts } from '@/redux/slices/cart';
 
-export default React.forwardRef(function WishlistQuantity({ price }, ref) {
+export default React.forwardRef(function WishlistQuantity({ price, id }, ref) {
   const [quantity, setQuantity] = useState(1);
+
+  const cartProducts = useSelector(selectCartProducts);
+  const isAddedToCart = cartProducts.findIndex((item) => item.productId._id === id) !== -1;
 
   useImperativeHandle(ref, () => ({
     getQuantity: () => {
@@ -33,7 +38,7 @@ export default React.forwardRef(function WishlistQuantity({ price }, ref) {
           <RemoveIcon sx={{ fontSize: '14px' }} />
         </IconButton>
         <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>{quantity}</Typography>
-        <IconButton onClick={handleIncreaseQuantity}>
+        <IconButton onClick={handleIncreaseQuantity} disabled={isAddedToCart}>
           <AddIcon sx={{ fontSize: '14px' }} />
         </IconButton>
       </Stack>

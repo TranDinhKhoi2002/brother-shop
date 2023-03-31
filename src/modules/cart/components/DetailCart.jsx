@@ -95,6 +95,8 @@ function DetailCart() {
     return;
   };
 
+  const tdClass = 'p-3 align-top border-t-[1px] border-solid border-[#dee2e6]';
+
   return (
     <div>
       <Title>ĐƠN HÀNG CỦA BẠN</Title>
@@ -106,7 +108,7 @@ function DetailCart() {
             return (
               <Fragment key={index}>
                 <tr>
-                  <td rowSpan={2} className="w-[100px]">
+                  <td rowSpan={2} className={`w-[100px] ${tdClass}`}>
                     <Image
                       cloudName="ddajkcbs2"
                       publicId={cartProduct.productId.images.mainImg}
@@ -115,13 +117,13 @@ function DetailCart() {
                     />
                     <button
                       onClick={handleConfirmRemove.bind(this, cartProduct)}
-                      className="flex items-center font-light hover:text-[#0056b3]"
+                      className="flex items-center font-light hover:text-[#0056b3] transition-all duration-300 ease-linear"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr w-3 h-3" />
                       &nbsp;<span>Xóa</span>
                     </button>
                   </td>
-                  <td className="py-3">
+                  <td className={`${tdClass} py-3`}>
                     <p className="text-sm text-[#444] mb-1 hover:text-[#0056b3] transition duration-300">
                       <Link href={`/shop/products/${cartProduct.productId._id}`} className="font-medium">
                         {cartProduct.productId.name}
@@ -133,7 +135,7 @@ function DetailCart() {
                   </td>
                 </tr>
                 <tr>
-                  <td>
+                  <td className={tdClass}>
                     <div>
                       <form
                         onSubmit={(e) => {
@@ -148,14 +150,17 @@ function DetailCart() {
                           required
                           min={1}
                           ref={childRefs[index]}
-                          className="py-[0.5rem] px-3 text-base font-normal text-[#495057] border-[1px] border-solid border-[#ced4da] flex-1 rounded outline-none focus:border-[#ee4266] transition duration-150"
+                          className="w-[100px] lg:w-auto py-[0.5rem] px-3 text-base font-normal text-[#495057] border-[1px] border-solid border-[#ced4da] flex-1 rounded outline-none focus:border-[#ee4266] transition duration-150"
                         />
-                        <button className="py-1 px-2 ml-2 text-[13px] leading-6 rounded-[0.2rem] text-[#343a40] border-[1px] border-solid border-[#343a40] hover:text-white hover:bg-[#343a40] hover:border-[#343a40]">
+                        <button className="py-1 px-2 ml-2 text-[13px] leading-6 rounded-[0.2rem] text-[#343a40] border-[1px] border-solid border-[#343a40] hover:text-white hover:bg-[#343a40] hover:border-[#343a40] transition-all duration-300 ease-linear">
                           CẬP NHẬT
                         </button>
                       </form>{' '}
-                      = <span>đ </span>
-                      <b>{printNumberWithCommas((+cartProduct.quantity * cartProduct.productId.price).toString())}</b>
+                      =
+                      <b>
+                        {' '}
+                        {printNumberWithCommas((+cartProduct.quantity * cartProduct.productId.price).toString())} đ
+                      </b>
                     </div>
                   </td>
                 </tr>
@@ -163,11 +168,10 @@ function DetailCart() {
             );
           })}
           <tr>
-            <td className="text-right">Tổng: </td>
-            <td>
+            <td className={`${tdClass} text-right`}>Tổng: </td>
+            <td className={`${tdClass}`}>
               <div>
-                <span>đ </span>
-                <b>{printNumberWithCommas(totalPrice.toString())}</b>
+                <b className="text-lg">{printNumberWithCommas(totalPrice.toString())} đ</b>
               </div>
             </td>
           </tr>

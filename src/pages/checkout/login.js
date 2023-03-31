@@ -7,11 +7,18 @@ import EmptyCart from '@/modules/cart/components/EmptyCart';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { Divider, Grid } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
 function CheckoutLogin() {
   const theme = useTheme();
   const cartProducts = useSelector(selectCartProducts);
+
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/checkout/shipping');
+  };
 
   return (
     <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
@@ -24,7 +31,7 @@ function CheckoutLogin() {
           <div className="px-[5%] xl:px-0">
             <Grid container spacing={3} sx={{ mt: '20px', mb: 4 }}>
               <Grid item xs={12} md={6} sx={{ pr: 2 }}>
-                <LoginForm />
+                <LoginForm onLogin={handleLogin} />
               </Grid>
               <Divider
                 orientation="vertical"

@@ -6,17 +6,26 @@ import { checkOutOrder } from '@/services/orderRequests';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import { createDecipher } from 'crypto';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 function SuccessCheckout() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
   const { name, email } = router.query;
+  const shippingInfor = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('shippingInfor'));
+
   const theme = useTheme();
 
   useEffect(() => {
@@ -30,7 +39,7 @@ function SuccessCheckout() {
       const decryptedString = decrypted.toString();
 
       if (router.query.vnp_ResponseCode === '00') {
-        await checkOutOrder(decryptedString);
+        await checkOutOrder({ orderId: decryptedString });
       }
 
       dispatch(checkOut());
@@ -38,6 +47,10 @@ function SuccessCheckout() {
 
     updateOrder();
   }, [router.query.vnp_ResponseCode, dispatch]);
+
+  if (!loaded) {
+    return <p>Loading....</p>;
+  }
 
   return (
     <>
@@ -58,7 +71,9 @@ function SuccessCheckout() {
           Mã đơn hàng: 123456
         </Box>
         <Box sx={{ mt: 4 }}>
-          <Typography sx={{ mb: '12px' }}>Cảm ơn Quý khách {name} đã mua hàng trên Brother Shop!</Typography>
+          <Typography sx={{ mb: '12px' }}>
+            Cảm ơn Quý khách {name || shippingInfor.name} đã mua hàng trên Brother Shop!
+          </Typography>
           <Typography sx={{ width: { md: '85%', lg: '80%', xl: '65%' }, mx: 'auto', mb: '12px', px: '12px' }}>
             Thời gian giao hàng dự kiến từ 2 - 5 ngày (có thể kéo dài hơn nếu bị ảnh hưởng bởi những tình huống bất khả
             kháng: thiên tai, bão lũ...). Brother Shop sẽ liên lạc với quý khách để xác nhận đơn và thông báo cụ thể.
@@ -66,7 +81,7 @@ function SuccessCheckout() {
           <Typography>Rất mong quý khách hàng thông cảm!</Typography>
           <Typography sx={{ width: { md: '85%', lg: '80%', xl: '65%' }, mx: 'auto', mb: '12px', px: '12px' }}>
             Để xem lại thông tin đơn hàng, quý khách vui lòng kiểm tra xác nhận đơn hàng đã được gửi qua email{' '}
-            <strong>{email}</strong>
+            <strong>{email || shippingInfor.email}</strong>
           </Typography>
           <Typography sx={{ width: { md: '85%', lg: '80%', xl: '65%' }, mx: 'auto', mb: '12px', px: '12px' }}>
             Trong trường hợp Quý khách không phải là Người trực tiếp nhận hàng. Quý khách vui lòng thông báo cho Người
