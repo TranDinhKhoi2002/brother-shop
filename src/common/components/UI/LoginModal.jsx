@@ -34,6 +34,7 @@ function LoginModal({ isVisible, onClose }) {
             timeout: 500,
           },
         }}
+        sx={{ overflowY: 'scroll' }}
       >
         <Fade in={isVisible}>
           <Box sx={style}>

@@ -44,7 +44,7 @@ function SignupForm() {
     confirmPassword: '',
     phone: '',
     address: '',
-    birthday: dayjs('1990-01-01'),
+    birthday: dayjs(Date.now()),
   };
 
   const methods = useForm({
@@ -122,10 +122,10 @@ function SignupForm() {
         </FormControl>
 
         <Box>
-          <RHFDatePicker name="birthday" label="Ngày sinh" sx={{ width: '100%' }} />
+          <RHFDatePicker name="birthday" label="Ngày sinh" sx={{ width: '100%', fontWeight: 400 }} />
         </Box>
 
-        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
+        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 400 }}>
           Đăng ký
         </LoadingButton>
       </FormProvider>

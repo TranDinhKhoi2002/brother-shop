@@ -25,7 +25,7 @@ function Layout(props) {
       // console.log(customer);
 
       if (customer) {
-        dispatch(setAuth({ user: customer }));
+        dispatch(setAuth({ user: customer, type: 'email' }));
         dispatch(assignProductsToCart({ cart: customer.cart }));
         dispatch(assignProductsToWishlist({ products: customer.wishlist }));
       } else {

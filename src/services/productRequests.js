@@ -35,9 +35,9 @@ export const getProductsByKeyword = async (keyword, page) => {
   return { ...res.data };
 };
 
-export const getProductsByFilters = async (types, priceFrom, priceTo, materials, textures) => {
+export const getProductsByFilters = async (categoryId, types, priceFrom, priceTo, materials, textures) => {
   const res = await request.get(
-    `/products/filters?types=${types}&priceFrom=${priceFrom}&priceTo=${priceTo}&materials=${materials}&textures=${textures}`,
+    `/products/filters?categoryId=${categoryId}&types=${types}&priceFrom=${priceFrom}&priceTo=${priceTo}&materials=${materials}&textures=${textures}`,
   );
   return { ...res.data };
 };

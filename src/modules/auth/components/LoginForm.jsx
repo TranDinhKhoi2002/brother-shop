@@ -3,15 +3,19 @@ import FormProvider from '@/common/components/Form/FormProvider';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import RHFTextField from '@/common/components/Form/RHFTextField';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { fetchUserLogin } from '@/redux/slices/auth';
+import { fetchUserLogin, setAuth } from '@/redux/slices/auth';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { assignProductsToCart } from '@/redux/slices/cart';
 import LoadingButton from '@/common/components/UI/LoadingButton';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
+import Image from 'next/image';
+import { refreshToken } from '../services/refreshToken';
+import { GoogleLogin, useGoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 
 function LoginForm({ onLogin }) {
   const dispatch = useDispatch();
@@ -65,6 +69,46 @@ function LoginForm({ onLogin }) {
     }
   };
 
+  const onSuccess = async (res) => {
+    console.log(res);
+
+    // refreshToken(res);
+
+    // dispatch(
+    //   setAuth({
+    //     user: {
+    //       ...res.profileObj,
+    //       cart: JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`)),
+    //     },
+    //     type: 'google',
+    //   }),
+    // );
+
+    // console.log(JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`)));
+
+    // console.log({
+    //   ...res.profileObj,
+    //   cart: JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`)),
+    // });
+  };
+
+  const onFailure = async (res) => {
+    console.log('Login failed', res);
+  };
+
+  const { signIn } = useGoogleLogin({
+    clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    onSuccess,
+    onFailure,
+    isSignedIn: true,
+    accessType: 'offline',
+    scope: 'https://www.googleapis.com/auth/userinfo.profile',
+  });
+
+  const responseFacebook = async (res) => {
+    console.log(res);
+  };
+
   return (
     <Box>
       <Typography sx={{ textAlign: 'center', fontWeight: 500, fontSize: '1.25rem', my: '12px' }} variant="h5">
@@ -76,19 +120,63 @@ function LoginForm({ onLogin }) {
         Đăng nhập thành viên để nhận nhiều những chương trình ưu đãi hấp dẫn
       </Typography>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <RHFTextField name="username" label="Email/ Số điện thoại" id="username" placeholder="Tên đăng nhập" />
+        <RHFTextField name="username" label="Email" id="username" placeholder="Tên đăng nhập" />
         <RHFTextField name="password" label="Mật khẩu" id="password" type="password" placeholder="Mật khẩu" />
 
         <Link href="/reset-password">
-          <Typography sx={{ textDecorationLine: 'underline', fontStyle: 'italic', textAlign: 'center' }}>
-            Quên mật khẩu?
-          </Typography>
+          <Typography sx={{ fontWeight: 400, textAlign: 'right' }}>Quên mật khẩu?</Typography>
         </Link>
         <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 400 }}>
           Đăng nhập
         </LoadingButton>
       </FormProvider>
-      <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
+
+      {router.pathname === '/login' && (
+        <>
+          <Divider sx={{ my: 3 }}>Hoặc</Divider>
+
+          <Button
+            variant="outlined"
+            fullWidth
+            sx={{ my: 1, height: '50px' }}
+            startIcon={<Image src="/assets/images/google.svg" width={24} height={24} alt="" />}
+            onClick={signIn}
+          >
+            Đăng nhập với Google
+          </Button>
+
+          <FacebookLogin
+            appId={process.env.NEXT_PUBLIC_FACEBOOK_ID}
+            size="small"
+            textButton="Đăng nhập với Facebook"
+            autoLoad={false}
+            fields="name,email,picture"
+            scope="public_profile,email,user_friends"
+            callback={responseFacebook}
+            typeButton="outlined"
+            icon={
+              <Image
+                src="/assets/images/facebook.svg"
+                width={24}
+                height={24}
+                alt=""
+                style={{ display: 'inline-block', marginRight: '8px' }}
+              />
+            }
+            buttonStyle={{
+              backgroundColor: 'transparent',
+              color: 'black',
+              textTransform: 'capitalize',
+              width: '100%',
+              fontSize: '0.875rem',
+              height: '50px',
+              borderRadius: '8px',
+            }}
+          />
+        </>
+      )}
+
+      <Stack direction="row" justifyContent="center" alignItems="center" spacing={1} sx={{ mt: 2 }}>
         <Typography sx={{ fontSize: '0.875rem', opacity: '0.7' }}>Chưa có tài khoản?</Typography>
         <Link href="/signup" style={{ fontWeight: 400 }}>
           Đăng ký

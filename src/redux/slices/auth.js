@@ -4,6 +4,8 @@ import * as authServices from '@/services/authRequests';
 
 const initialState = {
   currentUser: undefined,
+  googleUser: undefined,
+  facebookUser: undefined,
   isAuthenticated: false,
 };
 
@@ -34,9 +36,20 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
     },
     setAuth(state, action) {
-      const { user } = action.payload;
+      const { user, type } = action.payload;
 
-      state.currentUser = user;
+      if (type === 'email') {
+        state.currentUser = user;
+      }
+
+      if (type === 'google') {
+        state.googleUser = user;
+      }
+
+      if (type === 'facebook') {
+        state.facebookUser = user;
+      }
+
       state.isAuthenticated = true;
     },
   },

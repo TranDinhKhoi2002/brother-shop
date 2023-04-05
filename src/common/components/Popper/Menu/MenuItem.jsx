@@ -17,7 +17,7 @@ function MenuItem({ title, path }) {
         },
       }}
     >
-      <Link href={{ pathname: path, query: { title } }} as={path} style={{ display: 'block' }}>
+      <Link href={{ pathname: path, query: { title, types: title } }} style={{ display: 'block' }}>
         {title}
       </Link>
     </Box>

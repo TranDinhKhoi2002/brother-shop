@@ -149,7 +149,7 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }) {
             timeout: 500,
           },
         }}
-        sx={{ overflow: 'scroll' }}
+        sx={{ overflowY: 'scroll' }}
       >
         <Fade in={isVisible}>
           <Box sx={style}>

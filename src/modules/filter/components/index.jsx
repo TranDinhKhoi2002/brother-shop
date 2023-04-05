@@ -163,6 +163,7 @@ function CategoryFilter({ loadedProducts, categoryName }) {
     router.push(path);
 
     const { products } = await getProductsByFilters(
+      router.query.categoryId,
       types.join(',') || null,
       priceRange ? priceRange[0] : null,
       priceRange ? priceRange[1] : null,
