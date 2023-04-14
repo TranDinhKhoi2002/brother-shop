@@ -13,3 +13,33 @@ export const updateProfile = async (data) => {
     return error.response ? error.response.data : { success: false, error: error.message };
   }
 };
+
+export const verifyPhoneNumber = async (data) => {
+  try {
+    const response = await request.post('/customer/verify-phone-number', data, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      },
+    });
+    return { ...response.data, success: true };
+  } catch (error) {
+    return error.response ? error.response.data : { success: false, error: error.message };
+  }
+};
+
+export const updateUserIsVerified = async () => {
+  try {
+    const response = await request.post(
+      '/customer/user-is-verified',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      },
+    );
+    return { ...response.data, success: true };
+  } catch (error) {
+    return error.response ? error.response.data : { success: false, error: error.message };
+  }
+};

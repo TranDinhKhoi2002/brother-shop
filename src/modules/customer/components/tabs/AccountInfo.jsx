@@ -14,12 +14,14 @@ import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import ChangePasswordAccordion from '../ChangePasswordAccordion';
 import dayjs from 'dayjs';
 import LoadingButton from '@/common/components/UI/LoadingButton';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser, selectFacebookUser, selectGoogleUser } from '@/redux/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchVerifyUser, selectCurrentUser, selectFacebookUser, selectGoogleUser } from '@/redux/slices/auth';
 import { checkValidVietNamPhoneNumber } from '@/utils/validations';
-import { updateProfile } from '@/services/customerRequests';
+import { updateProfile, verifyPhoneNumber } from '@/services/customerRequests';
 import { toast } from 'react-toastify';
 import PhoneValidationModal from '../PhoneValidationModal';
+
+let receivedOtpCode;
 
 const GenderRadioButtonsGroup = React.forwardRef(function GenderRadioButtonsGroup(props, ref) {
   const [selectedGender, setSelectedGender] = useState('male');
@@ -52,6 +54,8 @@ function AccountInfo() {
   const [showPhoneModal, setShowPhoneModal] = useState(false);
 
   const genderRef = useRef();
+
+  const dispatch = useDispatch();
 
   const AccountSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
@@ -90,6 +94,32 @@ function AccountInfo() {
       toast.success(message);
     } else {
       toast.error(message);
+    }
+  };
+
+  const sendOTPCode = async () => {
+    setShowPhoneModal(true);
+
+    const { success, message, otpCode } = await verifyPhoneNumber({ phoneNumber: currentUser?.phone });
+    console.log(otpCode);
+    if (success) {
+      receivedOtpCode = otpCode.toString();
+      toast.success(message);
+    }
+  };
+
+  const handleSubmitOtpCode = async (enteredOTP) => {
+    console.log(receivedOtpCode, enteredOTP);
+    if (enteredOTP !== receivedOtpCode.toString()) {
+      toast.error('Mã xác minh không đúng');
+      return;
+    }
+
+    const { success, message } = await dispatch(fetchVerifyUser()).unwrap();
+    if (success) {
+      receivedOtpCode = undefined;
+      setShowPhoneModal(false);
+      toast.success(message);
     }
   };
 
@@ -134,9 +164,13 @@ function AccountInfo() {
             Cập nhật thông tin
           </LoadingButton>
         </FormProvider>
-        <ChangePasswordAccordion onValidatePhone={() => setShowPhoneModal(true)} />
+        <ChangePasswordAccordion onValidatePhone={sendOTPCode} />
       </Box>
-      <PhoneValidationModal isVisible={showPhoneModal} onClose={() => setShowPhoneModal(false)} />
+      <PhoneValidationModal
+        isVisible={showPhoneModal}
+        onClose={() => setShowPhoneModal(false)}
+        onSubmit={handleSubmitOtpCode}
+      />
     </>
   );
 }

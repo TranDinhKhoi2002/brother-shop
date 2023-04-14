@@ -47,7 +47,6 @@ function ChangePasswordAccordion({ onValidatePhone }) {
   const [expanded, setExpanded] = useState('panel1');
 
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -119,7 +118,7 @@ function ChangePasswordAccordion({ onValidatePhone }) {
             </FormProvider>
           ) : (
             <Box>
-              <Typography>Vui lòng thêm số điện thoại vào tài khoản của bạn trước khi thiết lập mật khẩu.</Typography>
+              <Typography>Vui lòng xác thực số điện thoại của bạn trước khi thiết lập mật khẩu.</Typography>
               <Button className="mt-3" onClick={onValidatePhone}>
                 Thêm số điện thoại
               </Button>

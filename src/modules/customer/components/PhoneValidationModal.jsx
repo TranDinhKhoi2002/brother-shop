@@ -18,7 +18,7 @@ const style = {
   p: 3,
 };
 
-function PhoneValidationModal({ isVisible, onClose }) {
+function PhoneValidationModal({ isVisible, onClose, onSubmit }) {
   const currentUser = useSelector(selectCurrentUser);
 
   const handleLogin = () => {
@@ -53,7 +53,7 @@ function PhoneValidationModal({ isVisible, onClose }) {
               <Typography variant="h6">Vui lòng nhập mã xác minh</Typography>
               <Typography sx={{ mt: 4 }}>Mã xác minh của bạn sẽ được gửi bằng tin nhắn đến</Typography>
               <Typography sx={{ fontWeight: 400, fontSize: 24, mt: 1 }}>{currentUser?.phone}</Typography>
-              <FormOTP />
+              <FormOTP onSubmit={onSubmit} />
             </Box>
           </Box>
         </Fade>

@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import CountDownTimer from './CountdownTimer';
 
-function FormOTP() {
+function FormOTP({ onSubmit }) {
   const [counterExpired, setCounterExpired] = useState(false);
 
   const inputRefs = useRef([]);
@@ -25,9 +25,12 @@ function FormOTP() {
       return;
     }
 
-    if (!isNaN(parseInt(enteredOTP))) {
+    if (isNaN(parseInt(enteredOTP))) {
       toast.error('Mã xác minh không hợp lệ');
+      return;
     }
+
+    onSubmit(enteredOTP);
   };
 
   return (

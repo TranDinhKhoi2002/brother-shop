@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as authServices from '@/services/authRequests';
+import * as customerServices from '@/services/customerRequests';
 
 const initialState = {
   currentUser: undefined,
@@ -26,6 +27,11 @@ export const fetchUserLogin = createAsyncThunk('auth/fetchUserLogin', async (for
 
 export const fetchGoogleUserLogin = createAsyncThunk('auth/fetchGoogleUserLogin', async (data) => {
   const response = await authServices.loginWithGoogle(data);
+  return response;
+});
+
+export const fetchVerifyUser = createAsyncThunk('auth/fetchVerifyUser', async () => {
+  const response = await customerServices.updateUserIsVerified();
   return response;
 });
 
@@ -97,6 +103,9 @@ const authSlice = createSlice({
         state.currentUser = user;
         state.isAuthenticated = true;
       }
+    });
+    builder.addCase(fetchVerifyUser.fulfilled, (state, { payload }) => {
+      state.currentUser.verified = true;
     });
   },
 });
