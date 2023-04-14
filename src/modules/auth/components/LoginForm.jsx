@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { fetchUserLogin, setAuth } from '@/redux/slices/auth';
+import { fetchGoogleUserLogin, fetchUserLogin, setFacebookAccount, setGoogleAccount } from '@/redux/slices/auth';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
@@ -14,8 +14,9 @@ import LoadingButton from '@/common/components/UI/LoadingButton';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import Image from 'next/image';
 import { refreshToken } from '../services/refreshToken';
-import { GoogleLogin, useGoogleLogin } from 'react-google-login';
+import { useGoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import { logout } from '@/redux/slices/auth';
 
 function LoginForm({ onLogin }) {
   const dispatch = useDispatch();
@@ -70,26 +71,27 @@ function LoginForm({ onLogin }) {
   };
 
   const onSuccess = async (res) => {
-    console.log(res);
+    refreshToken(res);
 
-    // refreshToken(res);
+    try {
+      const googleProfile = res.profileObj;
+      const { success, user } = await dispatch(
+        fetchGoogleUserLogin({
+          googleId: googleProfile.googleId,
+          name: googleProfile.name,
+          email: googleProfile.email,
+        }),
+      ).unwrap();
 
-    // dispatch(
-    //   setAuth({
-    //     user: {
-    //       ...res.profileObj,
-    //       cart: JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`)),
-    //     },
-    //     type: 'google',
-    //   }),
-    // );
+      console.log(user);
 
-    // console.log(JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`)));
-
-    // console.log({
-    //   ...res.profileObj,
-    //   cart: JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`)),
-    // });
+      if (success) {
+        dispatch(assignProductsToCart({ cart: user.cart }));
+        dispatch(assignProductsToWishlist({ products: user.wishlist }));
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    }
   };
 
   const onFailure = async (res) => {
@@ -105,8 +107,15 @@ function LoginForm({ onLogin }) {
     scope: 'https://www.googleapis.com/auth/userinfo.profile',
   });
 
-  const responseFacebook = async (res) => {
-    console.log(res);
+  const responseFacebook = async (userInfo) => {
+    console.log(userInfo);
+    localStorage.setItem('facebookAccount', JSON.stringify(userInfo));
+    dispatch(setFacebookAccount({ user: userInfo }));
+
+    dispatch(setGoogleAccount({ user: undefined }));
+    localStorage.removeItem('googleAccount');
+    dispatch(logout());
+    router.replace('/');
   };
 
   return (
@@ -131,7 +140,7 @@ function LoginForm({ onLogin }) {
         </LoadingButton>
       </FormProvider>
 
-      {router.pathname === '/login' && (
+      {!router.pathname.includes('/shop/products') && (
         <>
           <Divider sx={{ my: 3 }}>Hoặc</Divider>
 

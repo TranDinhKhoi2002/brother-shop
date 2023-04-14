@@ -14,6 +14,7 @@ import RHFDatePicker from '@/common/components/Form/RHFDatePicker';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import LoadingButton from '@/common/components/UI/LoadingButton';
+import { checkValidVietNamPhoneNumber } from '@/utils/validations';
 
 function SignupForm() {
   const [gender, setGender] = useState('Nam');
@@ -33,7 +34,9 @@ function SignupForm() {
       }),
     phone: Yup.string()
       .required('Vui lòng nhập số điện thoại')
-      .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/, 'Số điện thoại không hợp lệ'),
+      .test('viet_nam_phone_number', 'Số điện thoại không hợp lệ', function (phoneNumber) {
+        return checkValidVietNamPhoneNumber(phoneNumber);
+      }),
     address: Yup.string().required('Vui lòng nhập địa chỉ'),
   });
 

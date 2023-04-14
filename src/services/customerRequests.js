@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie';
 import request from './baseRequest';
 
-export const getCommonData = async () => {
+export const updateProfile = async (data) => {
   try {
-    const response = await request.get(`/data`, {
+    const response = await request.post('/customer/update-profile', data, {
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`,
       },

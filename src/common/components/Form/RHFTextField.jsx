@@ -1,3 +1,4 @@
+import { TextField, TextareaAutosize } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -18,19 +19,15 @@ export default function RHFTextField({ name, label, isRequired = true, ...other 
             {label} {isRequired && <span className="text-primary">*</span>}
           </label>
           {other.tag === 'textarea' ? (
-            <textarea
+            <TextareaAutosize
               {...field}
               value={field.value || other.text || ''}
-              className="block w-full px-3 text-base leading-6 font-normal text-darkGray200 bg-[white] bg-clip-padding border-[1px] border-solid border-lightGray100 rounded-[0.25rem] outline-none transition-all ease-in-out delay-100 focus:border-[var(--primary)] py-[0.375rem]"
+              minRows={3}
+              className="block w-full leading-6 border-[1px] border-solid border-lightGray100 rounded-[0.5rem] py-[16.5px] px-[14px]"
               {...other}
             />
           ) : (
-            <input
-              {...field}
-              value={field.value || other.text || ''}
-              className="block w-full h-[43px] py-0 px-3 text-base leading-6 font-normal text-darkGray200 bg-[white] bg-clip-padding border-[1px] border-solid border-lightGray100 rounded-[0.25rem] outline-none transition-all ease-in-out delay-100 focus:border-[var(--primary)]"
-              {...other}
-            />
+            <TextField {...field} value={field.value || other.text || ''} sx={{ width: '100%' }} {...other} />
           )}
 
           {error && <span className="text-primary">{error?.message}</span>}

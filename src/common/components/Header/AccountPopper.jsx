@@ -8,7 +8,7 @@ import { IconButton, List, ListItem, ListItemText, Tooltip, Typography } from '@
 import PersonIcon from '@mui/icons-material/Person';
 import { makeStyles } from '@mui/styles';
 import { useDispatch } from 'react-redux';
-import { logout } from '@/redux/slices/auth';
+import { logout, setFacebookAccount, setGoogleAccount } from '@/redux/slices/auth';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import { useRouter } from 'next/router';
 
@@ -47,6 +47,11 @@ export default function ActionsPopper() {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(assignProductsToWishlist({ products: [] }));
+
+    dispatch(setGoogleAccount({ user: undefined }));
+    dispatch(setFacebookAccount({ user: undefined }));
+    localStorage.removeItem('googleAccount');
+    localStorage.removeItem('facebookAccount');
   };
 
   const handleGoToPath = (path) => {

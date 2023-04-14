@@ -13,12 +13,14 @@ import Link from 'next/link';
 import Title from '@/common/components/UI/Title';
 import { Box, Button as ButtonMUI, Divider } from '@mui/material';
 import Button from '@/common/components/UI/Button';
-import { selectCurrentUser } from '@/redux/slices/auth';
+import { selectCurrentUser, selectFacebookUser, selectGoogleUser } from '@/redux/slices/auth';
 
 function OrderForm() {
   const [deliveryMethod, setDeliveryMethod] = useState('cod');
 
   const currentUser = useSelector(selectCurrentUser);
+  const googleUser = useSelector(selectGoogleUser);
+  const facebookUser = useSelector(selectFacebookUser);
 
   const OrderSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
@@ -51,13 +53,13 @@ function OrderForm() {
 
   useEffect(() => {
     reset({
-      name: currentUser?.name,
+      name: currentUser?.name || facebookUser?.name || googleUser?.name,
       phone: currentUser?.phone,
-      email: currentUser?.email,
+      email: currentUser?.email || facebookUser?.email || googleUser?.email,
       address: currentUser?.address,
       note: '',
     });
-  }, [currentUser, reset]);
+  }, [currentUser, facebookUser, googleUser, reset]);
 
   const onSubmit = (values) => {
     const { name, phone, email, address, note } = values;

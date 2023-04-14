@@ -7,11 +7,13 @@ import { selectCartProducts } from '@/redux/slices/cart';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import { useRouter } from 'next/router';
 import CartDrawerItem from './CartDrawerItem';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
+import { selectFacebookUser, selectGoogleUser, selectIsAuthenticated } from '@/redux/slices/auth';
 
 function CartDrawer({ isVisible, onClose }) {
   const cartProducts = useSelector(selectCartProducts);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const googleUser = useSelector(selectGoogleUser);
+  const facebookUser = useSelector(selectFacebookUser);
 
   const router = useRouter();
 
@@ -20,7 +22,7 @@ function CartDrawer({ isVisible, onClose }) {
   }, 0);
 
   const handleCheckout = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated || googleUser || facebookUser) {
       router.push('/checkout/shipping');
     } else {
       router.push('/checkout/login');

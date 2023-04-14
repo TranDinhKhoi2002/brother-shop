@@ -24,6 +24,11 @@ export const fetchUserLogin = createAsyncThunk('auth/fetchUserLogin', async (for
   return response;
 });
 
+export const fetchGoogleUserLogin = createAsyncThunk('auth/fetchGoogleUserLogin', async (data) => {
+  const response = await authServices.loginWithGoogle(data);
+  return response;
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -36,27 +41,25 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
     },
     setAuth(state, action) {
-      const { user, type } = action.payload;
+      const { user } = action.payload;
 
-      if (type === 'email') {
-        state.currentUser = user;
-      }
-
-      if (type === 'google') {
-        state.googleUser = user;
-      }
-
-      if (type === 'facebook') {
-        state.facebookUser = user;
-      }
-
+      state.currentUser = user;
       state.isAuthenticated = true;
+    },
+    setGoogleAccount(state, action) {
+      const { user } = action.payload;
+
+      state.googleUser = user;
+    },
+    setFacebookAccount(state, action) {
+      const { user } = action.payload;
+
+      state.facebookUser = user;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
       const { success, user } = payload;
-      console.log(user);
 
       if (success) {
         state.currentUser = user;
@@ -83,12 +86,26 @@ const authSlice = createSlice({
         Cookies.remove('token');
       }
     });
+    builder.addCase(fetchGoogleUserLogin.fulfilled, (state, { payload }) => {
+      const { success, token, accountId, user } = payload;
+
+      if (success) {
+        const remainingMilliseconds = 24 * 60 * 60 * 1000;
+        const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
+        Cookies.set('token', token, { expires: expiryDate });
+
+        state.currentUser = user;
+        state.isAuthenticated = true;
+      }
+    });
   },
 });
 
-export const { logout, setAuth } = authSlice.actions;
+export const { logout, setAuth, setGoogleAccount, setFacebookAccount } = authSlice.actions;
 
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectCurrentUser = (state) => state.auth.currentUser;
+export const selectGoogleUser = (state) => state.auth.googleUser;
+export const selectFacebookUser = (state) => state.auth.facebookUser;
 
 export default authSlice.reducer;

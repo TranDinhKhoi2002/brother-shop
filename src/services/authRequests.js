@@ -19,6 +19,15 @@ export const login = async (account) => {
   }
 };
 
+export const loginWithGoogle = async (data) => {
+  try {
+    const response = await request.post('/auth/login-with-google', data);
+    return { ...response.data, success: true };
+  } catch (error) {
+    return error.response ? error.response.data : { success: false, error: error.message };
+  }
+};
+
 export const getUserProfile = async () => {
   try {
     const response = await request.get('/auth/user/profile', {

@@ -2,7 +2,7 @@ import Button from '@/common/components/UI/Button';
 import { calculateTotalCart } from '@/common/utility/calculateTotalCart';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import { TRANSPORTATION_COST } from '@/constants';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
+import { selectFacebookUser, selectGoogleUser, selectIsAuthenticated } from '@/redux/slices/auth';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { Card, CardContent, Divider, Stack, Typography, Button as ButtonMUI } from '@mui/material';
 import Link from 'next/link';
@@ -13,6 +13,8 @@ function PreviewInvoice() {
   const totalCart = calculateTotalCart(cartProducts);
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const googleUser = useSelector(selectGoogleUser);
+  const facebookUser = useSelector(selectFacebookUser);
 
   return (
     <Stack direction="row" justifyContent="flex-end">
@@ -35,7 +37,7 @@ function PreviewInvoice() {
               {printNumberWithCommas(totalCart + TRANSPORTATION_COST)} đ
             </Typography>
           </Stack>
-          <Link href={`${isAuthenticated ? '/checkout/shipping' : '/checkout/login'}`}>
+          <Link href={`${isAuthenticated || googleUser || facebookUser ? '/checkout/shipping' : '/checkout/login'}`}>
             <Button className="w-full mt-4">Thanh toán</Button>
           </Link>
           <Link href="/">
