@@ -4,10 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Divider, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser, selectFacebookUser, selectGoogleUser } from '@/redux/slices/auth';
 import AccountInfo from './tabs/AccountInfo';
 
 function TabPanel(props) {
@@ -42,10 +40,6 @@ function a11yProps(index) {
 export default function ProfileTabs() {
   const [value, setValue] = React.useState(0);
 
-  //   const currentUser = useSelector(selectCurrentUser);
-  //   const googleUser = useSelector(selectGoogleUser);
-  //   const facebookUser = useSelector(selectFacebookUser);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -63,10 +57,6 @@ export default function ProfileTabs() {
           onChange={handleChange}
           sx={{ borderWidth: 1, borderColor: 'divider', py: 2 }}
         >
-          {/* <Typography variant="h5" sx={{ ml: 3, mb: 2 }}>
-            {currentUser?.name || facebookUser?.name || googleUser?.name}
-          </Typography>
-          <Divider sx={{ mx: 1, mb: 3 }} /> */}
           <Tab label="Thông tin tài khoản" {...a11yProps(0)} sx={{ px: 6 }} />
           <Tab label="Lịch sử mua hàng" {...a11yProps(1)} />
           <Tab label="Địa chỉ mua hàng" {...a11yProps(2)} />

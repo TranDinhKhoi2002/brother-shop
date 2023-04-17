@@ -43,3 +43,16 @@ export const updateUserIsVerified = async () => {
     return error.response ? error.response.data : { success: false, error: error.message };
   }
 };
+
+export const changePassword = async (data) => {
+  try {
+    const response = await request.post('/customer/change-password', data, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      },
+    });
+    return { ...response.data, success: true };
+  } catch (error) {
+    return error.response ? error.response.data : { success: false, error: error.message };
+  }
+};

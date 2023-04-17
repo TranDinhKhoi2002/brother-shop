@@ -14,6 +14,8 @@ import LoadingButton from '@/common/components/UI/LoadingButton';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import Button from '@/common/components/UI/Button';
+import { changePassword } from '@/services/customerRequests';
+import { toast } from 'react-toastify';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -78,7 +80,12 @@ function ChangePasswordAccordion({ onValidatePhone }) {
   } = methods;
 
   const onSubmit = async (values) => {
-    console.log(values);
+    const { success } = await changePassword({ newPassword: values.password });
+    if (success) {
+      toast.success('Đổi mật khẩu thành công');
+    } else {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    }
   };
 
   return (

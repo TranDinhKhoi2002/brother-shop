@@ -25,8 +25,8 @@ export const fetchUserLogin = createAsyncThunk('auth/fetchUserLogin', async (for
   return response;
 });
 
-export const fetchGoogleUserLogin = createAsyncThunk('auth/fetchGoogleUserLogin', async (data) => {
-  const response = await authServices.loginWithGoogle(data);
+export const fetchSocialMediaUserLogin = createAsyncThunk('auth/fetchSocialMediaUserLogin', async (data) => {
+  const response = await authServices.loginWithSocialMediaAccount(data);
   return response;
 });
 
@@ -92,8 +92,8 @@ const authSlice = createSlice({
         Cookies.remove('token');
       }
     });
-    builder.addCase(fetchGoogleUserLogin.fulfilled, (state, { payload }) => {
-      const { success, token, accountId, user } = payload;
+    builder.addCase(fetchSocialMediaUserLogin.fulfilled, (state, { payload }) => {
+      const { success, token, user } = payload;
 
       if (success) {
         const remainingMilliseconds = 24 * 60 * 60 * 1000;

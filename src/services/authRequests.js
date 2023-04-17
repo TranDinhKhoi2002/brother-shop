@@ -19,9 +19,9 @@ export const login = async (account) => {
   }
 };
 
-export const loginWithGoogle = async (data) => {
+export const loginWithSocialMediaAccount = async (data) => {
   try {
-    const response = await request.post('/auth/login-with-google', data);
+    const response = await request.post('/auth/login-with-social-media-account', data);
     return { ...response.data, success: true };
   } catch (error) {
     return error.response ? error.response.data : { success: false, error: error.message };

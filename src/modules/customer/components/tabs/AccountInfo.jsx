@@ -15,39 +15,14 @@ import ChangePasswordAccordion from '../ChangePasswordAccordion';
 import dayjs from 'dayjs';
 import LoadingButton from '@/common/components/UI/LoadingButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVerifyUser, selectCurrentUser, selectFacebookUser, selectGoogleUser } from '@/redux/slices/auth';
+import { fetchVerifyUser, selectCurrentUser } from '@/redux/slices/auth';
 import { checkValidVietNamPhoneNumber } from '@/utils/validations';
 import { updateProfile, verifyPhoneNumber } from '@/services/customerRequests';
 import { toast } from 'react-toastify';
 import PhoneValidationModal from '../PhoneValidationModal';
+import GenderRadioButtonsGroup from '../GenderRadioButtonsGroup';
 
 let receivedOtpCode;
-
-const GenderRadioButtonsGroup = React.forwardRef(function GenderRadioButtonsGroup(props, ref) {
-  const [selectedGender, setSelectedGender] = useState('male');
-
-  useImperativeHandle(ref, () => ({
-    getSelectedGender: () => {
-      return selectedGender;
-    },
-  }));
-
-  return (
-    <FormControl>
-      <FormLabel id="demo-row-radio-buttons-group-label">Giới tính</FormLabel>
-      <RadioGroup
-        value={selectedGender}
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-        onChange={(e) => setSelectedGender(e.target.value)}
-      >
-        <FormControlLabel value="male" control={<Radio />} label="Nam" />
-        <FormControlLabel value="female" control={<Radio />} label="Nữ" />
-      </RadioGroup>
-    </FormControl>
-  );
-});
 
 function AccountInfo() {
   const currentUser = useSelector(selectCurrentUser);
@@ -88,8 +63,14 @@ function AccountInfo() {
 
   const onSubmit = async (values) => {
     const { name, phone, birthday } = values;
+    const selectedGender = genderRef.current.getSelectedGender();
 
-    const { success, message } = await updateProfile({ name, phone, birthday: new Date(birthday).toISOString() });
+    const { success, message } = await updateProfile({
+      name,
+      phone,
+      birthday: new Date(birthday).toISOString(),
+      gender: selectedGender,
+    });
     if (success) {
       toast.success(message);
     } else {

@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { fetchGoogleUserLogin, fetchUserLogin, setFacebookAccount, setGoogleAccount } from '@/redux/slices/auth';
+import { fetchSocialMediaUserLogin, fetchUserLogin } from '@/redux/slices/auth';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
@@ -16,7 +16,6 @@ import Image from 'next/image';
 import { refreshToken } from '../services/refreshToken';
 import { useGoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-import { logout } from '@/redux/slices/auth';
 
 function LoginForm({ onLogin }) {
   const dispatch = useDispatch();
@@ -70,28 +69,30 @@ function LoginForm({ onLogin }) {
     }
   };
 
-  const onSuccess = async (res) => {
-    refreshToken(res);
-
+  const handleLoginWithSocialMedia = async (name, email) => {
     try {
-      const googleProfile = res.profileObj;
       const { success, user } = await dispatch(
-        fetchGoogleUserLogin({
-          googleId: googleProfile.googleId,
-          name: googleProfile.name,
-          email: googleProfile.email,
+        fetchSocialMediaUserLogin({
+          name,
+          email,
         }),
       ).unwrap();
-
-      console.log(user);
 
       if (success) {
         dispatch(assignProductsToCart({ cart: user.cart }));
         dispatch(assignProductsToWishlist({ products: user.wishlist }));
+        // router.replace('/');
       }
     } catch (error) {
       toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
     }
+  };
+
+  const onSuccess = async (res) => {
+    refreshToken(res);
+    const googleProfile = res.profileObj;
+
+    await handleLoginWithSocialMedia(googleProfile.name, googleProfile.email);
   };
 
   const onFailure = async (res) => {
@@ -108,14 +109,7 @@ function LoginForm({ onLogin }) {
   });
 
   const responseFacebook = async (userInfo) => {
-    console.log(userInfo);
-    localStorage.setItem('facebookAccount', JSON.stringify(userInfo));
-    dispatch(setFacebookAccount({ user: userInfo }));
-
-    dispatch(setGoogleAccount({ user: undefined }));
-    localStorage.removeItem('googleAccount');
-    dispatch(logout());
-    router.replace('/');
+    await handleLoginWithSocialMedia(userInfo.name, userInfo.email);
   };
 
   return (
