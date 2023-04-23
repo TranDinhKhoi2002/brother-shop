@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import LoadingButton from '@/common/components/UI/LoadingButton';
 import { checkValidVietNamPhoneNumber } from '@/utils/validations';
+import config from '@/config';
 
 function SignupForm() {
   const [gender, setGender] = useState('Nam');
@@ -61,7 +62,6 @@ function SignupForm() {
   } = methods;
 
   const onSubmit = async (values) => {
-    console.log(values);
     const account = {
       name: values.name,
       email: values.email,
@@ -134,7 +134,7 @@ function SignupForm() {
       </FormProvider>
       <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
         <Typography sx={{ fontSize: '0.875rem', opacity: '0.7' }}>Đã có tài khoản?</Typography>
-        <Link href="/login" style={{ fontWeight: 400 }}>
+        <Link href={config.routes.login} style={{ fontWeight: 400 }}>
           Đăng nhập
         </Link>
       </Stack>

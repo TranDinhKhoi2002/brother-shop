@@ -122,7 +122,6 @@ function CategoryFilter({ loadedProducts, categoryName }) {
 
   const handleSort = (key) => {
     const sortedProducts = [...products];
-    console.log(sortedProducts);
 
     switch (key) {
       case 'priceDesc':
@@ -131,7 +130,7 @@ function CategoryFilter({ loadedProducts, categoryName }) {
       case 'priceAsc':
         sortedProducts.sort((a, b) => a.price - b.price);
         break;
-      case 'bestseller':
+      case 'bestSeller':
         sortedProducts.sort((a, b) => b.totalSold - a.totalSold);
         break;
       default:
@@ -170,8 +169,6 @@ function CategoryFilter({ loadedProducts, categoryName }) {
       materials.join(',') || null,
       textures.join(',') || null,
     );
-
-    console.log(products);
 
     if (products === null) {
       setProducts(loadedProducts);

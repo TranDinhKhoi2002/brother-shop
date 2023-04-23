@@ -1,6 +1,6 @@
 import CartDrawer from '@/modules/cart/components/CartDrawer';
 import WishlistDrawer from '@/modules/wishlist/components/WishlistDrawer';
-import { setAuth, setGoogleAccount } from '@/redux/slices/auth';
+import { setAuth } from '@/redux/slices/auth';
 import { assignProductsToCart } from '@/redux/slices/cart';
 import { fetchCommonData, setData } from '@/redux/slices/data';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
@@ -20,9 +20,8 @@ function Layout(props) {
 
   useEffect(() => {
     const getCommonData = async () => {
-      const { success, customer } = await dispatch(fetchCommonData()).unwrap();
+      const { customer } = await dispatch(fetchCommonData()).unwrap();
 
-      console.log(customer);
       if (customer) {
         dispatch(setAuth({ user: customer }));
         dispatch(assignProductsToCart({ cart: customer.cart }));
@@ -31,9 +30,6 @@ function Layout(props) {
         const cart = JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`));
         dispatch(assignProductsToCart({ cart }));
       }
-
-      const googleAccount = JSON.parse(localStorage.getItem('googleAccount'));
-      dispatch(setGoogleAccount({ user: googleAccount }));
     };
 
     getCommonData();

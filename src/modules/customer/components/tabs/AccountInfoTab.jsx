@@ -5,17 +5,12 @@ import { useForm } from 'react-hook-form';
 import FormProvider from '@/common/components/Form/FormProvider';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ChangePasswordAccordion from '../ChangePasswordAccordion';
 import dayjs from 'dayjs';
 import LoadingButton from '@/common/components/UI/LoadingButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVerifyUser, selectCurrentUser } from '@/redux/slices/auth';
+import { fetchUpdateProfile, fetchVerifyUser, selectCurrentUser } from '@/redux/slices/auth';
 import { checkValidVietNamPhoneNumber } from '@/utils/validations';
 import { updateProfile, verifyPhoneNumber } from '@/services/customerRequests';
 import { toast } from 'react-toastify';
@@ -24,7 +19,7 @@ import GenderRadioButtonsGroup from '../GenderRadioButtonsGroup';
 
 let receivedOtpCode;
 
-function AccountInfo() {
+function AccountInfoTab() {
   const currentUser = useSelector(selectCurrentUser);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
 
@@ -65,12 +60,15 @@ function AccountInfo() {
     const { name, phone, birthday } = values;
     const selectedGender = genderRef.current.getSelectedGender();
 
-    const { success, message } = await updateProfile({
-      name,
-      phone,
-      birthday: new Date(birthday).toISOString(),
-      gender: selectedGender,
-    });
+    const { success, message } = await dispatch(
+      fetchUpdateProfile({
+        name,
+        phoneNumber: phone,
+        birthday: new Date(birthday).toISOString(),
+        gender: selectedGender,
+      }),
+    ).unwrap();
+
     if (success) {
       toast.success(message);
     } else {
@@ -82,7 +80,7 @@ function AccountInfo() {
     setShowPhoneModal(true);
 
     const { success, message, otpCode } = await verifyPhoneNumber({ phoneNumber: currentUser?.phone });
-    console.log(otpCode);
+
     if (success) {
       receivedOtpCode = otpCode.toString();
       toast.success(message);
@@ -90,16 +88,15 @@ function AccountInfo() {
   };
 
   const handleSubmitOtpCode = async (enteredOTP) => {
-    console.log(receivedOtpCode, enteredOTP);
     if (enteredOTP !== receivedOtpCode.toString()) {
       toast.error('Mã xác minh không đúng');
       return;
     }
 
+    setShowPhoneModal(false);
     const { success, message } = await dispatch(fetchVerifyUser()).unwrap();
     if (success) {
       receivedOtpCode = undefined;
-      setShowPhoneModal(false);
       toast.success(message);
     }
   };
@@ -156,4 +153,4 @@ function AccountInfo() {
   );
 }
 
-export default AccountInfo;
+export default AccountInfoTab;

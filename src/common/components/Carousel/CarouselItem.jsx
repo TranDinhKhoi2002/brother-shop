@@ -22,8 +22,8 @@ function CarouselItem({ item1, item2 }) {
                 <Grid item key={index} xs={3}>
                   <LightgalleryItem
                     group="mainCarousel"
-                    src={`https://res.cloudinary.com/ddajkcbs2/image/upload/${product.images.mainImg}`}
-                    thumb={`https://res.cloudinary.com/ddajkcbs2/image/upload/${product.images.mainImg}`}
+                    src={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${product.images.mainImg}`}
+                    thumb={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${product.images.mainImg}`}
                   >
                     <Image cloudName="ddajkcbs2" publicId={product.images.mainImg} alt={product.name} />
                   </LightgalleryItem>

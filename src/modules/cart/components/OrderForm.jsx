@@ -7,20 +7,25 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import RHFTextField from '@/common/components/Form/RHFTextField';
-import DeliveryMethods from './DeliveryMethods';
-import BranchList from './BranchList';
 import Link from 'next/link';
 import Title from '@/common/components/UI/Title';
-import { Box, Button as ButtonMUI, Divider } from '@mui/material';
+import { Box, Button as ButtonMUI, Divider, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Button from '@/common/components/UI/Button';
-import { selectCurrentUser, selectFacebookUser, selectGoogleUser } from '@/redux/slices/auth';
+import { selectCurrentUser } from '@/redux/slices/auth';
+import config from '@/config';
+import { useTheme } from '@mui/styles';
 
 function OrderForm() {
-  const [deliveryMethod, setDeliveryMethod] = useState('cod');
+  const [selectedAddress, setSelectedAddress] = useState('');
+
+  const handleChange = (event) => {
+    setSelectedAddress(event.target.value);
+    setValue('address', event.target.value);
+  };
 
   const currentUser = useSelector(selectCurrentUser);
-  const googleUser = useSelector(selectGoogleUser);
-  const facebookUser = useSelector(selectFacebookUser);
+
+  const theme = useTheme();
 
   const OrderSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
@@ -45,21 +50,21 @@ function OrderForm() {
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
     setValue,
-    getValues,
+    formState: { isSubmitting },
     reset,
   } = methods;
 
   useEffect(() => {
     reset({
-      name: currentUser?.name || facebookUser?.name || googleUser?.name,
+      name: currentUser?.name,
       phone: currentUser?.phone,
-      email: currentUser?.email || facebookUser?.email || googleUser?.email,
-      address: currentUser?.address,
+      email: currentUser?.email,
       note: '',
     });
-  }, [currentUser, facebookUser, googleUser, reset]);
+
+    setSelectedAddress(currentUser?.address[0]?.detail);
+  }, [currentUser, reset]);
 
   const onSubmit = (values) => {
     const { name, phone, email, address, note } = values;
@@ -68,7 +73,7 @@ function OrderForm() {
     localStorage.setItem('shippingInfor', JSON.stringify(shippingInfor));
 
     Router.push({
-      pathname: '/checkout/payment',
+      pathname: config.routes.checkoutPayment,
       query: {
         toName: name,
         toPhone: phone,
@@ -79,15 +84,6 @@ function OrderForm() {
     });
   };
 
-  const changeDeliveryMethodsHandler = (method) => {
-    setDeliveryMethod(method);
-    setValue('address', '');
-  };
-
-  const changeAddressHandler = (address) => {
-    setValue('address', address);
-  };
-
   return (
     <Box>
       <Title>THÔNG TIN ĐẶT HÀNG</Title>
@@ -96,24 +92,33 @@ function OrderForm() {
         <RHFTextField name="phone" label="Điện thoại liên lạc" id="name" placeholder="Số điện thoại" />
         <RHFTextField name="email" label="Email" id="email" placeholder="Địa chỉ email" />
 
-        <DeliveryMethods onChange={changeDeliveryMethodsHandler} method={deliveryMethod} />
-
-        {deliveryMethod === 'cod' ? (
-          <RHFTextField name="address" label="Địa chỉ" id="name" placeholder="Địa chỉ nhận hàng" />
-        ) : (
-          <>
-            <BranchList onChange={changeAddressHandler} />
-            {getValues('address') === '' && <span className="text-primary">Vui lòng chọn cửa hàng</span>}
-          </>
-        )}
+        <Box sx={{ mt: 4, mb: 2 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Địa chỉ</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedAddress}
+              label="Địa chỉ"
+              name="address"
+              onChange={handleChange}
+            >
+              {currentUser?.address.map((item, index) => (
+                <MenuItem key={index} value={item.detail}>
+                  {item.detail}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
 
         <RHFTextField name="note" label="Ghi chú" id="note" placeholder="Ghi chú" tag="textarea" isRequired={false} />
 
         <Button type="submit" disabled={isSubmitting} fullWidth>
           THANH TOÁN
         </Button>
-        <Divider sx={{ backgroundColor: '#111', my: 2 }} />
-        <Link href={'/'}>
+        <Divider sx={{ backgroundColor: theme.palette.grey[900], my: 2 }} />
+        <Link href={config.routes.home}>
           <ButtonMUI fullWidth variant="outlined" sx={{ py: '12px' }}>
             CẦN SẢN PHẨM KHÁC? TIẾP TỤC MUA HÀNG
           </ButtonMUI>

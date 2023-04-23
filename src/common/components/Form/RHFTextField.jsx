@@ -27,10 +27,15 @@ export default function RHFTextField({ name, label, isRequired = true, ...other 
               {...other}
             />
           ) : (
-            <TextField {...field} value={field.value || other.text || ''} sx={{ width: '100%' }} {...other} />
+            <TextField
+              {...field}
+              value={field.value || other.text || ''}
+              error={error}
+              sx={{ width: '100%' }}
+              helperText={error?.message}
+              {...other}
+            />
           )}
-
-          {error && <span className="text-primary">{error?.message}</span>}
         </div>
       )}
     />

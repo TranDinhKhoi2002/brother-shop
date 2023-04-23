@@ -5,8 +5,6 @@ import * as customerServices from '@/services/customerRequests';
 
 const initialState = {
   currentUser: undefined,
-  googleUser: undefined,
-  facebookUser: undefined,
   isAuthenticated: false,
 };
 
@@ -35,6 +33,11 @@ export const fetchVerifyUser = createAsyncThunk('auth/fetchVerifyUser', async ()
   return response;
 });
 
+export const fetchUpdateProfile = createAsyncThunk('auth/fetchUpdateProfile', async (data) => {
+  const response = await customerServices.updateProfile(data);
+  return response;
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -51,16 +54,6 @@ const authSlice = createSlice({
 
       state.currentUser = user;
       state.isAuthenticated = true;
-    },
-    setGoogleAccount(state, action) {
-      const { user } = action.payload;
-
-      state.googleUser = user;
-    },
-    setFacebookAccount(state, action) {
-      const { user } = action.payload;
-
-      state.facebookUser = user;
     },
   },
   extraReducers: (builder) => {
@@ -107,14 +100,16 @@ const authSlice = createSlice({
     builder.addCase(fetchVerifyUser.fulfilled, (state, { payload }) => {
       state.currentUser.verified = true;
     });
+    builder.addCase(fetchUpdateProfile.fulfilled, (state, { payload }) => {
+      const { updatedCustomer } = payload;
+      state.currentUser = updatedCustomer;
+    });
   },
 });
 
-export const { logout, setAuth, setGoogleAccount, setFacebookAccount } = authSlice.actions;
+export const { logout, setAuth } = authSlice.actions;
 
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectCurrentUser = (state) => state.auth.currentUser;
-export const selectGoogleUser = (state) => state.auth.googleUser;
-export const selectFacebookUser = (state) => state.auth.facebookUser;
 
 export default authSlice.reducer;

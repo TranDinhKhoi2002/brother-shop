@@ -27,7 +27,7 @@ export default function Home({
   const router = useRouter();
 
   const navigateToProductsPage = (type) => {
-    router.push(`/shop/products?type=${type}`);
+    router.push(`${config.routes.products}?type=${type}`);
   };
 
   return (

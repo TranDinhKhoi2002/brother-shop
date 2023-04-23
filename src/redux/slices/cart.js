@@ -2,7 +2,6 @@ import {
   addToCart as addToCartApi,
   updateQuantity,
   removeItemsFromCart,
-  checkoutCart,
   createReceipt,
   removeItemFromCart,
 } from '@/services/cartRequests';
@@ -33,11 +32,6 @@ export const fetchRemoveItemsFromCart = createAsyncThunk('cart/fetchRemoveItemsF
 
 export const fetchRemoveItemFromCart = createAsyncThunk('cart/fetchRemoveItemFromCart', async (itemData) => {
   const response = await removeItemFromCart(itemData);
-  return response;
-});
-
-export const fetchCheckoutCart = createAsyncThunk('cart/fetchCheckoutCart', async () => {
-  const response = await checkoutCart();
   return response;
 });
 
@@ -133,13 +127,6 @@ const cartSlice = createSlice({
 
       if (success) {
         state.products = cart;
-      }
-    });
-    builder.addCase(fetchCheckoutCart.fulfilled, (state, { payload }) => {
-      const { success } = payload;
-
-      if (success) {
-        state.products = [];
       }
     });
   },

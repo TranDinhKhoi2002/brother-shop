@@ -35,7 +35,7 @@ function PreviewImages({ images }) {
         <SideBySideMagnifier
           alwaysInPlace={true}
           fillAvailableSpace={true}
-          imageSrc={`https://res.cloudinary.com/ddajkcbs2/image/upload/${images.mainImg}`}
+          imageSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${images.mainImg}`}
           imageAlt=""
         >
           <Image cloudName="ddajkcbs2" publicId={images.mainImg} alt="" />
@@ -44,7 +44,7 @@ function PreviewImages({ images }) {
         <SideBySideMagnifier
           alwaysInPlace={true}
           fillAvailableSpace={true}
-          imageSrc={`https://res.cloudinary.com/ddajkcbs2/image/upload/${images.subImg}`}
+          imageSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${images.subImg}`}
           imageAlt=""
         >
           <Image cloudName="ddajkcbs2" publicId={images.subImg} alt="" />
@@ -57,12 +57,12 @@ function PreviewImages({ images }) {
             <LightgalleryItem
               key={image}
               group="preview-image"
-              src={`https://res.cloudinary.com/ddajkcbs2/image/upload/${image}`}
-              thumb={`https://res.cloudinary.com/ddajkcbs2/image/upload/${image}`}
+              src={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${image}`}
+              thumb={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${image}`}
             >
               <NextImage
                 key={image}
-                src={`https://res.cloudinary.com/ddajkcbs2/image/upload/${image}`}
+                src={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${image}`}
                 width={200}
                 height={200}
                 style={{ objectFit: 'cover', objectPosition: 'center', height: '100%', width: '100px' }}

@@ -1,7 +1,6 @@
 import { Box, Fade, IconButton, Modal, Stack, Typography } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
-import LoginForm from '@/modules/auth/components/LoginForm';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import FormOTP from './FormOTP';
@@ -20,10 +19,6 @@ const style = {
 
 function PhoneValidationModal({ isVisible, onClose, onSubmit }) {
   const currentUser = useSelector(selectCurrentUser);
-
-  const handleLogin = () => {
-    onClose();
-  };
 
   return (
     <div>

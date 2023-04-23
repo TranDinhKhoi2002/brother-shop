@@ -11,7 +11,7 @@ import { Badge, Button, IconButton, Stack, Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import AccountPopper from './AccountPopper';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { selectFacebookUser, selectGoogleUser, selectIsAuthenticated } from '@/redux/slices/auth';
+import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,16 +32,12 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
 
   const router = useRouter();
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const googleAccount = useSelector(selectGoogleUser);
-  const facebookAccount = useSelector(selectFacebookUser);
 
   const theme = useTheme();
   const styles = useStyles();
 
   const authHandler = () => {
-    if (isAuthenticated || googleAccount || facebookAccount) {
-      router.push(config.routes.account);
-    } else {
+    if (!isAuthenticated) {
       router.push(config.routes.login);
     }
   };
@@ -63,7 +59,7 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
           <SearchIcon />
         </IconButton>
       </Tooltip>
-      {isAuthenticated || googleAccount || facebookAccount ? (
+      {isAuthenticated ? (
         <AccountPopper />
       ) : (
         <Tooltip title="Tài khoản">

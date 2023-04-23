@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { getEventByTag, getReadyToSellEvent } from '@/services/eventRequests';
 import RelatedProducts from '@/modules/product/components/RelatedProducts';
 import PageContainer from '@/common/components/Layout/PageContainer';
+import { Container } from '@mui/material';
 
 function DetailEvent({ event }) {
   const router = useRouter();
@@ -17,14 +18,16 @@ function DetailEvent({ event }) {
 
   return (
     <PageContainer barTitle={title} headTitle={headTitle}>
-      <p className="px-3 xl:px-0 my-5">{description}</p>
-      {subImgs.map((img) => (
-        <div key={img}>
-          <Image cloudName="ddajkcbs2" publicId={img} alt="" />
-        </div>
-      ))}
+      <Container maxWidth="xxl">
+        <p className="my-5">{description}</p>
+        {subImgs.map((img) => (
+          <div key={img}>
+            <Image cloudName="ddajkcbs2" publicId={img} alt="" />
+          </div>
+        ))}
 
-      <RelatedProducts products={relatedProducts} />
+        <RelatedProducts products={relatedProducts} />
+      </Container>
     </PageContainer>
   );
 }

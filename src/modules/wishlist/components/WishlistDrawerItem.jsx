@@ -60,7 +60,6 @@ function WishlistDrawerItem({ product }) {
         dispatch(assignProductsToCart({ cart: cart }));
       }
     } catch (error) {
-      console.log(error);
       toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
     }
   };

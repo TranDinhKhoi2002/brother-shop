@@ -71,9 +71,7 @@ const CompanyBill = React.forwardRef(function CompanyBill(props, ref) {
             document={<InvoiceCompany products={cartProducts} formData={formData} />}
             fileName="bill"
             style={{ textDecoration: 'none' }}
-            onClick={() => {
-              console.log(123);
-            }}
+            onClick={() => {}}
           >
             {({ blob, url, loading, error }) => (
               <>

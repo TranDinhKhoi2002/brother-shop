@@ -9,6 +9,7 @@ import RHFTextField from '@/common/components/Form/RHFTextField';
 import LoadingButton from '@/common/components/UI/LoadingButton';
 import * as authServices from '@/services/authRequests';
 import { toast } from 'react-toastify';
+import config from '@/config';
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -39,7 +40,7 @@ function ResetPasswordForm() {
 
       if (response.status === 200) {
         toast.success(response.data.message);
-        router.push('/login');
+        router.push(config.routes.login);
       } else {
         toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
       }

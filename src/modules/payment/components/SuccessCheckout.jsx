@@ -6,7 +6,6 @@ import { checkOutOrder } from '@/services/orderRequests';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import { createDecipher } from 'crypto';
-import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

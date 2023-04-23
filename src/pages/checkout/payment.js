@@ -1,9 +1,10 @@
 import { createCipher } from 'crypto';
 import Title from '@/common/components/UI/Title';
 import BuySteppers from '@/common/components/UI/BuySteppers';
-import { Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
+import { selectCurrentUser } from '@/redux/slices/auth';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { createOrder } from '@/services/orderRequests';
@@ -13,12 +14,14 @@ import PreviewOrder from '@/modules/payment/components/PreviewOrder';
 import CompanyBill from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import { TRANSPORTATION_COST } from '@/constants';
-import Cookies from 'js-cookie';
 
 function CheckoutPayment() {
   const [loaded, setLoaded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('cod');
+
   const cartProducts = useSelector(selectCartProducts);
+  const currentUser = useSelector(selectCurrentUser);
+
   const router = useRouter();
   const ref = useRef();
 
@@ -47,7 +50,7 @@ function CheckoutPayment() {
       price: cartProduct.productId.price,
       amount: cartProduct.quantity,
       size: cartProduct.size,
-      image: `https://res.cloudinary.com/ddajkcbs2/image/upload/${cartProduct.productId.images.mainImg}`,
+      image: `${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${cartProduct.productId.images.mainImg}`,
     }));
 
     const shippingInfor = JSON.parse(localStorage.getItem('shippingInfor'));
@@ -66,7 +69,7 @@ function CheckoutPayment() {
       companyAddress,
       companyTaxNumber,
       paymentMethod,
-      accountId: Cookies.get('accountId'),
+      customerId: currentUser?._id,
     };
 
     const { message, orderId } = await createOrder(order);
@@ -100,16 +103,15 @@ function CheckoutPayment() {
   };
 
   const changePaymentMethodHandler = (e) => {
-    console.log(e.target.value);
     setPaymentMethod(e.target.value);
   };
 
   return (
     <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
       <BuySteppers activeStep={2} />
-      <div className="mt-5">
+      <Container maxWidth="xxl">
         <Title sx={{ ml: { xs: 3, xl: 0 } }}>Phương thức thanh toán</Title>
-        <Grid container spacing={3} className="px-[5%] xl:px-0 mt-5 mb-10">
+        <Grid container spacing={3} className="mt-5 mb-10">
           <Grid item xs={12} sm={8}>
             <CheckoutMethods method={paymentMethod} onChangeMethod={changePaymentMethodHandler} />
             <CompanyBill ref={ref} />
@@ -123,7 +125,7 @@ function CheckoutPayment() {
             />
           </Grid>
         </Grid>
-      </div>
+      </Container>
     </PageContainer>
   );
 }

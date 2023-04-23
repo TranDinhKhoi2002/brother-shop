@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const options = [
   { title: 'Giá - Từ cao đến thấp', key: 'priceDesc' },
   { title: 'Giá - Từ thấp đến cao', key: 'priceAsc' },
-  { title: 'Bán chạy nhất', key: 'bestseller' },
+  { title: 'Bán chạy nhất', key: 'bestSeller' },
 ];
 
 function FilterSort({ onSort }) {

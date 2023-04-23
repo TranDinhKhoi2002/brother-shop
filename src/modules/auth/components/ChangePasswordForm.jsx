@@ -9,6 +9,7 @@ import FormProvider from '@/common/components/Form/FormProvider';
 import * as authServices from '@/services/authRequests';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import config from '@/config';
 
 function ChangePasswordForm() {
   const router = useRouter();
@@ -41,14 +42,13 @@ function ChangePasswordForm() {
 
   const onSubmit = async (values) => {
     const { password, confirmPassword } = values;
-    console.log(password);
 
     try {
       const { success } = await authServices.updatePassword(token, password, confirmPassword);
 
       if (success) {
         toast.success('Thay đổi mật khẩu thành công');
-        router.replace('/login');
+        router.replace(config.routes.login);
       } else {
         toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
       }

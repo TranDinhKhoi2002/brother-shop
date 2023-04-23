@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { refreshToken } from '../services/refreshToken';
 import { useGoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import config from '@/config';
 
 function LoginForm({ onLogin }) {
   const dispatch = useDispatch();
@@ -110,6 +111,7 @@ function LoginForm({ onLogin }) {
 
   const responseFacebook = async (userInfo) => {
     await handleLoginWithSocialMedia(userInfo.name, userInfo.email);
+    router.replace(config.routes.home);
   };
 
   return (

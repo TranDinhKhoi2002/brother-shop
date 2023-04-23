@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { Box, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/styles';
+import config from '@/config';
 
 function SearchInput(props) {
   const [searchValue, setSearchValue] = useState('');
@@ -21,7 +22,7 @@ function SearchInput(props) {
     if (!searchValue) return;
 
     if (e.key === 'Enter') {
-      router.push({ pathname: '/search', query: { keyword: searchValue } });
+      router.push({ pathname: config.routes.search, query: { keyword: searchValue } });
       props.closeSearch();
     }
   };

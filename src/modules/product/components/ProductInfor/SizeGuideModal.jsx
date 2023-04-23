@@ -67,7 +67,6 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }) {
   };
 
   const handleChooseSize = () => {
-    console.log(height, weight, body, feeling);
     if (height >= 165 && height <= 168 && weight >= 56 && weight <= 62) {
       if (body === 'fat') {
         setSelectedSize('wrong');
