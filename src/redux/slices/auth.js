@@ -43,6 +43,11 @@ export const fetchAddAddress = createAsyncThunk('auth/fetchAddAddress', async (d
   return response;
 });
 
+export const fetchEditAddress = createAsyncThunk('auth/fetchEditAddress', async (data) => {
+  const response = await customerServices.editAddress(data);
+  return response;
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -111,7 +116,15 @@ const authSlice = createSlice({
     });
     builder.addCase(fetchAddAddress.fulfilled, (state, { payload }) => {
       const { updatedAddresses } = payload;
-      state.currentUser.address = updatedAddresses;
+      if (updatedAddresses) {
+        state.currentUser.address = updatedAddresses;
+      }
+    });
+    builder.addCase(fetchEditAddress.fulfilled, (state, { payload }) => {
+      const { updatedAddresses } = payload;
+      if (updatedAddresses) {
+        state.currentUser.address = updatedAddresses;
+      }
     });
   },
 });

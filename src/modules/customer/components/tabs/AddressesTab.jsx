@@ -16,9 +16,13 @@ function AddressesTab() {
   const theme = useTheme();
 
   const handleUpdateAddress = (item) => {
-    console.log(item);
     setShowAddressModal(true);
     setSelectedAddress(item);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedAddress();
+    setShowAddressModal(false);
   };
 
   return (
@@ -72,11 +76,7 @@ function AddressesTab() {
         ))}
       </Box>
 
-      <AddAddressModal
-        isVisible={showAddAddressModal}
-        address={selectedAddress}
-        onClose={() => setShowAddressModal(false)}
-      />
+      <AddAddressModal isVisible={showAddAddressModal} address={selectedAddress} onClose={handleCloseModal} />
     </>
   );
 }

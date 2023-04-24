@@ -44,9 +44,9 @@ function AddAddressModal({ address, isVisible, onClose }) {
             </IconButton>
             <Box>
               <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
-                Thêm địa chỉ
+                {address ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
               </Typography>
-              <AddAddressForm address={address} onClose={onClose} />
+              <AddAddressForm selectedAddress={address} onClose={onClose} />
             </Box>
           </Box>
         </Fade>
