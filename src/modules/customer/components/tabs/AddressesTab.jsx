@@ -9,12 +9,17 @@ import AddAddressModal from '../AddAddressModal';
 
 function AddressesTab() {
   const [showAddAddressModal, setShowAddressModal] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState();
 
   const currentUser = useSelector(selectCurrentUser);
 
-  console.log(currentUser);
-
   const theme = useTheme();
+
+  const handleUpdateAddress = (item) => {
+    console.log(item);
+    setShowAddressModal(true);
+    setSelectedAddress(item);
+  };
 
   return (
     <>
@@ -57,7 +62,7 @@ function AddressesTab() {
                 )}
               </Box>
               <Box sx={{ mt: { xs: 1, md: 0 } }}>
-                <ButtonMUI>Chỉnh sửa</ButtonMUI>
+                <ButtonMUI onClick={handleUpdateAddress.bind(this, item)}>Chỉnh sửa</ButtonMUI>
                 <ButtonMUI sx={{ color: theme.palette.error.main }}>Xóa</ButtonMUI>
               </Box>
             </Stack>
@@ -69,8 +74,8 @@ function AddressesTab() {
 
       <AddAddressModal
         isVisible={showAddAddressModal}
+        address={selectedAddress}
         onClose={() => setShowAddressModal(false)}
-        onAddAddress={() => console.log(123)}
       />
     </>
   );

@@ -20,7 +20,7 @@ const style = {
   p: 3,
 };
 
-function AddAddressModal({ isVisible, onClose, onAddAddress }) {
+function AddAddressModal({ address, isVisible, onClose }) {
   return (
     <div>
       <Modal
@@ -46,7 +46,7 @@ function AddAddressModal({ isVisible, onClose, onAddAddress }) {
               <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
                 Thêm địa chỉ
               </Typography>
-              <AddAddressForm onAddAddress={onAddAddress} />
+              <AddAddressForm address={address} onClose={onClose} />
             </Box>
           </Box>
         </Fade>

@@ -7,11 +7,71 @@ import RHFTextField from '@/common/components/Form/RHFTextField';
 import RHFAutocomplete from '@/common/components/Form/RHFAutocomplete';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingButton from '@/common/components/UI/LoadingButton';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { fetchAddAddress } from '@/redux/slices/auth';
 
-function AddAddressForm({ onAddAddress }) {
+async function getProvinces() {
+  const response = await fetch('https://vapi.vnappmob.com/api/province/');
+  const data = await response.json();
+  return data.results;
+}
+
+async function getDistricts(provinceId) {
+  const response = await fetch(`https://vapi.vnappmob.com/api/province/district/${provinceId}`);
+  const data = await response.json();
+  return data.results;
+}
+
+async function getWards(districtId) {
+  const response = await fetch(`https://vapi.vnappmob.com/api/province/ward/${districtId}`);
+  const data = await response.json();
+  return data.results;
+}
+
+function AddAddressForm({ address, onClose }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
+
+  console.log(address);
+
+  const dispatch = useDispatch();
+
+  const AddAddressSchema = Yup.object().shape({
+    name: Yup.string().required('Vui lòng nhập họ tên'),
+    phone: Yup.string()
+      .required('Vui lòng nhập số điện thoại')
+      .test('viet_nam_phone_number', 'Số điện thoại không hợp lệ', function (phoneNumber) {
+        return checkValidVietNamPhoneNumber(phoneNumber);
+      }),
+    address: Yup.string().required('Vui lòng nhập địa chỉ'),
+    cities: Yup.object().required('Vui lòng chọn tỉnh/thành phố'),
+    districts: Yup.object().required('Vui lòng chọn quận/huyện'),
+    wards: Yup.object().required('Vui lòng chọn phường/xã'),
+  });
+
+  const defaultValues = {
+    name: address?.name || '',
+    phone: address?.phone || '',
+    address: address?.detail || '',
+    cities: address?.city,
+    districts: address?.district,
+    wards: address?.ward,
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(AddAddressSchema),
+    defaultValues,
+  });
+
+  const {
+    handleSubmit,
+    resetField,
+    getValues,
+    setValue,
+    formState: { isSubmitting },
+  } = methods;
 
   const getProvinceData = useCallback(async (type, url) => {
     const provincesData = await fetch(url);
@@ -36,40 +96,45 @@ function AddAddressForm({ onAddAddress }) {
     getProvinceData('cities', 'https://vapi.vnappmob.com/api/province/');
   }, [getProvinceData]);
 
-  const AddAddressSchema = Yup.object().shape({
-    name: Yup.string().required('Vui lòng nhập họ tên'),
-    phone: Yup.string()
-      .required('Vui lòng nhập số điện thoại')
-      .test('viet_nam_phone_number', 'Số điện thoại không hợp lệ', function (phoneNumber) {
-        return checkValidVietNamPhoneNumber(phoneNumber);
-      }),
-    address: Yup.string().required('Vui lòng nhập địa chỉ'),
-    cities: Yup.object().required('Vui lòng chọn tỉnh/thành phố'),
-    districts: Yup.object().required('Vui lòng chọn quận/huyện'),
-    wards: Yup.object().required('Vui lòng chọn phường/xã'),
-  });
+  useEffect(() => {
+    const initializeValue = async () => {
+      if (!address) return;
 
-  const defaultValues = {
-    name: '',
-    phone: '',
-    address: '',
-  };
+      const loadedProvinces = await getProvinces();
+      const province = loadedProvinces.find((item) => item.province_name === address.city);
+      setValue('cities', province);
 
-  const methods = useForm({
-    resolver: yupResolver(AddAddressSchema),
-    defaultValues,
-  });
+      const loadedDistricts = await getDistricts(province.province_id);
+      const district = loadedDistricts.find((item) => item.district_name === address.district);
+      setValue('districts', district);
 
-  const {
-    handleSubmit,
-    resetField,
-    getValues,
-    formState: { isSubmitting },
-  } = methods;
+      const loadedWards = await getWards(district.district_id);
+      const ward = await loadedWards.find((item) => item.ward_name === address.ward);
+      setValue('wards', ward);
+    };
+
+    initializeValue();
+  }, [address, setValue]);
 
   const onSubmit = async (values) => {
-    console.log(values);
+    onClose();
     const { name, phone, address, cities, districts, wards } = values;
+
+    try {
+      const newAddress = {
+        name,
+        phoneNumber: phone,
+        detail: address,
+        city: cities.province_name,
+        district: districts.district_name,
+        ward: wards.ward_name,
+      };
+
+      const { message } = await dispatch(fetchAddAddress(newAddress)).unwrap();
+      toast.success(message);
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    }
   };
 
   const handleChangeCity = async () => {
@@ -123,7 +188,7 @@ function AddAddressForm({ onAddAddress }) {
         sx={{ mt: 4, mb: 2 }}
       />
 
-      <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 400 }}>
+      <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 500 }}>
         Thêm địa chỉ
       </LoadingButton>
     </FormProvider>

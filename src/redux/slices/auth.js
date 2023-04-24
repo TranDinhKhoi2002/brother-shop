@@ -38,6 +38,11 @@ export const fetchUpdateProfile = createAsyncThunk('auth/fetchUpdateProfile', as
   return response;
 });
 
+export const fetchAddAddress = createAsyncThunk('auth/fetchAddAddress', async (data) => {
+  const response = await customerServices.addAddress(data);
+  return response;
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -103,6 +108,10 @@ const authSlice = createSlice({
     builder.addCase(fetchUpdateProfile.fulfilled, (state, { payload }) => {
       const { updatedCustomer } = payload;
       state.currentUser = updatedCustomer;
+    });
+    builder.addCase(fetchAddAddress.fulfilled, (state, { payload }) => {
+      const { updatedAddresses } = payload;
+      state.currentUser.address = updatedAddresses;
     });
   },
 });
