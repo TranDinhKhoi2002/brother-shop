@@ -6,7 +6,7 @@ import Fade from '@mui/material/Fade';
 import { IconButton, Typography } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
-import AddAddressForm from './AddAddressForm';
+import AddressForm from './AddressForm';
 
 const style = {
   position: 'absolute',
@@ -46,7 +46,7 @@ function AddAddressModal({ address, isVisible, onClose }) {
               <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
                 {address ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
               </Typography>
-              <AddAddressForm selectedAddress={address} onClose={onClose} />
+              <AddressForm selectedAddress={address} onClose={onClose} />
             </Box>
           </Box>
         </Fade>

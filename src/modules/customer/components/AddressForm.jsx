@@ -11,36 +11,41 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { fetchAddAddress, fetchEditAddress } from '@/redux/slices/auth';
 
-function AddAddressForm({ selectedAddress, onClose }) {
+let addressesDataSource;
+let city;
+let district;
+
+function AddressForm({ selectedAddress, onClose }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
 
-  const [isEditMode, setIsEditMode] = useState(selectedAddress ? true : false);
+  const isEditMode = selectedAddress ? true : false;
 
   const dispatch = useDispatch();
 
-  const getProvinceData = useCallback(async (type, url) => {
-    const provincesData = await fetch(url);
-    const response = await provincesData.json();
+  const getProvinceData = useCallback(async () => {
+    const response = await fetch('https://provinces.open-api.vn/api/?depth=3');
+    const data = await response.json();
+    addressesDataSource = data;
+    const formattedCities = data.map((item) => item.name);
+    setCities(formattedCities);
 
-    switch (type) {
-      case 'cities':
-        setCities(response.results);
-        break;
-      case 'districts':
-        setDistricts(response.results);
-        break;
-      case 'wards':
-        setWards(response.results);
-        break;
-      default:
-        break;
+    if (isEditMode) {
+      const selectedCity = addressesDataSource.find((city) => city.name === selectedAddress.city);
+      city = selectedCity;
+      const formattedDistricts = selectedCity.districts.map((district) => district.name);
+      setDistricts(formattedDistricts);
+
+      const selectedDistrict = city.districts.find((district) => district.name === selectedAddress.district);
+      district = selectedDistrict;
+      const formattedWards = selectedDistrict.wards.map((ward) => ward.name);
+      setWards(formattedWards);
     }
-  }, []);
+  }, [isEditMode, selectedAddress]);
 
   useEffect(() => {
-    getProvinceData('cities', 'https://vapi.vnappmob.com/api/province/');
+    getProvinceData();
   }, [getProvinceData]);
 
   const AddAddressSchema = Yup.object().shape({
@@ -51,24 +56,18 @@ function AddAddressForm({ selectedAddress, onClose }) {
         return checkValidVietNamPhoneNumber(phoneNumber);
       }),
     address: Yup.string().required('Vui lòng nhập địa chỉ'),
-    cities: isEditMode
-      ? Yup.string().required('Vui lòng chọn tỉnh/thành phố')
-      : Yup.object().required('Vui lòng chọn tỉnh/thành phố'),
-    districts: isEditMode
-      ? Yup.string().required('Vui lòng chọn quận/huyện')
-      : Yup.object().required('Vui lòng chọn quận/huyện'),
-    wards: isEditMode
-      ? Yup.string().required('Vui lòng chọn phường/xã')
-      : Yup.object().required('Vui lòng chọn phường/xã'),
+    cities: Yup.string().required('Vui lòng chọn tỉnh/thành phố'),
+    districts: Yup.string().required('Vui lòng chọn quận/huyện'),
+    wards: Yup.string().required('Vui lòng chọn phường/xã'),
   });
 
   const defaultValues = {
     name: selectedAddress?.name || '',
     phone: selectedAddress?.phone || '',
     address: selectedAddress?.detail || '',
-    cities: selectedAddress?.city,
-    districts: selectedAddress?.district,
-    wards: selectedAddress?.ward,
+    cities: selectedAddress?.city || '',
+    districts: selectedAddress?.district || '',
+    wards: selectedAddress?.ward || '',
   };
 
   const methods = useForm({
@@ -80,7 +79,6 @@ function AddAddressForm({ selectedAddress, onClose }) {
     handleSubmit,
     resetField,
     getValues,
-    setValue,
     formState: { isSubmitting },
   } = methods;
 
@@ -103,19 +101,18 @@ function AddAddressForm({ selectedAddress, onClose }) {
   };
 
   const onSubmit = async (values) => {
-    // onClose();
+    onClose();
     const { name, phone, address, cities, districts, wards } = values;
     const enteredAddress = {
       name,
       phoneNumber: phone,
       detail: address,
-      city: cities.province_name,
-      district: districts.district_name,
-      ward: wards.ward_name,
+      city: cities,
+      district: districts,
+      ward: wards,
     };
 
     if (selectedAddress) {
-      console.log(selectedAddress);
       enteredAddress._id = selectedAddress._id;
       await handleEditAddress(enteredAddress);
     } else {
@@ -127,23 +124,21 @@ function AddAddressForm({ selectedAddress, onClose }) {
     resetField('districts');
     resetField('wards');
 
-    setValue('districts', '');
-    setValue('wards', '');
-
-    setIsEditMode(false);
-
-    const selectedCity = getValues('cities');
-    const url = `https://vapi.vnappmob.com/api/province/district/${selectedCity.province_id}`;
-    await getProvinceData('districts', url);
+    const selectedCityName = getValues('cities');
+    const selectedCity = addressesDataSource.find((city) => city.name === selectedCityName);
+    city = selectedCity;
+    const formattedDistricts = selectedCity.districts.map((district) => district.name);
+    setDistricts(formattedDistricts);
   };
 
   const handleChangeDistrict = async () => {
     resetField('wards');
-    setValue('wards', '');
 
-    const selectedDistrict = getValues('districts');
-    const url = `https://vapi.vnappmob.com/api/province/ward/${selectedDistrict.district_id}`;
-    await getProvinceData('wards', url);
+    const selectedDistrictName = getValues('districts');
+    const selectedDistrict = city.districts.find((district) => district.name === selectedDistrictName);
+    district = selectedDistrict;
+    const formattedWards = selectedDistrict.wards.map((ward) => ward.name);
+    setWards(formattedWards);
   };
 
   return (
@@ -155,10 +150,8 @@ function AddAddressForm({ selectedAddress, onClose }) {
         name="cities"
         label="Tỉnh/Thành phố (*)"
         options={cities}
-        getOptionLabel={(option) => option.province_name || option || ''}
-        isOptionEqualToValue={(option, value) =>
-          option.province_name === value.province_name || option.province_name === value
-        }
+        getOptionLabel={(option) => option}
+        isOptionEqualToValue={(option, value) => option === value}
         sx={{ mt: 4, mb: 2 }}
         onChangeValue={handleChangeCity}
       />
@@ -167,10 +160,8 @@ function AddAddressForm({ selectedAddress, onClose }) {
         name="districts"
         label="Quận/Huyện (*)"
         options={districts}
-        getOptionLabel={(option) => option.district_name || option || ''}
-        isOptionEqualToValue={(option, value) =>
-          option.district_name === value.district_name || option.district_name === value
-        }
+        getOptionLabel={(option) => option}
+        isOptionEqualToValue={(option, value) => option === value}
         sx={{ mt: 4, mb: 2 }}
         onChangeValue={handleChangeDistrict}
       />
@@ -179,8 +170,8 @@ function AddAddressForm({ selectedAddress, onClose }) {
         name="wards"
         label="Phường/Xã (*)"
         options={wards}
-        getOptionLabel={(option) => option.ward_name || option || ''}
-        isOptionEqualToValue={(option, value) => option.ward_name === value.ward_name || option.ward_name === value}
+        getOptionLabel={(option) => option}
+        isOptionEqualToValue={(option, value) => option === value}
         sx={{ mt: 4, mb: 2 }}
       />
 
@@ -191,4 +182,4 @@ function AddAddressForm({ selectedAddress, onClose }) {
   );
 }
 
-export default AddAddressForm;
+export default AddressForm;
