@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import Link from 'next/link';
 import { Box, Typography } from '@mui/material';
 

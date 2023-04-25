@@ -1,17 +1,32 @@
-import Button from '@/common/components/UI/Button';
-import { selectCurrentUser } from '@/redux/slices/auth';
-import { Box, Button as ButtonMUI, Divider, Stack, Typography } from '@mui/material';
+import Button from '@/common/components/Buttons/Button';
+import { fetchRemoveAddress, fetchUpdateAddressToDefault, selectCurrentUser } from '@/redux/slices/auth';
+import {
+  Box,
+  Button as ButtonMUI,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  Typography,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Fragment, useState } from 'react';
 import AddAddressModal from '../AddAddressModal';
+import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
+import { toast } from 'react-toastify';
+import LoadingModal from '@/common/components/Modal/LoadingModal';
 
 function AddressesTab() {
   const [showAddAddressModal, setShowAddressModal] = useState(false);
+  const [showConfirmRemoveModal, setShowConfirmRemoveModal] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState();
+  const [showLoadingModal, setShowLoadingModal] = useState(false);
 
   const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
 
   const theme = useTheme();
 
@@ -20,9 +35,42 @@ function AddressesTab() {
     setSelectedAddress(item);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseAddressFormModal = () => {
     setSelectedAddress();
     setShowAddressModal(false);
+  };
+
+  const handleOpenConfirmModal = (item) => {
+    setSelectedAddress(item);
+    setShowConfirmRemoveModal(true);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setSelectedAddress();
+    setShowConfirmRemoveModal(false);
+  };
+
+  const handleRemoveAddress = async () => {
+    handleCloseConfirmModal();
+    const { success, message } = await dispatch(fetchRemoveAddress({ _id: selectedAddress._id })).unwrap();
+    if (success) {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
+  };
+
+  const handleUpdateToDefault = async (addressId) => {
+    setShowLoadingModal(true);
+
+    const { success, message } = await dispatch(fetchUpdateAddressToDefault({ _id: addressId })).unwrap();
+    if (success) {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
+
+    setShowLoadingModal(false);
   };
 
   return (
@@ -67,7 +115,22 @@ function AddressesTab() {
               </Box>
               <Box sx={{ mt: { xs: 1, md: 0 } }}>
                 <ButtonMUI onClick={handleUpdateAddress.bind(this, item)}>Chỉnh sửa</ButtonMUI>
-                <ButtonMUI sx={{ color: theme.palette.error.main }}>Xóa</ButtonMUI>
+                <ButtonMUI sx={{ color: theme.palette.error.main }} onClick={handleOpenConfirmModal.bind(this, item)}>
+                  Xóa
+                </ButtonMUI>
+                {!item.isDefault && (
+                  <FormGroup>
+                    <FormControlLabel
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleUpdateToDefault(item._id);
+                        }
+                      }}
+                      control={<Checkbox />}
+                      label="Mặc định"
+                    />
+                  </FormGroup>
+                )}
               </Box>
             </Stack>
 
@@ -76,7 +139,21 @@ function AddressesTab() {
         ))}
       </Box>
 
-      <AddAddressModal isVisible={showAddAddressModal} address={selectedAddress} onClose={handleCloseModal} />
+      <AddAddressModal
+        isVisible={showAddAddressModal}
+        address={selectedAddress}
+        onClose={handleCloseAddressFormModal}
+      />
+
+      <ConfirmRemoveModal
+        isOpen={showConfirmRemoveModal}
+        title="Xóa địa chỉ?"
+        subTitle="Bạn có chắc muốn xóa địa chỉ chứ?"
+        onClose={handleCloseConfirmModal}
+        onDelete={handleRemoveAddress}
+      />
+
+      <LoadingModal isOpen={showLoadingModal} onClose={() => setShowLoadingModal(false)} />
     </>
   );
 }

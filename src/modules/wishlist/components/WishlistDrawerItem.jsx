@@ -1,17 +1,17 @@
 import { useRef, useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import ConfirmDeleteModal from '@/modules/cart/components/ConfirmDeleteModal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Image } from 'cloudinary-react';
 import WishlistSizesMenu from './WishlistSizesMenu';
 import WishlistQuantity from './WishlistQuantity';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { fetchRemoveFromWishlist } from '@/redux/slices/wishlist';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { addToCart, fetchAddToCart, assignProductsToCart, selectCartProducts } from '@/redux/slices/cart';
+import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
 
 function WishlistDrawerItem({ product }) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -92,8 +92,10 @@ function WishlistDrawerItem({ product }) {
           </Button>
         </Box>
       </Stack>
-      <ConfirmDeleteModal
+      <ConfirmRemoveModal
         isOpen={modalIsVisible}
+        title="Xóa sản phẩm?"
+        subTitle="Bạn có chắc muốn xóa sản phẩm chứ?"
         onClose={() => setModalIsVisible(false)}
         onDelete={handleRemoveFromWishlist}
       />

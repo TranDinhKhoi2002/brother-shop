@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Card, CardActions, CardContent, Divider, Stack, Typography } from '@mui/material';
 
 import Title from '@/common/components/UI/Title';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 
 function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
@@ -19,7 +19,7 @@ function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
           {cartProducts.map((cartProduct) => (
             <li key={`${cartProduct.productId._id}-${cartProduct.size}`} className="my-2">
               <div className="flex justify-between gap-8">
-                <span>
+                <span className="font-normal">
                   {cartProduct.quantity} X{' '}
                   <Link
                     href={`/shop/products/${cartProduct.productId._id}`}
@@ -29,7 +29,9 @@ function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
                   </Link>{' '}
                   - {cartProduct.size}
                 </span>
-                <span>{printNumberWithCommas(cartProduct.productId.price * cartProduct.quantity)}đ</span>
+                <span className="font-normal">
+                  {printNumberWithCommas(cartProduct.productId.price * cartProduct.quantity)}đ
+                </span>
               </div>
             </li>
           ))}

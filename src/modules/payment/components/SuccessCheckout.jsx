@@ -1,4 +1,4 @@
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
 import { checkOut } from '@/redux/slices/cart';

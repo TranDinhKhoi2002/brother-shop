@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Title from '@/common/components/UI/Title';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import FormProvider from '@/common/components/Form/FormProvider';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { PDFDownloadLink, usePDF } from '@react-pdf/renderer';
 import InvoiceCompany from './InvoiceCompany';
 import { useSelector } from 'react-redux';

@@ -1,4 +1,4 @@
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { Box, Stack, TextField, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';

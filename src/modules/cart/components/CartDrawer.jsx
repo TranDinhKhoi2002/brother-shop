@@ -1,5 +1,5 @@
 import { Drawer, Box, Stack, Typography, IconButton, Button, Divider } from '@mui/material';
-import CustomizedButton from '@/common/components/UI/Button';
+import CustomizedButton from '@/common/components/Buttons/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useSelector } from 'react-redux';

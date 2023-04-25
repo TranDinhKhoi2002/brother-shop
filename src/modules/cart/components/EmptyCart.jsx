@@ -1,4 +1,4 @@
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';

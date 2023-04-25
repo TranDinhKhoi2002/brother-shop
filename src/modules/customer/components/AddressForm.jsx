@@ -2,11 +2,11 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import FormProvider from '@/common/components/Form/FormProvider';
-import { checkValidVietNamPhoneNumber } from '@/utils/validations';
+import { checkValidVietNamPhoneNumber } from '@/common/utility/checkVietNamPhoneNumber';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import RHFAutocomplete from '@/common/components/Form/RHFAutocomplete';
 import { useCallback, useEffect, useState } from 'react';
-import LoadingButton from '@/common/components/UI/LoadingButton';
+import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { fetchAddAddress, fetchEditAddress } from '@/redux/slices/auth';
@@ -15,7 +15,7 @@ let addressesDataSource;
 let city;
 let district;
 
-function AddressForm({ selectedAddress, onClose }) {
+function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -101,6 +101,11 @@ function AddressForm({ selectedAddress, onClose }) {
   };
 
   const onSubmit = async (values) => {
+    if (onSubmitForm) {
+      onSubmitForm(values);
+      return;
+    }
+
     onClose();
     const { name, phone, address, cities, districts, wards } = values;
     const enteredAddress = {
@@ -121,8 +126,8 @@ function AddressForm({ selectedAddress, onClose }) {
   };
 
   const handleChangeCity = async () => {
-    resetField('districts');
-    resetField('wards');
+    resetField('districts', { defaultValue: '' });
+    resetField('wards', { defaultValue: '' });
 
     const selectedCityName = getValues('cities');
     const selectedCity = addressesDataSource.find((city) => city.name === selectedCityName);
@@ -132,7 +137,7 @@ function AddressForm({ selectedAddress, onClose }) {
   };
 
   const handleChangeDistrict = async () => {
-    resetField('wards');
+    resetField('wards', { defaultValue: '' });
 
     const selectedDistrictName = getValues('districts');
     const selectedDistrict = city.districts.find((district) => district.name === selectedDistrictName);
@@ -176,7 +181,7 @@ function AddressForm({ selectedAddress, onClose }) {
       />
 
       <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 500 }}>
-        {isEditMode ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
+        {onSubmitForm ? 'Thanh toán' : isEditMode ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
       </LoadingButton>
     </FormProvider>
   );

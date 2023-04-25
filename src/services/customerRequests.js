@@ -1,84 +1,33 @@
-import Cookies from 'js-cookie';
-import request from './baseRequest';
+import { sendPostRequest } from './baseRequest';
 
 export const updateProfile = async (data) => {
-  try {
-    const response = await request.post('/customer/update-profile', data, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/customer/update-profile', data);
 };
 
 export const verifyPhoneNumber = async (data) => {
-  try {
-    const response = await request.post('/customer/verify-phone-number', data, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/customer/verify-phone-number', data);
 };
 
 export const updateUserIsVerified = async () => {
-  try {
-    const response = await request.post(
-      '/customer/user-is-verified',
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-        },
-      },
-    );
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/customer/user-is-verified', {});
 };
 
 export const changePassword = async (data) => {
-  try {
-    const response = await request.post('/customer/change-password', data, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/customer/change-password', data);
 };
 
 export const addAddress = async (data) => {
-  try {
-    const response = await request.post('/customer/add-address', data, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/customer/add-address', data);
 };
 
 export const editAddress = async (data) => {
-  try {
-    const response = await request.post('/customer/edit-address', data, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/customer/edit-address', data);
+};
+
+export const removeAddress = async (data) => {
+  return await sendPostRequest('/customer/remove-address', data);
+};
+
+export const updateAddressToDefault = async (data) => {
+  return await sendPostRequest('/customer/update-address-to-default', data);
 };

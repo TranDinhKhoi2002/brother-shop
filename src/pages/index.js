@@ -4,7 +4,7 @@ import config from '../config';
 import MainCarousel from '@/common/components/Carousel';
 import Intro from '@/common/components/Intro';
 import Products from '@/modules/product/components/Products';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 
 import { getDiscountProducts, getHotProducts, getProductsByType } from '@/services/productRequests';
 import { getIntroImages } from '@/services/imageRequests';

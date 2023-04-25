@@ -13,7 +13,7 @@ import CheckoutMethods from '@/modules/payment/components/CheckoutMethods';
 import PreviewOrder from '@/modules/payment/components/PreviewOrder';
 import CompanyBill from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
-import { TRANSPORTATION_COST } from '@/constants';
+import { TRANSPORTATION_COST, paymentMethods } from '@/constants';
 
 function CheckoutPayment() {
   const [loaded, setLoaded] = useState(false);
@@ -68,7 +68,7 @@ function CheckoutPayment() {
       companyName,
       companyAddress,
       companyTaxNumber,
-      paymentMethod,
+      paymentMethod: paymentMethod === 'cod' ? paymentMethods.COD : paymentMethods.VNPAY,
       customerId: currentUser?._id,
     };
 
@@ -98,8 +98,6 @@ function CheckoutPayment() {
     }
 
     router.replace(`http://localhost:3001/payments/vnpay?totalPrice=${totalPrice}`);
-    // await request.post('/payments/vnpay', {});
-    // router.push('http://localhost:8888/order/create_payment_url');
   };
 
   const changePaymentMethodHandler = (e) => {

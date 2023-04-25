@@ -17,7 +17,7 @@ import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import { Image } from 'cloudinary-react';
 import Title from '@/common/components/UI/Title';
 import { toast } from 'react-toastify';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
+import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
 
 function DetailCart() {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -177,8 +177,10 @@ function DetailCart() {
           </tr>
         </tbody>
       </table>
-      <ConfirmDeleteModal
+      <ConfirmRemoveModal
         isOpen={modalIsVisible}
+        title="Xóa sản phẩm?"
+        subTitle="Bạn có chắc muốn xóa sản phẩm chứ?"
         onClose={() => setModalIsVisible(false)}
         onDelete={handleRemoveFromCart}
       />

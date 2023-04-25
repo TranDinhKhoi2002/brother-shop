@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 import FormProvider from '@/common/components/Form/FormProvider';
 import RHFTextField from '@/common/components/Form/RHFTextField';
-import LoadingButton from '@/common/components/UI/LoadingButton';
+import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import * as authServices from '@/services/authRequests';
 import { toast } from 'react-toastify';
 import config from '@/config';

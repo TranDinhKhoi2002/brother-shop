@@ -1,10 +1,6 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@/common/components/UI/Button';
-// import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { Stack } from '@mui/material';
+import { Stack, Typography, Modal, Box } from '@mui/material';
+import Button from '@/common/components/Buttons/Button';
 
 const style = {
   position: 'absolute',
@@ -18,7 +14,7 @@ const style = {
   p: 4,
 };
 
-export default function ConfirmDeleteModal({ isOpen, onClose, onDelete }) {
+export default function ConfirmRemoveModal({ isOpen, title, subTitle, onClose, onDelete }) {
   return (
     <div>
       <Modal
@@ -29,10 +25,10 @@ export default function ConfirmDeleteModal({ isOpen, onClose, onDelete }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Xóa sản phẩm?
+            {title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Bạn có chắc muốn xóa sản phẩm chứ?
+            {subTitle}
           </Typography>
           <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ mt: 2 }}>
             <Button variant="text" className="text-[#111] border-[#111] !bg-white" onClick={onClose}>

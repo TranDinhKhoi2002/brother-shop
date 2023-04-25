@@ -1,4 +1,4 @@
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';

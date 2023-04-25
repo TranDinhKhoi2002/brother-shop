@@ -17,11 +17,11 @@ import {
   Tab,
   Tabs,
 } from '@mui/material';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { TabContext, TabPanel } from '@mui/lab';
-import ThinPersonIcon from '@/common/components/UI/ThinPersonIcon';
-import NormalPersonIcon from '@/common/components/UI/NormalPersonIcon';
-import FatPersonIcon from '@/common/components/UI/FatPersonIcon';
+import ThinPersonIcon from '@/common/components/Icons/ThinPersonIcon';
+import NormalPersonIcon from '@/common/components/Icons/NormalPersonIcon';
+import FatPersonIcon from '@/common/components/Icons/FatPersonIcon';
 import CloseIcon from '@mui/icons-material/Close';
 import TableSizesForShirt from './TableSizesForShirt';
 import SizeResult from './SizeResult';

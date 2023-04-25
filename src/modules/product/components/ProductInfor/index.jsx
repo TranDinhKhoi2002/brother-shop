@@ -1,7 +1,7 @@
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { addToCart, assignProductsToCart, fetchAddToCart } from '@/redux/slices/cart';
 import { Box, Grid, Stack, Typography, Button as ButtonMUI } from '@mui/material';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -15,7 +15,7 @@ import { useRef, useState } from 'react';
 import ProductSizes from './ProductSizes';
 import SizeGuideModal from './SizeGuideModal';
 import PreservationInstruction from './PreservationInstruction';
-import LoginModal from '@/common/components/UI/LoginModal';
+import LoginModal from '@/modules/auth/components/LoginModal';
 import { fetchAddToWishlist } from '@/redux/slices/wishlist';
 
 const styles = {

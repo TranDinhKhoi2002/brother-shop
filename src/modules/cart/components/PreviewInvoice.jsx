@@ -1,4 +1,4 @@
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { calculateTotalCart } from '@/common/utility/calculateTotalCart';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import config from '@/config';

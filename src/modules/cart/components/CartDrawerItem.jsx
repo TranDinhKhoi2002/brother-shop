@@ -1,6 +1,5 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { Image } from 'cloudinary-react';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
@@ -18,6 +17,7 @@ import {
   fetchRemoveItemFromCart,
 } from '@/redux/slices/cart';
 import { toast } from 'react-toastify';
+import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
 
 function CartDrawerItem({ cartProduct }) {
   const [quantity, setQuantity] = useState(cartProduct.quantity);
@@ -135,8 +135,10 @@ function CartDrawerItem({ cartProduct }) {
           </Stack>
         </Box>
       </Stack>
-      <ConfirmDeleteModal
+      <ConfirmRemoveModal
         isOpen={modalIsVisible}
+        title="Xóa sản phẩm?"
+        subTitle="Bạn có chắc muốn xóa sản phẩm chứ?"
         onClose={() => setModalIsVisible(false)}
         onDelete={handleRemoveFromCart}
       />

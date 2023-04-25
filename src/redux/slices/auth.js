@@ -48,6 +48,16 @@ export const fetchEditAddress = createAsyncThunk('auth/fetchEditAddress', async 
   return response;
 });
 
+export const fetchRemoveAddress = createAsyncThunk('auth/fetchRemoveAddress', async (data) => {
+  const response = await customerServices.removeAddress(data);
+  return response;
+});
+
+export const fetchUpdateAddressToDefault = createAsyncThunk('auth/fetchUpdateAddressToDefault', async (data) => {
+  const response = await customerServices.updateAddressToDefault(data);
+  return response;
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -121,6 +131,18 @@ const authSlice = createSlice({
       }
     });
     builder.addCase(fetchEditAddress.fulfilled, (state, { payload }) => {
+      const { updatedAddresses } = payload;
+      if (updatedAddresses) {
+        state.currentUser.address = updatedAddresses;
+      }
+    });
+    builder.addCase(fetchRemoveAddress.fulfilled, (state, { payload }) => {
+      const { updatedAddresses } = payload;
+      if (updatedAddresses) {
+        state.currentUser.address = updatedAddresses;
+      }
+    });
+    builder.addCase(fetchUpdateAddressToDefault.fulfilled, (state, { payload }) => {
       const { updatedAddresses } = payload;
       if (updatedAddresses) {
         state.currentUser.address = updatedAddresses;

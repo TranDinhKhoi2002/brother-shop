@@ -1,7 +1,7 @@
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import { Container, Grid } from '@mui/material';
 import DetailCart from './DetailCart';
-import OrderForm from './OrderForm';
+import OrderForm from '../../payment/components/OrderForm';
 
 function CartInfor() {
   return (

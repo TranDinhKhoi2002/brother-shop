@@ -3,7 +3,7 @@ import FormProvider from '@/common/components/Form/FormProvider';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import RHFTextField from '@/common/components/Form/RHFTextField';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { fetchUserSignup } from '@/redux/slices/auth';
@@ -13,8 +13,8 @@ import Link from 'next/link';
 import RHFDatePicker from '@/common/components/Form/RHFDatePicker';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import LoadingButton from '@/common/components/UI/LoadingButton';
-import { checkValidVietNamPhoneNumber } from '@/utils/validations';
+import LoadingButton from '@/common/components/Buttons/LoadingButton';
+import { checkValidVietNamPhoneNumber } from '@/common/utility/checkVietNamPhoneNumber';
 import config from '@/config';
 
 function SignupForm() {

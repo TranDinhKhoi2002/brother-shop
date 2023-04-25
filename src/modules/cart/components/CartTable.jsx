@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { assignProductsToCart, fetchRemoveItemsFromCart, selectCartProducts } from '@/redux/slices/cart';
 import { selectCurrentUser, selectIsAuthenticated } from '@/redux/slices/auth';
 import CartTableItem from './CartTableItem';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
 import { toast } from 'react-toastify';
+import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
 
 function CartTable() {
   const [order, setOrder] = useState('asc');
@@ -166,7 +166,13 @@ function CartTable() {
 
         {rows && rows?.length === 0 && <EmptyCart />}
       </Box>
-      <ConfirmDeleteModal isOpen={confirmDelete} onClose={() => setConfirmDelete(false)} onDelete={handleDelete} />
+      <ConfirmRemoveModal
+        isOpen={confirmDelete}
+        title="Xóa sản phẩm?"
+        subTitle="Bạn có chắc muốn xóa sản phẩm chứ?"
+        onClose={() => setConfirmDelete(false)}
+        onDelete={handleDelete}
+      />
     </>
   );
 }

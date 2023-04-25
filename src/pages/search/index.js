@@ -1,5 +1,5 @@
 import PageContainer from '@/common/components/Layout/PageContainer';
-import Button from '@/common/components/UI/Button';
+import Button from '@/common/components/Buttons/Button';
 import Title from '@/common/components/UI/Title';
 import { MOST_SEARCHEED } from '@/constants';
 import Products from '@/modules/product/components/Products';

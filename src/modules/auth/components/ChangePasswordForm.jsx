@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Box, Typography } from '@mui/material';
 
 import RHFTextField from '@/common/components/Form/RHFTextField';
-import LoadingButton from '@/common/components/UI/LoadingButton';
+import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import FormProvider from '@/common/components/Form/FormProvider';
 import * as authServices from '@/services/authRequests';
 import { useRouter } from 'next/router';

@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { assignProductsToCart } from '@/redux/slices/cart';
-import LoadingButton from '@/common/components/UI/LoadingButton';
+import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import Image from 'next/image';
 import { refreshToken } from '../services/refreshToken';
