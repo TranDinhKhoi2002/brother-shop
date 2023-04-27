@@ -118,7 +118,7 @@ function ChangePasswordAccordion({ onValidatePhone }) {
                 </Grid>
               </Grid>
               <Stack direction="row" justifyContent="flex-end">
-                <LoadingButton loading={isSubmitting} sx={{ fontWeight: 'bold' }} type="submit">
+                <LoadingButton loading={isSubmitting} type="submit">
                   Lưu
                 </LoadingButton>
               </Stack>

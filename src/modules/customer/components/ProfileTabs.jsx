@@ -63,7 +63,7 @@ export default function ProfileTabs() {
             <Tab label="Thông tin tài khoản" {...a11yProps(0)} sx={{ px: 6, alignItems: 'flex-start' }} />
             <Tab label="Lịch sử mua hàng" {...a11yProps(1)} sx={{ px: 6, alignItems: 'flex-start' }} />
             <Tab label="Địa chỉ mua hàng" {...a11yProps(2)} sx={{ px: 6, alignItems: 'flex-start' }} />
-            <Tab label="Sản phẩm yêu thích" {...a11yProps(3)} sx={{ px: 6, alignItems: 'flex-start' }} />
+            <Tab label="Ưu đãi của bạn" {...a11yProps(3)} sx={{ px: 6, alignItems: 'flex-start' }} />
           </Tabs>
         </Grid>
         <Grid item xs={12} md={9}>

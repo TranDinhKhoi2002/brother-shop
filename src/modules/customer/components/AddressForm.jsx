@@ -180,7 +180,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
         sx={{ mt: 4, mb: 2 }}
       />
 
-      <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 500 }}>
+      <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
         {onSubmitForm ? 'Thanh toán' : isEditMode ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
       </LoadingButton>
     </FormProvider>

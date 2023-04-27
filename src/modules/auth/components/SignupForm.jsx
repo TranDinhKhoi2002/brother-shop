@@ -3,7 +3,6 @@ import FormProvider from '@/common/components/Form/FormProvider';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import RHFTextField from '@/common/components/Form/RHFTextField';
-import Button from '@/common/components/Buttons/Button';
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { fetchUserSignup } from '@/redux/slices/auth';
@@ -26,7 +25,7 @@ function SignupForm() {
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
     email: Yup.string().required('Vui lòng nhập email').email('Email không hợp lệ'),
-    password: Yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
+    password: Yup.string().required('Vui lòng nhập mật khẩu').min(8, 'Mật khẩu phải có ít nhất 8 ký tự'),
     confirmPassword: Yup.string()
       .required('Vui lòng xác nhận mật khẩu')
       .test('equal', 'Xác nhận mật khẩu không chính xác', function (confirmPassword) {
@@ -73,17 +72,13 @@ function SignupForm() {
       birthday: new Date(values.birthday).toISOString(),
     };
 
-    try {
-      const { success, message } = await dispatch(fetchUserSignup(account)).unwrap();
+    const { success, message } = await dispatch(fetchUserSignup(account)).unwrap();
 
-      if (success) {
-        toast.success('Đăng nhập thành công!!');
-        router.replace('/');
-      } else {
-        toast.error(message);
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    if (success) {
+      toast.success(message);
+      router.replace('/');
+    } else {
+      toast.error(message);
     }
   };
 
@@ -128,7 +123,7 @@ function SignupForm() {
           <RHFDatePicker name="birthday" label="Ngày sinh" sx={{ width: '100%', fontWeight: 400 }} />
         </Box>
 
-        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 400 }}>
+        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
           Đăng ký
         </LoadingButton>
       </FormProvider>

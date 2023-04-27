@@ -1,54 +1,17 @@
-import Cookies from 'js-cookie';
-import request from './baseRequest';
+import { sendPutRequest } from './baseRequest';
 
 export const addToCart = async (item) => {
-  try {
-    const response = await request.put('/cart/add-to-cart', item, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPutRequest('/cart/add-to-cart', item);
 };
 
 export const updateQuantity = async (item) => {
-  try {
-    const response = await request.put('/cart/update-quantity', item, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPutRequest('/cart/update-quantity', item);
 };
 
 export const removeItemsFromCart = async (items) => {
-  try {
-    const response = await request.put('/cart/remove-items', items, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPutRequest('/cart/remove-items', items);
 };
 
 export const removeItemFromCart = async (item) => {
-  try {
-    const response = await request.put('/cart/remove-item', item, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPutRequest('/cart/remove-item', item);
 };

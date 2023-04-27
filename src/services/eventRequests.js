@@ -1,11 +1,11 @@
-import request from './baseRequest';
+import { sendGetRequest } from './baseRequest';
 
 export const getReadyToSellEvent = async () => {
-  const res = await request.get('/events/ready-to-sell');
-  return res.data.events;
+  const { events } = await sendGetRequest('/events/ready-to-sell');
+  return events;
 };
 
 export const getEventByTag = async (eventTag) => {
-  const res = await request.get(`/events/${eventTag}`);
-  return res.data.event;
+  const { event } = await sendGetRequest(`/events/${eventTag}`);
+  return event;
 };

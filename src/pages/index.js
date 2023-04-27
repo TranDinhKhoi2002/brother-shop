@@ -16,6 +16,8 @@ import { useRouter } from 'next/router';
 import { Carousel } from 'react-responsive-carousel';
 import { Box, Stack, Typography } from '@mui/material';
 
+import MessengerCustomerChat from 'react-messenger-customer-chat';
+
 export default function Home({
   hotProducts,
   discountProducts,
@@ -58,9 +60,7 @@ export default function Home({
           </div>
         </Carousel>
         <MainCarousel events={readyToSellEvent} />
-
         <Intro images={introImages} />
-
         <Box sx={{ textAlign: 'center' }}>
           <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
             Top sản phẩm HOT
@@ -77,12 +77,10 @@ export default function Home({
             className="w-full"
           />
         </Stack>
-
         <Products products={tshirtProducts} />
         <Box sx={{ textAlign: 'center', marginY: 3 }}>
           <Button onClick={navigateToProductsPage.bind(this, 'Áo Thun')}>Xem tất cả áo thun</Button>
         </Box>
-
         <Stack justifyContent="center" sx={{ mt: 3 }}>
           <Image
             src="https://cmsv2.yame.vn/uploads/7c59b59c-11d3-44ae-b7b0-aa93b9a7deec/Thum_MB_06.01_(04).jpg?quality=80&w=0&h=0"
@@ -92,12 +90,10 @@ export default function Home({
             className="w-full"
           />
         </Stack>
-
         <Products products={trouserProducts} />
         <Box sx={{ textAlign: 'center', marginY: 3 }}>
           <Button onClick={navigateToProductsPage.bind(this, 'Quần')}>Xem tất cả quần</Button>
         </Box>
-
         <Box sx={{ textAlign: 'center', marginY: 3 }}>
           <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
             Các sản phẩm giảm giá
@@ -105,6 +101,7 @@ export default function Home({
           <Typography sx={{ fontWeight: 'light' }}>Đừng bỏ lỡ - Hãy mua ngay</Typography>
         </Box>
         <Products products={discountProducts} />
+        <MessengerCustomerChat pageId="105303191985068" appId="214383791186436" htmlRef="http://localhost:3000/" />,
       </main>
     </>
   );

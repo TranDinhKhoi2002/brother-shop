@@ -1,73 +1,34 @@
-import Cookies from 'js-cookie';
-import request from './baseRequest';
+import { sendPostRequest, sendGetRequest } from './baseRequest';
 
 export const signup = async (account) => {
-  try {
-    const response = await request.post('/auth/signup', account);
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/auth/signup', account);
 };
 
 export const login = async (account) => {
-  try {
-    const response = await request.post('/auth/login', account);
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/auth/login', account);
 };
 
 export const loginWithSocialMediaAccount = async (data) => {
-  try {
-    const response = await request.post('/auth/login-with-social-media-account', data);
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/auth/login-with-social-media-account', data);
 };
 
 export const getUserProfile = async () => {
-  try {
-    const response = await request.get('/auth/user/profile', {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendGetRequest('/auth/user/profile');
 };
 
 export const requestNewPassword = async (email) => {
-  try {
-    const response = await request.post('/auth/forgot-password', email);
-    return response;
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/auth/forgot-password', email);
 };
 
 export const updatePassword = async (token, newPassword, confirmPassword) => {
-  try {
-    const response = await request.post('/auth/reset-password', {
-      token: token,
-      password: newPassword,
-      confirmPassword: confirmPassword,
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/auth/reset-password', {
+    token: token,
+    password: newPassword,
+    confirmPassword: confirmPassword,
+  });
 };
 
 export const checkResetToken = async (token) => {
-  try {
-    const response = await request.post('/auth/check-reset-token', token);
-    return response.data.isValidToken;
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  const { isValidToken } = await sendPostRequest('/auth/check-reset-token', token);
+  return isValidToken;
 };

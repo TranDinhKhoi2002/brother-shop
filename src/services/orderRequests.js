@@ -1,24 +1,9 @@
-import Cookies from 'js-cookie';
-import request from './baseRequest';
+import { sendPostRequest, sendPutRequest } from './baseRequest';
 
 export const createOrder = async (order) => {
-  try {
-    const response = await request.post('/orders/create-order', order);
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPostRequest('/orders/create-order', order);
 };
 
 export const checkOutOrder = async (orderId) => {
-  try {
-    const response = await request.put('/orders/check-out', orderId, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-      },
-    });
-    return { ...response.data, success: true };
-  } catch (error) {
-    return error.response ? error.response.data : { success: false, error: error.message };
-  }
+  return await sendPutRequest('/orders/check-out', orderId);
 };

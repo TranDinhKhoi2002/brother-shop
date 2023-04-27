@@ -2,7 +2,6 @@ import {
   addToCart as addToCartApi,
   updateQuantity,
   removeItemsFromCart,
-  createReceipt,
   removeItemFromCart,
 } from '@/services/cartRequests';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';

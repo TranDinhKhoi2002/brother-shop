@@ -15,7 +15,7 @@ function LoadingButton({ children, loading, fullWidth, sx, ...other }) {
         color: theme.palette.grey['200'],
         borderRadius: '4px',
         textTransform: 'uppercase',
-        fontWeight: '300',
+        fontWeight: '400',
         ...sx,
       }}
       {...other}

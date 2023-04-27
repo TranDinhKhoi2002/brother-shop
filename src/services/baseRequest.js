@@ -10,11 +10,32 @@ const request = axios.create({
 
 export const sendPostRequest = async (url, data) => {
   try {
-    const response = await request.post(url, data, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
+    const response = await request.post(
+      url,
+      data,
+      Cookies.get('token') && {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
       },
-    });
+    );
+    return { ...response.data, success: true };
+  } catch (error) {
+    return error.response ? error.response.data : { success: false, error: error.message };
+  }
+};
+
+export const sendPutRequest = async (url, data) => {
+  try {
+    const response = await request.put(
+      url,
+      data,
+      Cookies.get('token') && {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      },
+    );
     return { ...response.data, success: true };
   } catch (error) {
     return error.response ? error.response.data : { success: false, error: error.message };
@@ -23,11 +44,14 @@ export const sendPostRequest = async (url, data) => {
 
 export const sendGetRequest = async (url) => {
   try {
-    const response = await request.get(url, {
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
+    const response = await request.get(
+      url,
+      Cookies.get('token') && {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
       },
-    });
+    );
     return { ...response.data, success: true };
   } catch (error) {
     return error.response ? error.response.data : { success: false, error: error.message };

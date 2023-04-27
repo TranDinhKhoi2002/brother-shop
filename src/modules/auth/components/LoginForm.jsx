@@ -48,25 +48,21 @@ function LoginForm({ onLogin }) {
       password: values.password,
     };
 
-    try {
-      const { success, user } = await dispatch(fetchUserLogin(account)).unwrap();
+    const { success, user, message } = await dispatch(fetchUserLogin(account)).unwrap();
 
-      if (success) {
-        toast.success('Đăng nhập thành công!!');
+    if (success) {
+      toast.success(message);
 
-        if (onLogin) {
-          onLogin();
-        } else {
-          router.replace('/');
-        }
-
-        dispatch(assignProductsToCart({ cart: user.cart }));
-        dispatch(assignProductsToWishlist({ products: user.wishlist }));
+      if (onLogin) {
+        onLogin();
       } else {
-        toast.error('Tên đăng nhập hoặc mật khẩu không đúng');
+        router.replace('/');
       }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+
+      dispatch(assignProductsToCart({ cart: user.cart }));
+      dispatch(assignProductsToWishlist({ products: user.wishlist }));
+    } else {
+      toast.error(message);
     }
   };
 
@@ -131,7 +127,7 @@ function LoginForm({ onLogin }) {
         <Link href="/reset-password">
           <Typography sx={{ fontWeight: 400, textAlign: 'right' }}>Quên mật khẩu?</Typography>
         </Link>
-        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1, fontWeight: 400 }}>
+        <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
           Đăng nhập
         </LoadingButton>
       </FormProvider>

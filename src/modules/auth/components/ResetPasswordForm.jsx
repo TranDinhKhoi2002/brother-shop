@@ -34,18 +34,13 @@ function ResetPasswordForm() {
 
   const onSubmit = async (values) => {
     const { email } = values;
+    const { success, message } = await authServices.requestNewPassword({ email });
 
-    try {
-      const response = await authServices.requestNewPassword({ email });
-
-      if (response.status === 200) {
-        toast.success(response.data.message);
-        router.push(config.routes.login);
-      } else {
-        toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    if (success) {
+      toast.success(message);
+      router.push(config.routes.login);
+    } else {
+      toast.error(message);
     }
   };
 

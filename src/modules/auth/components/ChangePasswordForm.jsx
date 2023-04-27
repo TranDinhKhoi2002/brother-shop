@@ -16,7 +16,7 @@ function ChangePasswordForm() {
   const token = router.query.token;
 
   const ChangePasswordSchema = Yup.object().shape({
-    password: Yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
+    password: Yup.string().required('Vui lòng nhập mật khẩu').min(8, 'Mật khẩu phải có ít nhất 8 ký tự'),
     confirmPassword: Yup.string()
       .required('Vui lòng xác nhận lại mật khẩu')
       .test('equal', 'Mật khẩu không trùng khớp', function (confirmPassword) {
@@ -43,17 +43,13 @@ function ChangePasswordForm() {
   const onSubmit = async (values) => {
     const { password, confirmPassword } = values;
 
-    try {
-      const { success } = await authServices.updatePassword(token, password, confirmPassword);
+    const { success, message } = await authServices.updatePassword(token, password, confirmPassword);
 
-      if (success) {
-        toast.success('Thay đổi mật khẩu thành công');
-        router.replace(config.routes.login);
-      } else {
-        toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-      }
-    } catch (err) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    if (success) {
+      toast.success(message);
+      router.replace(config.routes.login);
+    } else {
+      toast.error(message);
     }
   };
 

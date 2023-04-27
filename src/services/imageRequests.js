@@ -1,6 +1,6 @@
-import request from './baseRequest';
+import { sendGetRequest } from './baseRequest';
 
 export const getIntroImages = async () => {
-  const res = await request.get('/images/intro');
-  return res.data.images;
+  const { images } = await sendGetRequest('/images/intro');
+  return images;
 };

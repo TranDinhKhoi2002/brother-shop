@@ -1,43 +1,40 @@
-import request from './baseRequest';
+import { sendGetRequest } from './baseRequest';
 
 export const getAllProducts = async () => {
-  const res = await request.get('/products');
-  return res.data.products;
+  const { products } = await sendGetRequest('/products');
+  return products;
 };
 
 export const getProductsByCategory = async (categoryId) => {
-  const res = await request.get(`/categories/${categoryId}/products`);
-  return { ...res.data };
+  return await sendGetRequest(`/categories/${categoryId}/products`);
 };
 
 export const getProductById = async (productId) => {
-  const res = await request.get(`/products/${productId}`);
-  return res.data.product;
+  const { product } = await sendGetRequest(`/products/${productId}`);
+  return product;
 };
 
 export const getHotProducts = async () => {
-  const res = await request.get('/products/hot-products');
-  return res.data.products;
+  const { products } = await sendGetRequest('/products/hot-products');
+  return products;
 };
 
 export const getDiscountProducts = async () => {
-  const res = await request.get('/products/discount-products');
-  return res.data.products;
+  const { products } = await sendGetRequest('/products/discount-products');
+  return products;
 };
 
 export const getProductsByType = async (type) => {
-  const res = await request.get(`/products/type/${type}`);
-  return res.data.products;
+  const { products } = await sendGetRequest(`/products/type/${type}`);
+  return products;
 };
 
 export const getProductsByKeyword = async (keyword, page) => {
-  const res = await request.get(`/products/search/${keyword}?page=${page}`);
-  return { ...res.data };
+  return await sendGetRequest(`/products/search/${keyword}?page=${page}`);
 };
 
 export const getProductsByFilters = async (categoryId, types, priceFrom, priceTo, materials, textures) => {
-  const res = await request.get(
+  return await sendGetRequest(
     `/products/filters?categoryId=${categoryId}&types=${types}&priceFrom=${priceFrom}&priceTo=${priceTo}&materials=${materials}&textures=${textures}`,
   );
-  return { ...res.data };
 };

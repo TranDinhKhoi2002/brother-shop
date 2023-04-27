@@ -1,6 +1,6 @@
-import request from './baseRequest';
+import { sendGetRequest } from './baseRequest';
 
 export const getCategories = async () => {
-  const res = await request.get('/categories');
-  return res.data.categories;
+  const { categories } = await sendGetRequest('/categories');
+  return categories;
 };

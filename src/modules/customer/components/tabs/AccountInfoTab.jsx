@@ -138,7 +138,7 @@ function AccountInfoTab() {
               <GenderRadioButtonsGroup ref={genderRef} />
             </Grid>
           </Grid>
-          <LoadingButton loading={isSubmitting} sx={{ fontWeight: 'bold', mt: 3 }} type="submit">
+          <LoadingButton loading={isSubmitting} sx={{ mt: 3 }} type="submit">
             Cập nhật thông tin
           </LoadingButton>
         </FormProvider>
