@@ -132,50 +132,52 @@ function LoginForm({ onLogin }) {
         </LoadingButton>
       </FormProvider>
 
-      {!router.pathname.includes('/shop/products') && (
+      {/* {!router.pathname.includes('/shop/products') && (
         <>
-          <Divider sx={{ my: 3 }}>Hoặc</Divider>
 
-          <Button
-            variant="outlined"
-            fullWidth
-            sx={{ my: 1, height: '50px' }}
-            startIcon={<Image src="/assets/images/google.svg" width={24} height={24} alt="" />}
-            onClick={signIn}
-          >
-            Đăng nhập với Google
-          </Button>
-
-          <FacebookLogin
-            appId={process.env.NEXT_PUBLIC_FACEBOOK_ID}
-            size="small"
-            textButton="Đăng nhập với Facebook"
-            autoLoad={false}
-            fields="name,email,picture"
-            scope="public_profile,email,user_friends"
-            callback={responseFacebook}
-            typeButton="outlined"
-            icon={
-              <Image
-                src="/assets/images/facebook.svg"
-                width={24}
-                height={24}
-                alt=""
-                style={{ display: 'inline-block', marginRight: '8px' }}
-              />
-            }
-            buttonStyle={{
-              backgroundColor: 'transparent',
-              color: 'black',
-              textTransform: 'capitalize',
-              width: '100%',
-              fontSize: '0.875rem',
-              height: '50px',
-              borderRadius: '8px',
-            }}
-          />
         </>
-      )}
+      )} */}
+
+      <Divider sx={{ my: 3 }}>Hoặc</Divider>
+
+      <Button
+        variant="outlined"
+        fullWidth
+        sx={{ my: 1, height: '50px' }}
+        startIcon={<Image src="/assets/images/google.svg" width={24} height={24} alt="" />}
+        onClick={signIn}
+      >
+        Đăng nhập với Google
+      </Button>
+
+      <FacebookLogin
+        appId={process.env.NEXT_PUBLIC_FACEBOOK_ID}
+        size="small"
+        textButton="Đăng nhập với Facebook"
+        autoLoad={false}
+        fields="name,email,picture"
+        scope="public_profile,email,user_friends"
+        callback={responseFacebook}
+        typeButton="outlined"
+        icon={
+          <Image
+            src="/assets/images/facebook.svg"
+            width={24}
+            height={24}
+            alt=""
+            style={{ display: 'inline-block', marginRight: '8px' }}
+          />
+        }
+        buttonStyle={{
+          backgroundColor: 'transparent',
+          color: 'black',
+          textTransform: 'capitalize',
+          width: '100%',
+          fontSize: '0.875rem',
+          height: '50px',
+          borderRadius: '8px',
+        }}
+      />
 
       <Stack direction="row" justifyContent="center" alignItems="center" spacing={1} sx={{ mt: 2 }}>
         <Typography sx={{ fontSize: '0.875rem', opacity: '0.7' }}>Chưa có tài khoản?</Typography>

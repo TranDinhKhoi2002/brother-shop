@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import config from '../config';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 import MainCarousel from '@/common/components/Carousel';
 import Intro from '@/common/components/Intro';
 import Products from '@/modules/product/components/Products';
@@ -15,8 +16,6 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useRouter } from 'next/router';
 import { Carousel } from 'react-responsive-carousel';
 import { Box, Stack, Typography } from '@mui/material';
-
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 export default function Home({
   hotProducts,
@@ -101,7 +100,7 @@ export default function Home({
           <Typography sx={{ fontWeight: 'light' }}>Đừng bỏ lỡ - Hãy mua ngay</Typography>
         </Box>
         <Products products={discountProducts} />
-        <MessengerCustomerChat pageId="105303191985068" appId="214383791186436" htmlRef="http://localhost:3000/" />,
+        {/* <MessengerCustomerChat pageId="105303191985068" appId="214383791186436" /> */}
       </main>
     </>
   );

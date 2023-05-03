@@ -1,4 +1,5 @@
 import Button from '@/common/components/Buttons/Button';
+import config from '@/config';
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
@@ -14,7 +15,7 @@ function ConfirmNotLogin() {
           Chào mừng! Bạn không cần tạo tài khoản để đặt hàng
         </Typography>
         <Box sx={{ textAlign: 'center', my: '20px' }}>
-          <Link href="/checkout/shipping">
+          <Link href={config.routes.checkoutShipping}>
             <Button>Xác nhận mua hàng không đăng nhập</Button>
           </Link>
         </Box>
