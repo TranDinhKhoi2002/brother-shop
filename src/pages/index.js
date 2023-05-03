@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import config from '../config';
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 import MainCarousel from '@/common/components/Carousel';
 import Intro from '@/common/components/Intro';
 import Products from '@/modules/product/components/Products';
