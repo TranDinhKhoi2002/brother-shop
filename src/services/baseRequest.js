@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const request = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: 'https://brother-shop-102.onrender.com/',
   headers: {
     'Content-Type': 'application/json',
   },
