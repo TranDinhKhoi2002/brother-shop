@@ -27,8 +27,13 @@ function Layout(props) {
         dispatch(assignProductsToCart({ cart: customer.cart }));
         dispatch(assignProductsToWishlist({ products: customer.wishlist }));
       } else {
-        const cart = JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`));
-        dispatch(assignProductsToCart({ cart }));
+        const sessionID = localStorage.getItem('sessionID');
+        const existingCart = JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`));
+        dispatch(
+          assignProductsToCart({
+            cart: sessionID === null ? [] : existingCart,
+          }),
+        );
       }
     };
 
