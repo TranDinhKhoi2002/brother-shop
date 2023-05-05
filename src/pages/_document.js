@@ -2,7 +2,6 @@ import * as React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '@/common/utility/createEmotionCache';
-import FacebookPluginChat from '@/common/components/Plugin/FacebookPluginChat';
 
 export default class MyDocument extends Document {
   render() {
@@ -12,7 +11,6 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          {/* <FacebookPluginChat /> */}
         </body>
       </Html>
     );
