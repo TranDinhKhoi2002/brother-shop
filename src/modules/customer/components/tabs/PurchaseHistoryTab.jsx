@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import PurchaseHistoryTable from '../PurchaseHistoryTable';
+import { appAssets } from '@/common/assets';
 
 function PurchaseHistoryTab() {
   const currentUser = useSelector(selectCurrentUser);
@@ -21,7 +22,7 @@ function PurchaseHistoryTab() {
       {currentUser?.orders?.length === 0 ? (
         <Stack direction="column" alignItems="center">
           <Typography variant="h6">Bạn chưa có đơn hàng nào</Typography>
-          <Image src="/assets/images/empty-order.png" width={200} height={200} alt="Không có lịch sử mua hàng" />
+          <Image src={appAssets.emptyOrderIcon} width={200} height={200} alt="Không có lịch sử mua hàng" />
           <Link href="/">
             <Button className="px-12">Mua sắm ngay</Button>
           </Link>

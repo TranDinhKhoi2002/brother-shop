@@ -1,6 +1,7 @@
 import { Document, Font, Line, Page, StyleSheet, Svg, Text, View, Image } from '@react-pdf/renderer';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import InvoiceTable from './InvoiceTable';
+import { appAssets } from '@/common/assets';
 
 Font.register({
   family: 'Roboto',
@@ -87,7 +88,7 @@ function InvoiceCompany({ products, formData }) {
     <Document language="vietnamese">
       <Page style={styles.body} size="A6" wrap={false}>
         <View style={styles.websiteInforContainer}>
-          <Image src="/assets/images/logo.png" style={styles.logo} alt="logo" />
+          <Image src={appAssets.logo} style={styles.logo} alt="logo" />
           <View>
             <Text>Brother Shop</Text>
             <Text>Địa chỉ: 123 Đường Nguyễn Văn A, Khu phố 2, Bến Tre</Text>

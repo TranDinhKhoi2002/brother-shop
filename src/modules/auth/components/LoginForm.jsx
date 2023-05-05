@@ -17,6 +17,7 @@ import { refreshToken } from '../services/refreshToken';
 import { useGoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import config from '@/config';
+import { appAssets } from '@/common/assets';
 
 function LoginForm({ onLogin }) {
   const dispatch = useDispatch();
@@ -144,7 +145,7 @@ function LoginForm({ onLogin }) {
         variant="outlined"
         fullWidth
         sx={{ my: 1, height: '50px' }}
-        startIcon={<Image src="/assets/images/google.svg" width={24} height={24} alt="" />}
+        startIcon={<Image src={appAssets.googleIcon} width={24} height={24} alt="" />}
         onClick={signIn}
       >
         Đăng nhập với Google
@@ -161,7 +162,7 @@ function LoginForm({ onLogin }) {
         typeButton="outlined"
         icon={
           <Image
-            src="/assets/images/facebook.svg"
+            src={appAssets.facebookIcon}
             width={24}
             height={24}
             alt=""

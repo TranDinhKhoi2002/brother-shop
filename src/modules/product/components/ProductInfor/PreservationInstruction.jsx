@@ -1,3 +1,4 @@
+import { appAssets } from '@/common/assets';
 import { Box, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 
@@ -25,7 +26,7 @@ function PreservationInstruction({ onCollapse }) {
     <Box sx={{ mt: 3 }}>
       <Typography sx={styles.title}>HƯỚNG DẪN BẢO QUẢN</Typography>
       <Image
-        src="/assets/images/hdbq.png"
+        src={appAssets.storageInstructions}
         width={1000}
         height={1000}
         style={{ width: '100%', marginTop: '16px' }}

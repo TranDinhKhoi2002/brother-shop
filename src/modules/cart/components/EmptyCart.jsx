@@ -1,3 +1,4 @@
+import { appAssets } from '@/common/assets';
 import Button from '@/common/components/Buttons/Button';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
@@ -8,13 +9,7 @@ function EmptyCart() {
     <Box sx={{ textAlign: 'center', my: 3 }}>
       <Typography sx={{ fontSize: '1.5rem', fontWeight: 500 }}>Bạn chưa chọn sản phẩm.</Typography>
       <Box>
-        <Image
-          src={'/assets/images/no-product.png'}
-          width={300}
-          height={300}
-          alt="Giỏ hàng trống"
-          className="mx-auto"
-        />
+        <Image src={appAssets.emptyCartIcon} width={300} height={300} alt="Giỏ hàng trống" className="mx-auto" />
       </Box>
       <Typography>Hãy nhanh tay chọn ngay sản phẩm yêu thích.</Typography>
       <Link href={'/'}>

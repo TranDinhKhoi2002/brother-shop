@@ -16,6 +16,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useRouter } from 'next/router';
 import { Carousel } from 'react-responsive-carousel';
 import { Box, Stack, Typography } from '@mui/material';
+import { appAssets } from '@/common/assets';
 
 export default function Home({
   hotProducts,
@@ -52,10 +53,10 @@ export default function Home({
           stopOnHover={false}
         >
           <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px]">
-            <Image alt="Discount" src="/assets/images/banner1.jpg" width={1400} height={1000} priority />
+            <Image alt="Discount" src={appAssets.banner1} width={1400} height={1000} priority />
           </div>
           <div className="animate-image flex justify-center pt-[70px] lg:pt-[79px]">
-            <Image alt="Discount" src="/assets/images/banner2.jpg" width={1400} height={1000} priority />
+            <Image alt="Discount" src={appAssets.banner2} width={1400} height={1000} priority />
           </div>
         </Carousel>
         <MainCarousel events={readyToSellEvent} />
@@ -68,26 +69,15 @@ export default function Home({
         </Box>
         <Products products={hotProducts} />
         <Stack justifyContent="center">
-          <Image
-            src="https://cmsv2.yame.vn/uploads/91ecb60f-ecf4-4572-9a80-7ba29483cd97/Banner_MB_13.01_(G)_02.jpg?quality=80&w=0&h=0"
-            alt=""
-            width={1000}
-            height={1000}
-            className="w-full"
-          />
+          <Image src={appAssets.banner3} alt="" width={1000} height={1000} className="w-full" />
         </Stack>
         <Products products={tshirtProducts} />
         <Box sx={{ textAlign: 'center', marginY: 3 }}>
           <Button onClick={navigateToProductsPage.bind(this, 'Áo Thun')}>Xem tất cả áo thun</Button>
         </Box>
-        <Stack justifyContent="center" sx={{ mt: 3 }}>
-          <Image
-            src="https://cmsv2.yame.vn/uploads/7c59b59c-11d3-44ae-b7b0-aa93b9a7deec/Thum_MB_06.01_(04).jpg?quality=80&w=0&h=0"
-            alt=""
-            width={1000}
-            height={1000}
-            className="w-full"
-          />
+        <Stack direction={{ md: 'row' }} justifyContent="center" sx={{ mt: 10 }}>
+          <Image src={appAssets.banner4} alt="" width={300} height={300} className="w-full" />
+          <Image src={appAssets.banner5} alt="" width={300} height={300} className="w-full" />
         </Stack>
         <Products products={trouserProducts} />
         <Box sx={{ textAlign: 'center', marginY: 3 }}>
@@ -101,9 +91,9 @@ export default function Home({
         </Box>
         <Products products={discountProducts} />
         <MessengerCustomerChat
-          pageId="105303191985068"
-          appId="214383791186436"
-          htmlRef="https://brother-shop.vercel.app/"
+          pageId={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
+          appId={process.env.NEXT_PUBLIC_FACEBOOK_ID}
+          htmlRef={process.env.NEXT_PUBLIC_FACEBOOK_HTML_REF}
         />
       </main>
     </>
