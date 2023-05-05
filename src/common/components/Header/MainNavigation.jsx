@@ -5,11 +5,24 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector } from 'react-redux';
 import { selectCategories } from '@/redux/slices/data';
 import { Box } from '@mui/material';
+import { useRouter } from 'next/router';
 
 function MainNavigation() {
   const categories = useSelector(selectCategories);
   const mainCategories = [...categories].slice(0, 4);
   const detailCategories = [...categories].slice(-2);
+
+  const router = useRouter();
+
+  const isActive = (categoryId) => {
+    if (router.query.categoryId === categoryId) {
+      return true;
+    }
+
+    const selectedCategory = categories.find((category) => category._id === categoryId);
+    const active = selectedCategory.types.findIndex((type) => type._id === router.query.categoryId) !== -1;
+    return active;
+  };
 
   return (
     <Box component="nav" sx={{ display: { xs: 'none', lg: 'block' } }}>
@@ -19,7 +32,9 @@ function MainNavigation() {
             {category.types.length > 0 ? (
               <Menu items={category.types}>
                 <Link
-                  className="transition duration-300 text-[#F4F6F8] hover:text-primary"
+                  className={`transition duration-300 ${
+                    isActive(category._id) ? 'text-primary' : 'text-[#F4F6F8]'
+                  }  hover:text-primary`}
                   href={{
                     pathname: `/category/${category._id}`,
                     query: { title: category.name },
@@ -32,7 +47,9 @@ function MainNavigation() {
               </Menu>
             ) : (
               <Link
-                className="transition duration-300 text-[#F4F6F8] hover:text-primary"
+                className={`transition duration-300 ${
+                  router.query.categoryId === category._id ? 'text-primary' : 'text-[#F4F6F8]'
+                } hover:text-primary`}
                 href={{
                   pathname: `/category/${category._id}`,
                   query: { title: category.name },

@@ -79,7 +79,7 @@ function LoginForm({ onLogin }) {
       if (success) {
         dispatch(assignProductsToCart({ cart: user.cart }));
         dispatch(assignProductsToWishlist({ products: user.wishlist }));
-        // router.replace('/');
+        router.replace('/');
       }
     } catch (error) {
       toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
@@ -132,12 +132,6 @@ function LoginForm({ onLogin }) {
           Đăng nhập
         </LoadingButton>
       </FormProvider>
-
-      {/* {!router.pathname.includes('/shop/products') && (
-        <>
-
-        </>
-      )} */}
 
       <Divider sx={{ my: 3 }}>Hoặc</Divider>
 
