@@ -5,7 +5,6 @@ import MainCarousel from '@/common/components/Carousel';
 import Intro from '@/common/components/Intro';
 import Products from '@/modules/product/components/Products';
 import Button from '@/common/components/Buttons/Button';
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import { getDiscountProducts, getHotProducts, getProductsByType } from '@/services/productRequests';
 import { getIntroImages } from '@/services/imageRequests';
@@ -90,11 +89,6 @@ export default function Home({
           <Typography sx={{ fontWeight: 'light' }}>Đừng bỏ lỡ - Hãy mua ngay</Typography>
         </Box>
         <Products products={discountProducts} />
-        <MessengerCustomerChat
-          pageId={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
-          appId={process.env.NEXT_PUBLIC_FACEBOOK_ID}
-          htmlRef={process.env.NEXT_PUBLIC_FACEBOOK_HTML_REF}
-        />
       </main>
     </>
   );
