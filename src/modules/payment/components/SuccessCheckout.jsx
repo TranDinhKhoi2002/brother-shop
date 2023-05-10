@@ -4,7 +4,6 @@ import Title from '@/common/components/UI/Title';
 import { checkOut } from '@/redux/slices/cart';
 import { checkOutOrder } from '@/services/orderRequests';
 import { Box, Typography } from '@mui/material';
-import { useTheme } from '@mui/styles';
 import { createDecipher } from 'crypto';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +11,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-function SuccessCheckout({ orderId }) {
+function SuccessCheckout() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -24,8 +23,6 @@ function SuccessCheckout({ orderId }) {
 
   const { name, email } = router.query;
   const shippingInfor = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('shippingInfor'));
-
-  const theme = useTheme();
 
   useEffect(() => {
     const updateOrder = async () => {
@@ -57,18 +54,6 @@ function SuccessCheckout({ orderId }) {
       <Title sx={{ textAlign: 'center' }}>ĐẶT HÀNG THÀNH CÔNG</Title>
       <Image src={`/assets/images/cod.svg`} alt="" width={120} height={120} className="mx-auto my-10" />
       <Box sx={{ textAlign: 'center' }}>
-        <Box
-          component="span"
-          sx={{
-            paddingX: 3,
-            paddingY: '8px',
-            backgroundColor: theme.palette.grey['900'],
-            borderRadius: '8px',
-            color: 'white',
-          }}
-        >
-          Mã đơn hàng: {orderId.slice(0, 8).toUpperCase()}
-        </Box>
         <Box sx={{ mt: 4 }}>
           <Typography sx={{ mb: '12px' }}>
             Cảm ơn Quý khách {name || shippingInfor.name} đã mua hàng trên Brother Shop!
