@@ -83,7 +83,8 @@ function Layout(props) {
       <MessengerCustomerChat
         pageId={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
         appId={process.env.NEXT_PUBLIC_FACEBOOK_ID}
-        htmlRef={process.env.NEXT_PUBLIC_FACEBOOK_HTML_REF}
+        htmlRef={process.env.NEXT_PUBLIC_BASE_URL}
+        language="vi_VN"
       />
       <Footer />
     </Box>

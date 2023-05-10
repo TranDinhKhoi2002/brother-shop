@@ -97,7 +97,7 @@ function CheckoutPayment() {
       return;
     }
 
-    router.replace(`http://localhost:3001/payments/vnpay?totalPrice=${totalPrice}`);
+    router.replace(`${process.env.NEXT_PUBLIC_BASE_URL}payments/vnpay?totalPrice=${totalPrice}`);
   };
 
   const changePaymentMethodHandler = (e) => {

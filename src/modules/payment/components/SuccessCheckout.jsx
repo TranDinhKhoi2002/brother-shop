@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-function SuccessCheckout() {
+function SuccessCheckout({ orderId }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ function SuccessCheckout() {
             color: 'white',
           }}
         >
-          Mã đơn hàng: 123456
+          Mã đơn hàng: {orderId.slice(0, 8).toUpperCase()}
         </Box>
         <Box sx={{ mt: 4 }}>
           <Typography sx={{ mb: '12px' }}>
