@@ -2,7 +2,7 @@ import { Button, Stack, Typography } from '@mui/material';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import { useTheme } from '@mui/styles';
 
-function ProductSizes({ sizes, onChange, currentSize, onDisplayModal }) {
+function ProductSizes({ sizes, onChange, isSoldOut, currentSize, onDisplayModal }) {
   const theme = useTheme();
 
   return (
@@ -22,7 +22,7 @@ function ProductSizes({ sizes, onChange, currentSize, onDisplayModal }) {
           <Button
             key={size.name}
             variant="outlined"
-            disabled={currentSize?.remainingQuantity === 0}
+            disabled={isSoldOut(size.name)}
             onClick={onChange.bind(this, size)}
             sx={{
               borderColor: theme.palette.grey['900'],

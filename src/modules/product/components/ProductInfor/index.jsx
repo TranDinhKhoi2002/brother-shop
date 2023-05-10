@@ -49,9 +49,30 @@ function ProductInfor({ product }) {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const sizes = product.sizes.map((size) => ({ name: size.name, remainingQuantity: size.quantity - size.sold }));
 
+  const getRemainingQuantity = (selectedSize) => {
+    const sizeItem = product.sizes.find((size) => size.name === selectedSize);
+    const remainingQuantity = sizeItem.quantity - sizeItem.sold;
+    return remainingQuantity;
+  };
+
+  const isSoldOut = (selectedSize) => {
+    const remainingQuantity = getRemainingQuantity(selectedSize);
+    if (remainingQuantity === 0) {
+      return true;
+    }
+
+    return false;
+  };
+
   const addToCartHandler = async (size) => {
     if (!currentSize) {
       toast.error('Bạn vui lòng chọn size');
+      return;
+    }
+
+    const remainingQuantity = getRemainingQuantity(size);
+    if (remainingQuantity < +inputRef.current.getQuantity()) {
+      toast.error('Số lượng sản phẩm còn lại không đủ');
       return;
     }
 
@@ -62,7 +83,9 @@ function ProductInfor({ product }) {
     }
 
     try {
-      const { success, cart } = await dispatch(fetchAddToCart({ productId: product._id, size, quantity: 1 })).unwrap();
+      const { success, cart } = await dispatch(
+        fetchAddToCart({ productId: product._id, size, quantity: +inputRef.current.getQuantity() }),
+      ).unwrap();
       if (success) {
         toast.success('Đã thêm vào giỏ hàng');
         dispatch(assignProductsToCart({ cart: cart }));
@@ -119,6 +142,7 @@ function ProductInfor({ product }) {
             <ProductSizes
               sizes={sizes}
               onChange={handleChangeSize}
+              isSoldOut={isSoldOut}
               currentSize={currentSize}
               onDisplayModal={() => setModalIsVisible(true)}
             />
