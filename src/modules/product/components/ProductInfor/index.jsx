@@ -128,7 +128,9 @@ function ProductInfor({ product }) {
     <>
       <Grid container spacing={4} sx={{ mt: '12px' }}>
         <Grid item xs={12} md={5}>
-          <PreviewImages images={product.images} />
+          <Box sx={{ pr: 6 }}>
+            <PreviewImages images={product.images} />
+          </Box>
         </Grid>
         <Grid item xs={12} md={7}>
           <Box sx={{ px: 2 }}>

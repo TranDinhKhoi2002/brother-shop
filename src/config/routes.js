@@ -9,6 +9,7 @@ const routesConfig = {
   cart: '/cart',
   search: '/search',
   products: '/shop/products',
+  profile: '/profile',
 };
 
 export default routesConfig;

@@ -2,9 +2,8 @@ import Slider from 'react-slick';
 import PropTypes from 'prop-types';
 import { Image } from 'cloudinary-react';
 import NextImage from 'next/image';
-import { SideBySideMagnifier } from 'react-image-magnifiers';
+import { GlassMagnifier } from 'react-image-magnifiers';
 import { Stack } from '@mui/material';
-import { LightgalleryItem, LightgalleryProvider } from 'react-lightgallery';
 import { useEffect, useState } from 'react';
 
 function PreviewImages({ images }) {
@@ -32,45 +31,38 @@ function PreviewImages({ images }) {
   return (
     <>
       <Slider {...settings} arrows={false} className="imageContainer">
-        <SideBySideMagnifier
+        <GlassMagnifier
           alwaysInPlace={true}
           fillAvailableSpace={true}
           imageSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${images.mainImg}`}
+          magnifierSize="50%"
           imageAlt=""
         >
           <Image cloudName="ddajkcbs2" publicId={images.mainImg} alt="" />
-        </SideBySideMagnifier>
+        </GlassMagnifier>
 
-        <SideBySideMagnifier
+        <GlassMagnifier
           alwaysInPlace={true}
           fillAvailableSpace={true}
           imageSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${images.subImg}`}
+          magnifierSize="50%"
           imageAlt=""
         >
           <Image cloudName="ddajkcbs2" publicId={images.subImg} alt="" />
-        </SideBySideMagnifier>
+        </GlassMagnifier>
       </Slider>
 
       <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-        <LightgalleryProvider>
-          {Object.values(images).map((image) => (
-            <LightgalleryItem
-              key={image}
-              group="preview-image"
-              src={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${image}`}
-              thumb={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${image}`}
-            >
-              <NextImage
-                key={image}
-                src={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${image}`}
-                width={200}
-                height={200}
-                style={{ objectFit: 'cover', objectPosition: 'center', height: '100%', width: '100px' }}
-                alt=""
-              />
-            </LightgalleryItem>
-          ))}
-        </LightgalleryProvider>
+        {Object.values(images).map((image) => (
+          <NextImage
+            key={image}
+            src={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${image}`}
+            width={200}
+            height={200}
+            style={{ objectFit: 'cover', objectPosition: 'center', height: '100%', width: '100px' }}
+            alt=""
+          />
+        ))}
       </Stack>
     </>
   );

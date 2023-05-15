@@ -4,11 +4,17 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Container, Grid, Stack } from '@mui/material';
+import { Container, Divider, Grid, Stack } from '@mui/material';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import AccountInfoTab from './tabs/AccountInfoTab';
 import PurchaseHistoryTab from './tabs/PurchaseHistoryTab';
 import AddressesTab from './tabs/AddressesTab';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { logout } from '@/redux/slices/auth';
+import { assignProductsToWishlist } from '@/redux/slices/wishlist';
+import config from '@/config';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,8 +48,17 @@ function a11yProps(index) {
 export default function ProfileTabs() {
   const [value, setValue] = React.useState(0);
 
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(assignProductsToWishlist({ products: [] }));
+    router.replace(config.routes.login);
   };
 
   return (
@@ -63,7 +78,10 @@ export default function ProfileTabs() {
             <Tab label="Thông tin tài khoản" {...a11yProps(0)} sx={{ px: 6, alignItems: 'flex-start' }} />
             <Tab label="Lịch sử mua hàng" {...a11yProps(1)} sx={{ px: 6, alignItems: 'flex-start' }} />
             <Tab label="Địa chỉ mua hàng" {...a11yProps(2)} sx={{ px: 6, alignItems: 'flex-start' }} />
-            <Tab label="Ưu đãi của bạn" {...a11yProps(3)} sx={{ px: 6, alignItems: 'flex-start' }} />
+            <Divider />
+            <Typography sx={{ px: 6, pt: 2, fontWeight: 'bold', cursor: 'pointer' }} onClick={handleLogout}>
+              <LogoutIcon /> Đăng xuất
+            </Typography>
           </Tabs>
         </Grid>
         <Grid item xs={12} md={9}>
@@ -76,9 +94,6 @@ export default function ProfileTabs() {
             </TabPanel>
             <TabPanel value={value} index={2}>
               <AddressesTab />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              Item Four
             </TabPanel>
           </Box>
         </Grid>

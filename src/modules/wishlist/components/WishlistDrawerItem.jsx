@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Image } from 'cloudinary-react';
 import WishlistSizesMenu from './WishlistSizesMenu';
@@ -66,32 +66,29 @@ function WishlistDrawerItem({ product }) {
 
   return (
     <>
-      <Stack direction="row" spacing={2} sx={{ my: 4, position: 'relative' }}>
+      <Grid container spacing={2} sx={{ my: 4, position: 'relative' }}>
         <CloseIcon
           sx={{ position: 'absolute', top: -20, right: 0, fontSize: 18, cursor: 'pointer' }}
           onClick={() => setModalIsVisible(true)}
         />
-        <Box>
-          <Image
-            cloudName="ddajkcbs2"
-            publicId={product.images.mainImg}
-            alt=""
-            style={{ width: '120px', marginLeft: 0 }}
-          />
-        </Box>
-        <Box>
-          <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
-          <WishlistSizesMenu ref={sizesRef} />
-          <WishlistQuantity ref={quantityRef} price={product.price} id={product._id} />
-          <Button
-            className={`w-[200px] rounded-none mt-2 ${isAddedToCart && '!bg-lightGray100 !text-[#787878]'}`}
-            disabled={isAddedToCart}
-            onClick={handleAddToCart}
-          >
-            {isAddedToCart ? 'Đã thêm' : 'Thêm vào giỏ hàng'}
-          </Button>
-        </Box>
-      </Stack>
+        <Grid item xs={4}>
+          <Image cloudName="ddajkcbs2" publicId={product.images.mainImg} alt="" />
+        </Grid>
+        <Grid item xs={8}>
+          <Box>
+            <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
+            <WishlistSizesMenu ref={sizesRef} />
+            <WishlistQuantity ref={quantityRef} price={product.price} id={product._id} />
+            <Button
+              className={`w-[200px] rounded-none mt-2 ${isAddedToCart && '!bg-lightGray100 !text-[#787878]'}`}
+              disabled={isAddedToCart}
+              onClick={handleAddToCart}
+            >
+              {isAddedToCart ? 'Đã thêm' : 'Thêm vào giỏ hàng'}
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
       <ConfirmRemoveModal
         isOpen={modalIsVisible}
         title="Xóa sản phẩm?"

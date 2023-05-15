@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge, Button, IconButton, Stack, Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
-import AccountPopper from './AccountPopper';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
@@ -39,6 +38,8 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
   const authHandler = () => {
     if (!isAuthenticated) {
       router.push(config.routes.login);
+    } else {
+      router.push(config.routes.profile);
     }
   };
 
@@ -59,15 +60,12 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
           <SearchIcon />
         </IconButton>
       </Tooltip>
-      {isAuthenticated ? (
-        <AccountPopper />
-      ) : (
-        <Tooltip title="Tài khoản">
-          <IconButton className={styles.actionItem} onClick={authHandler}>
-            <PersonIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+
+      <Tooltip title="Tài khoản">
+        <IconButton className={styles.actionItem} onClick={authHandler}>
+          <PersonIcon />
+        </IconButton>
+      </Tooltip>
 
       <Tooltip title="Danh sách yêu thích">
         <IconButton className={styles.actionItem} onClick={showWishlist}>

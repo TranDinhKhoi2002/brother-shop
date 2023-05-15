@@ -2,14 +2,17 @@ import PageContainer from '@/common/components/Layout/PageContainer';
 import ProductInfor from '@/modules/product/components/ProductInfor';
 import RelatedProducts from '@/modules/product/components/RelatedProducts';
 import { getAllProducts, getProductById, getProductsByType } from '@/services/productRequests';
+import { Container } from '@mui/material';
 
 function ProductInforPage({ product, relatedProducts }) {
   const headTitle = `Sản phẩm ${product.name} | Brother Shop`;
 
   return (
     <PageContainer barTitle={product.name} headTitle={headTitle}>
-      <ProductInfor product={product} />
-      <RelatedProducts products={relatedProducts} />
+      <Container maxWidth="xxl">
+        <ProductInfor product={product} />
+        <RelatedProducts products={relatedProducts} />
+      </Container>
     </PageContainer>
   );
 }

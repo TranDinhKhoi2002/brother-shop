@@ -1,35 +1,10 @@
 import React, { useImperativeHandle, useState } from 'react';
-import { makeStyles } from '@mui/styles';
-import { Box, IconButton, Input } from '@mui/material';
+import { IconButton, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '150px',
-    height: '50px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '5px',
-  },
-  input: {
-    width: '100%',
-    textAlign: 'center',
-    border: 'none',
-  },
-  iconButton: {
-    width: '30px',
-    height: '30px',
-    color: '#666',
-  },
-});
-
 export default React.forwardRef(function NumberBox(props, ref) {
   const { max, min } = props;
-  const classes = useStyles();
   const [localValue, setLocalValue] = useState(1);
 
   useImperativeHandle(ref, () => ({
@@ -60,23 +35,31 @@ export default React.forwardRef(function NumberBox(props, ref) {
   };
 
   return (
-    <Box className={classes.root}>
-      <IconButton onClick={handleDecrement} disabled={localValue <= min} className={classes.iconButton}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{
+        width: '150px',
+        height: '50px',
+        border: '1px solid #ccc',
+        borderRadius: '5px',
+        padding: '5px',
+      }}
+    >
+      <IconButton onClick={handleDecrement} disabled={localValue <= min}>
         <RemoveIcon />
       </IconButton>
-      <Input
+      <input
+        className="outline-none"
         value={localValue}
         onChange={handleInputChange}
         type="number"
-        inputProps={{
-          min,
-          max,
-          className: classes.input,
-        }}
+        style={{ width: '100%', textAlign: 'center' }}
       />
-      <IconButton onClick={handleIncrement} disabled={localValue >= max} className={classes.iconButton}>
+      <IconButton onClick={handleIncrement} disabled={localValue >= max}>
         <AddIcon />
       </IconButton>
-    </Box>
+    </Stack>
   );
 });

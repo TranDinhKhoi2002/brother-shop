@@ -1,4 +1,4 @@
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { Image } from 'cloudinary-react';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -84,6 +84,7 @@ function CartDrawerItem({ cartProduct }) {
         dispatch(assignProductsToCart({ cart }));
 
         setModalIsVisible(false);
+        toast.success(message);
       } else {
         toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
       }
@@ -94,47 +95,51 @@ function CartDrawerItem({ cartProduct }) {
 
   return (
     <>
-      <Stack direction="row" spacing={2} sx={{ my: 4, position: 'relative' }}>
+      <Grid container spacing={2} sx={{ my: 4, position: 'relative' }}>
         <CloseIcon
           sx={{ position: 'absolute', top: -20, right: 0, fontSize: 18, cursor: 'pointer' }}
           onClick={() => setModalIsVisible(true)}
         />
-        <Image
-          cloudName="ddajkcbs2"
-          publicId={cartProduct.productId.images.mainImg}
-          alt=""
-          style={{ width: '100px', marginLeft: 0 }}
-        />
-        <Box>
-          <Typography sx={{ fontWeight: 400 }}>{cartProduct.productId.name}</Typography>
-          <Typography sx={{ fontWeight: 400, color: theme.palette.grey['600'], my: 1 }}>
-            SIZE: {cartProduct.size}
-          </Typography>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ width: '100px', mt: 1, border: 1, py: '4px', px: 1 }}
-          >
-            <IconButton onClick={handleDecreaseQuantity} disabled={quantity === 1}>
-              <RemoveIcon sx={{ fontSize: '14px' }} />
-            </IconButton>
-            <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>{quantity}</Typography>
-            <IconButton onClick={handleIncreaseQuantity}>
-              <AddIcon sx={{ fontSize: '14px' }} />
-            </IconButton>
-          </Stack>
+        <Grid item xs={4}>
+          <Image
+            cloudName="ddajkcbs2"
+            publicId={cartProduct.productId.images.mainImg}
+            alt=""
+            style={{ marginLeft: 0 }}
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <Box>
+            <Typography sx={{ fontWeight: 400 }}>{cartProduct.productId.name}</Typography>
+            <Typography sx={{ fontWeight: 400, color: theme.palette.grey['600'], my: 1 }}>
+              SIZE: {cartProduct.size}
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ width: '100px', mt: 1, border: 1, py: '4px', px: 1 }}
+            >
+              <IconButton onClick={handleDecreaseQuantity} disabled={quantity === 1}>
+                <RemoveIcon sx={{ fontSize: '14px' }} />
+              </IconButton>
+              <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>{quantity}</Typography>
+              <IconButton onClick={handleIncreaseQuantity}>
+                <AddIcon sx={{ fontSize: '14px' }} />
+              </IconButton>
+            </Stack>
 
-          <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 1 }}>
-            <Typography sx={{ fontWeight: 500 }}>{printNumberWithCommas(cartProduct.productId.price)} đ</Typography>
-            {cartProduct.productId.oldPrice && (
-              <Typography sx={{ fontWeight: 400, fontSize: 14, textDecorationLine: 'line-through' }}>
-                {printNumberWithCommas(cartProduct.productId.oldPrice)} đ
-              </Typography>
-            )}
-          </Stack>
-        </Box>
-      </Stack>
+            <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 1 }}>
+              <Typography sx={{ fontWeight: 500 }}>{printNumberWithCommas(cartProduct.productId.price)} đ</Typography>
+              {cartProduct.productId.oldPrice && (
+                <Typography sx={{ fontWeight: 400, fontSize: 14, textDecorationLine: 'line-through' }}>
+                  {printNumberWithCommas(cartProduct.productId.oldPrice)} đ
+                </Typography>
+              )}
+            </Stack>
+          </Box>
+        </Grid>
+      </Grid>
       <ConfirmRemoveModal
         isOpen={modalIsVisible}
         title="Xóa sản phẩm?"
