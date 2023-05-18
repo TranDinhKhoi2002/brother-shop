@@ -7,6 +7,7 @@ import { Box, Container, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useTheme } from '@mui/styles';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import { appAssets } from '@/common/assets';
 
 function Footer() {
   const theme = useTheme();
@@ -19,18 +20,12 @@ function Footer() {
       <Container maxWidth="xl">
         <Box>
           <Box sx={{ textAlign: 'center' }}>
-            <Image
-              src="https://res.yame.vn/Content/images/yame-f-logo-white.png"
-              alt=""
-              className="h-[70px] mx-auto"
-              width={100}
-              height={100}
-            />
+            <Image src={appAssets.logo} alt="" className="h-[120px] w-[120px] mx-auto" width={100} height={100} />
           </Box>
           <Box sx={{ textAlign: 'center', mt: 3 }}>
             <Typography>Đặt hàng và thu tiền tận nơi toàn quốc</Typography>
             <Typography variant="h6" sx={{ mb: 2 }}>
-              (028) 7307 1441
+              (028) 9721 4431
             </Typography>
             <Link
               href="https://docs.google.com/forms/d/e/1FAIpQLSfwI5hLaOdzOL8xz-rlUxpCTfrMitJRz3Z4N3Nbd8eZItVglQ/viewform"
@@ -87,7 +82,7 @@ function Footer() {
           </Box>
           <Box sx={{ display: { md: 'flex' }, alignItems: 'center', textAlign: { xs: 'center', md: 'left' }, mt: 5 }}>
             <Box width={'100%'}>
-              <Typography>© 2022 - CÔNG TY TNHH YAME VN</Typography>
+              <Typography>© {new Date().getFullYear()} - CÔNG TY TNHH BROTHER VN</Typography>
               <Typography sx={{ fontSize: '9px' }}>
                 Giấy CNĐKDN: 0310874914 – Ngày cấp: 25/11/2011 - Cơ quan cấp: Phòng Đăng Ký Kinh Doanh – Sở Kế Hoạch và
                 Đầu Tư TP.HCM

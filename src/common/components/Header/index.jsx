@@ -8,6 +8,7 @@ import Actions from './Actions';
 import config from '@/config';
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { appAssets } from '@/common/assets';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -56,13 +57,7 @@ const Header = ({ showSideBar, showCartPreview, showWishlist }) => {
     <Box component="header" className={styles.header}>
       <Box>
         <Link href={config.routes.home}>
-          <Image
-            className="w-16 h-11 align-middle"
-            src="https://res.yame.vn/Content/images/yame-f-logo-white.png"
-            width={300}
-            height={300}
-            alt=""
-          />
+          <Image className="w-16 h-16 align-middle" src={appAssets.logo} width={1000} height={1000} alt="" />
         </Link>
       </Box>
       <MainNavigation />

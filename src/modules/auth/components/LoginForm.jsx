@@ -79,7 +79,7 @@ function LoginForm({ onLogin }) {
       if (success) {
         dispatch(assignProductsToCart({ cart: user.cart }));
         dispatch(assignProductsToWishlist({ products: user.wishlist }));
-        router.replace('/');
+        router.replace(config.routes.home);
       }
     } catch (error) {
       toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
@@ -101,14 +101,12 @@ function LoginForm({ onLogin }) {
     clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     onSuccess,
     onFailure,
-    isSignedIn: true,
     accessType: 'offline',
     scope: 'https://www.googleapis.com/auth/userinfo.profile',
   });
 
   const responseFacebook = async (userInfo) => {
     await handleLoginWithSocialMedia(userInfo.name, userInfo.email);
-    router.replace(config.routes.home);
   };
 
   return (
