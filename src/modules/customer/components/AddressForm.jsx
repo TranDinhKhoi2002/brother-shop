@@ -8,8 +8,8 @@ import RHFAutocomplete from '@/common/components/Form/RHFAutocomplete';
 import { useCallback, useEffect, useState } from 'react';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { fetchAddAddress, fetchEditAddress } from '@/redux/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAddAddress, fetchEditAddress, selectCurrentUser } from '@/redux/slices/auth';
 
 let addressesDataSource;
 let city;
@@ -23,6 +23,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
   const isEditMode = selectedAddress ? true : false;
 
   const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
 
   const getProvinceData = useCallback(async () => {
     const response = await fetch('https://provinces.open-api.vn/api/?depth=3');
@@ -50,6 +51,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
 
   const AddAddressSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
+    email: Yup.string().required('Vui lòng nhập email').email('Email không hợp lệ'),
     phone: Yup.string()
       .required('Vui lòng nhập số điện thoại')
       .test('viet_nam_phone_number', 'Số điện thoại không hợp lệ', function (phoneNumber) {
@@ -61,8 +63,11 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
     wards: Yup.string().required('Vui lòng chọn phường/xã'),
   });
 
+  console.log(selectedAddress);
+
   const defaultValues = {
     name: selectedAddress?.name || '',
+    email: currentUser?.email || '',
     phone: selectedAddress?.phone || '',
     address: selectedAddress?.detail || '',
     cities: selectedAddress?.city || '',
@@ -149,6 +154,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <RHFTextField name="name" label="Họ tên" id="name" placeholder="Họ và tên" />
+      <RHFTextField name="email" label="Email" id="email" placeholder="Địa chỉ email" />
       <RHFTextField name="phone" label="Số điện thoại" id="phone" placeholder="Số điện thoại" />
       <RHFTextField name="address" label="Địa chỉ" id="address" placeholder="Địa chỉ" />
       <RHFAutocomplete

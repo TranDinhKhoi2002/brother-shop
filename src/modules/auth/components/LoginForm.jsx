@@ -79,7 +79,12 @@ function LoginForm({ onLogin }) {
       if (success) {
         dispatch(assignProductsToCart({ cart: user.cart }));
         dispatch(assignProductsToWishlist({ products: user.wishlist }));
-        router.replace(config.routes.home);
+
+        if (onLogin) {
+          onLogin();
+        } else {
+          router.replace(config.routes.home);
+        }
       }
     } catch (error) {
       toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
