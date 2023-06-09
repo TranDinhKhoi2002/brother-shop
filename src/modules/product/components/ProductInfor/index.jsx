@@ -144,6 +144,7 @@ function ProductInfor({ product }) {
             <ProductSizes
               sizes={sizes}
               onChange={handleChangeSize}
+              product={product}
               isSoldOut={isSoldOut}
               currentSize={currentSize}
               onDisplayModal={() => setModalIsVisible(true)}

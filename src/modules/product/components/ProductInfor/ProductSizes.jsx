@@ -1,9 +1,39 @@
 import { Button, Stack, Typography } from '@mui/material';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import { useTheme } from '@mui/styles';
+import openSocket from 'socket.io-client';
+import { useEffect, useState } from 'react';
 
-function ProductSizes({ sizes, onChange, isSoldOut, currentSize, onDisplayModal }) {
+function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisplayModal }) {
+  const [productSizes, setProductSizes] = useState(sizes);
+  const [selectedSize, setSelectedSize] = useState(currentSize);
   const theme = useTheme();
+
+  useEffect(() => {
+    setSelectedSize(currentSize);
+  }, [currentSize]);
+
+  useEffect(() => {
+    const socket = openSocket('http://localhost:3001');
+    socket.on('orders', (data) => {
+      const { action } = data;
+
+      if (action === 'create') {
+        const loadedSizes = data.productSizes;
+        const sizesData = loadedSizes.find((item) => item.productId === product._id);
+
+        setProductSizes(sizesData.sizes);
+
+        console.log(selectedSize);
+        const remainingCurrentSize = sizesData.sizes.find((size) => size.name === selectedSize?.name);
+        if (remainingCurrentSize?.remainingQuantity > 0) {
+          setSelectedSize(remainingCurrentSize);
+        } else {
+          setSelectedSize(null);
+        }
+      }
+    });
+  }, [product._id, selectedSize]);
 
   return (
     <>
@@ -18,19 +48,19 @@ function ProductSizes({ sizes, onChange, isSoldOut, currentSize, onDisplayModal 
         </Typography>
       </Stack>
       <Stack spacing={2} direction="row" sx={{ mt: 2 }}>
-        {sizes.map((size) => (
+        {productSizes?.map((size) => (
           <Button
             key={size.name}
             variant="outlined"
-            disabled={isSoldOut(size.name)}
+            disabled={size.remainingQuantity === 0 || isSoldOut(size.name)}
             onClick={onChange.bind(this, size)}
             sx={{
               borderColor: theme.palette.grey['900'],
               color: theme.palette.grey['900'],
               borderRadius: 0,
               backgroundColor:
-                currentSize?.name === size.name ? `${theme.palette.grey['900']} !important` : 'transparent',
-              color: currentSize?.name === size.name && 'white',
+                selectedSize?.name === size.name ? `${theme.palette.grey['900']} !important` : 'transparent',
+              color: selectedSize?.name === size.name && 'white',
             }}
           >
             {size.name}
@@ -38,9 +68,9 @@ function ProductSizes({ sizes, onChange, isSoldOut, currentSize, onDisplayModal 
         ))}
       </Stack>
 
-      {currentSize && (
+      {selectedSize && (
         <Typography sx={{ fontWeight: 400, fontSize: 14, mt: 1 }}>
-          Còn lại: {currentSize.remainingQuantity} sản phẩm
+          Còn lại: {selectedSize.remainingQuantity} sản phẩm
         </Typography>
       )}
     </>
