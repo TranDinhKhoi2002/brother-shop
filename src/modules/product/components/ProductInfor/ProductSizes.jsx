@@ -17,7 +17,7 @@ function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisp
     const socket = openSocket('https://brother-shop-102.onrender.com', {
       withCredentials: true,
       extraHeaders: {
-        'my-custom-header': 'https://brother-shop.vercel.app/',
+        'my-custom-header': 'https://brother-shop.vercel.app',
       },
     });
     socket.on('orders', (data) => {
