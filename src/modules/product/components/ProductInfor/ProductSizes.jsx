@@ -14,7 +14,7 @@ function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisp
   }, [currentSize]);
 
   useEffect(() => {
-    const socket = openSocket('http://localhost:3001');
+    const socket = openSocket('https://brother-shop-102.onrender.com');
     socket.on('orders', (data) => {
       const { action } = data;
 
