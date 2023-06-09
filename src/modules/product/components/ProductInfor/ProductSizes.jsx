@@ -14,7 +14,12 @@ function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisp
   }, [currentSize]);
 
   useEffect(() => {
-    const socket = openSocket('https://brother-shop-102.onrender.com');
+    const socket = openSocket('https://brother-shop-102.onrender.com', {
+      withCredentials: true,
+      extraHeaders: {
+        'my-custom-header': 'https://brother-shop.vercel.app/',
+      },
+    });
     socket.on('orders', (data) => {
       const { action } = data;
 
