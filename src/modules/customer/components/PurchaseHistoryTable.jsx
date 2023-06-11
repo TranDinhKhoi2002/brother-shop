@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -10,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
+import openSocket from 'socket.io-client';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useTheme } from '@mui/styles';
@@ -101,6 +102,24 @@ function OrderItem({ order }) {
 }
 
 export default function PurchaseHistoryTable({ orders }) {
+  const [historyOrders, setHistoryOrders] = useState(orders);
+
+  useEffect(() => {
+    const socket = openSocket('https://brother-shop-102.onrender.com');
+    socket.on('orders', (data) => {
+      const { action } = data;
+
+      if (action === 'edit') {
+        const updatedOrders = [...historyOrders];
+        const existingOrderIndex = updatedOrders.findIndex((order) => order._id.toString() === data.orderId);
+
+        const existingOrder = { ...updatedOrders[existingOrderIndex] };
+        existingOrder.shippingStatus = data.orderStatus;
+        updatedOrders[existingOrderIndex] = existingOrder;
+        setHistoryOrders(updatedOrders);
+      }
+    });
+  }, [historyOrders]);
   const theme = useTheme();
 
   console.log(orders);
@@ -119,7 +138,7 @@ export default function PurchaseHistoryTable({ orders }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map((order) => (
+          {historyOrders.map((order) => (
             <OrderItem key={order._id} order={order} />
           ))}
         </TableBody>
