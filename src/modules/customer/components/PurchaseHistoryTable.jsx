@@ -118,7 +118,6 @@ export default function PurchaseHistoryTable({ orders }) {
         existingOrder.shippingStatus = data.orderStatus;
         updatedOrders[existingOrderIndex] = existingOrder;
         setHistoryOrders(updatedOrders);
-        toast.success(`Bạn có một đơn hàng ${data.orderStatus.toLowerCase()}`);
       }
     });
   }, [historyOrders]);
