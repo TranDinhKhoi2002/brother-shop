@@ -29,7 +29,6 @@ function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisp
 
         setProductSizes(sizesData.sizes);
 
-        console.log(selectedSize);
         const remainingCurrentSize = sizesData.sizes.find((size) => size.name === selectedSize?.name);
         if (remainingCurrentSize?.remainingQuantity > 0) {
           setSelectedSize(remainingCurrentSize);

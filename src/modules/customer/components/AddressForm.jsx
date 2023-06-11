@@ -63,8 +63,6 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
     wards: Yup.string().required('Vui lòng chọn phường/xã'),
   });
 
-  console.log(selectedAddress);
-
   const defaultValues = {
     name: selectedAddress?.name || '',
     email: currentUser?.email || '',

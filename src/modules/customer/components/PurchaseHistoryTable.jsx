@@ -16,6 +16,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useTheme } from '@mui/styles';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 function OrderItem({ order }) {
   const [open, setOpen] = useState(false);
@@ -117,12 +118,11 @@ export default function PurchaseHistoryTable({ orders }) {
         existingOrder.shippingStatus = data.orderStatus;
         updatedOrders[existingOrderIndex] = existingOrder;
         setHistoryOrders(updatedOrders);
+        toast.success(`Bạn có một đơn hàng ${data.orderStatus.toLowerCase()}`);
       }
     });
   }, [historyOrders]);
   const theme = useTheme();
-
-  console.log(orders);
 
   return (
     <TableContainer component={Paper} elevation={2}>
