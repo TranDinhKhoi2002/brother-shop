@@ -1,15 +1,12 @@
 import Button from '@/common/components/Buttons/Button';
-import { selectCurrentUser } from '@/redux/slices/auth';
+import PropTypes from 'prop-types';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import PurchaseHistoryTable from '../PurchaseHistoryTable';
 import { appAssets } from '@/common/assets';
 
-function PurchaseHistoryTab() {
-  const currentUser = useSelector(selectCurrentUser);
-
+function PurchaseHistoryTab({ orders }) {
   return (
     <Box>
       <Typography variant="h5">Lịch sử mua hàng</Typography>
@@ -19,7 +16,7 @@ function PurchaseHistoryTab() {
 
       <Divider sx={{ my: 3 }} />
 
-      {currentUser?.orders?.length === 0 ? (
+      {orders.length === 0 ? (
         <Stack direction="column" alignItems="center">
           <Typography variant="h6">Bạn chưa có đơn hàng nào</Typography>
           <Image src={appAssets.emptyOrderIcon} width={200} height={200} alt="Không có lịch sử mua hàng" />
@@ -28,10 +25,18 @@ function PurchaseHistoryTab() {
           </Link>
         </Stack>
       ) : (
-        <PurchaseHistoryTable orders={currentUser?.orders || []} />
+        <PurchaseHistoryTable orders={orders} />
       )}
     </Box>
   );
 }
+
+PurchaseHistoryTab.propTypes = {
+  orders: PropTypes.array.isRequired,
+};
+
+PurchaseHistoryTab.defaultProps = {
+  orders: [],
+};
 
 export default PurchaseHistoryTab;

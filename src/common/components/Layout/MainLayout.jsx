@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import Footer from '../Footer/Footer';
 import Header from '../Header';
 import Sidebar from './Sidebar';
+import { assignPromotions } from '@/redux/slices/promotions';
 
 function Layout(props) {
   const [sideBarActive, setSideBarActive] = useState(false);
@@ -28,6 +29,7 @@ function Layout(props) {
         dispatch(setAuth({ user: customer }));
         dispatch(assignProductsToCart({ cart: customer.cart }));
         dispatch(assignProductsToWishlist({ products: customer.wishlist }));
+        dispatch(assignPromotions({ promotions: customer.promotions }));
       } else {
         const sessionID = localStorage.getItem('sessionID');
         const existingCart = JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`));

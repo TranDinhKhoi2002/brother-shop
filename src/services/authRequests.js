@@ -16,8 +16,8 @@ export const getUserProfile = async () => {
   return await sendGetRequest('/auth/user/profile');
 };
 
-export const requestNewPassword = async (email) => {
-  return await sendPostRequest('/auth/forgot-password', email);
+export const requestNewPassword = async (data) => {
+  return await sendPostRequest('/auth/forgot-password', data);
 };
 
 export const updatePassword = async (token, newPassword, confirmPassword) => {

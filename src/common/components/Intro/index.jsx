@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { Image } from 'cloudinary-react';
-import { useEffect, useState } from 'react';
 import { LightgalleryProvider, LightgalleryItem } from 'react-lightgallery';
+import BackdropLoading from '../Loading/BackdropLoading';
 
 function Intro({ images }) {
   const [loaded, setLoaded] = useState(false);
@@ -11,7 +12,7 @@ function Intro({ images }) {
   }, []);
 
   if (!loaded) {
-    return <p>Loading....</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   return (

@@ -11,7 +11,7 @@ import { fetchRemoveFromWishlist } from '@/redux/slices/wishlist';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { addToCart, fetchAddToCart, assignProductsToCart, selectCartProducts } from '@/redux/slices/cart';
-import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
+import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 
 function WishlistDrawerItem({ product }) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -89,12 +89,13 @@ function WishlistDrawerItem({ product }) {
           </Box>
         </Grid>
       </Grid>
-      <ConfirmRemoveModal
+      <ConfirmModal
         isOpen={modalIsVisible}
         title="Xóa sản phẩm?"
         subTitle="Bạn có chắc muốn xóa sản phẩm chứ?"
+        confirmTextBtn="Xóa"
         onClose={() => setModalIsVisible(false)}
-        onDelete={handleRemoveFromWishlist}
+        onConfirm={handleRemoveFromWishlist}
       />
     </>
   );

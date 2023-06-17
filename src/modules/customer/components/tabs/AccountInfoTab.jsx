@@ -1,16 +1,16 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Divider, Grid, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import FormProvider from '@/common/components/Form/FormProvider';
 import RHFTextField from '@/common/components/Form/RHFTextField';
-
-import React, { useEffect, useRef, useState } from 'react';
 import ChangePasswordAccordion from '../ChangePasswordAccordion';
 import dayjs from 'dayjs';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUpdateProfile, fetchVerifyUser, selectCurrentUser } from '@/redux/slices/auth';
+import { useDispatch } from 'react-redux';
+import { fetchUpdateProfile, fetchVerifyUser } from '@/redux/slices/auth';
 import { checkValidVietNamPhoneNumber } from '@/common/utility/checkVietNamPhoneNumber';
 import { verifyPhoneNumber } from '@/services/customerRequests';
 import { toast } from 'react-toastify';
@@ -19,8 +19,7 @@ import GenderRadioButtonsGroup from '../GenderRadioButtonsGroup';
 
 let receivedOtpCode;
 
-function AccountInfoTab() {
-  const currentUser = useSelector(selectCurrentUser);
+function AccountInfoTab({ currentUser }) {
   const [showPhoneModal, setShowPhoneModal] = useState(false);
 
   const genderRef = useRef();
@@ -152,5 +151,13 @@ function AccountInfoTab() {
     </>
   );
 }
+
+AccountInfoTab.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+};
+
+AccountInfoTab.defaultProps = {
+  currentUser: {},
+};
 
 export default AccountInfoTab;

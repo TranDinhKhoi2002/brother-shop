@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import CarouselItem from './CarouselItem';
+import BackdropLoading from '../Loading/BackdropLoading';
 
 function MainCarousel({ events }) {
   const [loaded, setLoaded] = useState(false);
@@ -10,7 +11,7 @@ function MainCarousel({ events }) {
   }, []);
 
   if (!loaded) {
-    return <p>Loading....</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   const content = [];

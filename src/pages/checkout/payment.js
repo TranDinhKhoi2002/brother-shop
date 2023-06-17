@@ -13,6 +13,7 @@ import CheckoutMethods from '@/modules/payment/components/CheckoutMethods';
 import PreviewOrder from '@/modules/payment/components/PreviewOrder';
 import CompanyBill from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import { TRANSPORTATION_COST, paymentMethods } from '@/constants';
 
 function CheckoutPayment() {
@@ -32,7 +33,7 @@ function CheckoutPayment() {
   }, []);
 
   if (!loaded) {
-    return <p>Loading...</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   const totalProductsPrice = cartProducts.reduce((acc, currentItem) => {

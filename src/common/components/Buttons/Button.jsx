@@ -9,7 +9,7 @@ function Button({ children, className, ...other }) {
       sx={{
         px: 3,
         py: '12px',
-        backgroundColor: '#111111 !important',
+        backgroundColor: other.disabled ? '#cecece !important' : '#111111 !important',
         color: theme.palette.grey['200'],
         borderRadius: '4px',
         textTransform: 'uppercase',

@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { Carousel } from 'react-responsive-carousel';
 import { Box, Stack, Typography } from '@mui/material';
 import { appAssets } from '@/common/assets';
+import Link from 'next/link';
 
 export default function Home({
   hotProducts,
@@ -60,6 +61,28 @@ export default function Home({
         </Carousel>
         <MainCarousel events={readyToSellEvent} />
         <Intro images={introImages} />
+
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
+            Chương trình ưu đãi
+          </Typography>
+          <Typography sx={{ fontWeight: 'light' }}>Nhiều ưu đãi đang chờ bạn lấy</Typography>
+        </Box>
+
+        <Image
+          src={appAssets.promotionBanner}
+          width={1000}
+          height={1000}
+          alt="Chương trình ưu đãi"
+          className="w-full mt-6"
+        />
+
+        <Box sx={{ textAlign: 'center', marginY: 3 }}>
+          <Link href={config.routes.promotions}>
+            <Button>Xem tất cả ưu đãi</Button>
+          </Link>
+        </Box>
+
         <Box sx={{ textAlign: 'center' }}>
           <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
             Top sản phẩm HOT

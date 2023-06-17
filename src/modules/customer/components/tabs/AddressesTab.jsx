@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types';
 import Button from '@/common/components/Buttons/Button';
-import { fetchRemoveAddress, fetchUpdateAddressToDefault, selectCurrentUser } from '@/redux/slices/auth';
+import { fetchRemoveAddress, fetchUpdateAddressToDefault } from '@/redux/slices/auth';
 import {
   Box,
   Button as ButtonMUI,
@@ -12,20 +13,19 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Fragment, useState } from 'react';
 import AddAddressModal from '../AddAddressModal';
-import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
+import ConfirmModal from '@/common/components/Modal/ConfirmModal';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import { toast } from 'react-toastify';
-import LoadingModal from '@/common/components/Modal/LoadingModal';
 
-function AddressesTab() {
+function AddressesTab({ addresses }) {
   const [showAddAddressModal, setShowAddressModal] = useState(false);
   const [showConfirmRemoveModal, setShowConfirmRemoveModal] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState();
   const [showLoadingModal, setShowLoadingModal] = useState(false);
 
-  const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
   const theme = useTheme();
@@ -90,7 +90,7 @@ function AddressesTab() {
 
         <Divider sx={{ my: 3 }} />
 
-        {currentUser?.address.map((item, index) => (
+        {addresses.map((item, index) => (
           <Fragment key={index}>
             <Stack
               direction={{ xs: 'column', md: 'row' }}
@@ -134,7 +134,7 @@ function AddressesTab() {
               </Box>
             </Stack>
 
-            {index !== currentUser.address.length - 1 && <Divider sx={{ my: 1 }} />}
+            {index !== addresses.length - 1 && <Divider sx={{ my: 1 }} />}
           </Fragment>
         ))}
       </Box>
@@ -145,17 +145,26 @@ function AddressesTab() {
         onClose={handleCloseAddressFormModal}
       />
 
-      <ConfirmRemoveModal
+      <ConfirmModal
         isOpen={showConfirmRemoveModal}
         title="Xóa địa chỉ?"
         subTitle="Bạn có chắc muốn xóa địa chỉ chứ?"
+        confirmTextBtn="Xóa"
         onClose={handleCloseConfirmModal}
-        onDelete={handleRemoveAddress}
+        onConfirm={handleRemoveAddress}
       />
 
-      <LoadingModal isOpen={showLoadingModal} onClose={() => setShowLoadingModal(false)} />
+      <BackdropLoading isVisible={showLoadingModal} />
     </>
   );
 }
+
+AddressesTab.propTypes = {
+  addresses: PropTypes.array.isRequired,
+};
+
+AddressesTab.defaultProps = {
+  addresses: [],
+};
 
 export default AddressesTab;

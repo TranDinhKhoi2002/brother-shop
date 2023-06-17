@@ -1,5 +1,5 @@
 import PageContainer from '@/common/components/Layout/PageContainer';
-import LoadingModal from '@/common/components/Modal/LoadingModal';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
 import config from '@/config';
@@ -38,7 +38,7 @@ function CheckoutLogin() {
   };
 
   if (!loaded) {
-    return <LoadingModal isOpen={!loaded} />;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   return (

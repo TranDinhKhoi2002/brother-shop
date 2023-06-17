@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import CartTable from '@/modules/cart/components/CartTable';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import PreviewInvoice from '@/modules/cart/components/PreviewInvoice';
 import { Container } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -15,7 +16,7 @@ function CartPage(props) {
   }, []);
 
   if (!loaded) {
-    return <p>Loading...</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   return (

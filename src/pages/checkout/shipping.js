@@ -1,4 +1,5 @@
 import PageContainer from '@/common/components/Layout/PageContainer';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import CartInfor from '@/modules/cart/components/CartInfor';
 import EmptyCart from '@/modules/cart/components/EmptyCart';
 import { selectCartProducts } from '@/redux/slices/cart';
@@ -14,7 +15,7 @@ function CheckoutShipping() {
   }, []);
 
   if (!loaded) {
-    return <p>Loading...</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   return (

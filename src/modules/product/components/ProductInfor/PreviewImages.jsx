@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
 import { Image } from 'cloudinary-react';
 import NextImage from 'next/image';
 import { GlassMagnifier } from 'react-image-magnifiers';
 import { Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 
 function PreviewImages({ images }) {
   const [loaded, setLoaded] = useState(false);
@@ -14,7 +15,7 @@ function PreviewImages({ images }) {
   }, []);
 
   if (!loaded) {
-    return <p>Loading....</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   const settings = {

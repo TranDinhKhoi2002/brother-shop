@@ -1,4 +1,5 @@
 import Button from '@/common/components/Buttons/Button';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
 import { checkOut } from '@/redux/slices/cart';
@@ -45,7 +46,7 @@ function SuccessCheckout() {
   }, [router.query.vnp_ResponseCode, dispatch]);
 
   if (!loaded) {
-    return <p>Loading....</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   return (

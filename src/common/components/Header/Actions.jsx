@@ -1,4 +1,6 @@
+import { Badge, Button, IconButton, Stack, Tooltip } from '@mui/material';
 import { useSelector } from 'react-redux';
+import BackdropLoading from '../Loading/BackdropLoading';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
@@ -7,7 +9,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import config from '@/config';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Badge, Button, IconButton, Stack, Tooltip } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
@@ -50,7 +51,7 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }) {
   }, []);
 
   if (!loaded) {
-    return <p>Loading...</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   return (

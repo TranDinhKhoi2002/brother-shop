@@ -34,7 +34,7 @@ function ResetPasswordForm() {
 
   const onSubmit = async (values) => {
     const { email } = values;
-    const { success, message } = await authServices.requestNewPassword({ email });
+    const { success, message } = await authServices.requestNewPassword({ email, isCustomer: true });
 
     if (success) {
       toast.success(message);

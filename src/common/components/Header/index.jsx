@@ -9,6 +9,7 @@ import config from '@/config';
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { appAssets } from '@/common/assets';
+import BackdropLoading from '../Loading/BackdropLoading';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -38,7 +39,7 @@ const Header = ({ showSideBar, showCartPreview, showWishlist }) => {
   }, []);
 
   if (!loaded) {
-    return <p>Loading....</p>;
+    return <BackdropLoading isVisible={!loaded} />;
   }
 
   function openSearchHandler() {

@@ -17,7 +17,7 @@ import {
   fetchRemoveItemFromCart,
 } from '@/redux/slices/cart';
 import { toast } from 'react-toastify';
-import ConfirmRemoveModal from '@/common/components/Modal/ConfirmRemoveModal';
+import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 
 function CartDrawerItem({ cartProduct }) {
   const [quantity, setQuantity] = useState(cartProduct.quantity);
@@ -140,12 +140,13 @@ function CartDrawerItem({ cartProduct }) {
           </Box>
         </Grid>
       </Grid>
-      <ConfirmRemoveModal
+      <ConfirmModal
         isOpen={modalIsVisible}
         title="Xóa sản phẩm?"
         subTitle="Bạn có chắc muốn xóa sản phẩm chứ?"
+        confirmTextBtn="Xóa"
         onClose={() => setModalIsVisible(false)}
-        onDelete={handleRemoveFromCart}
+        onConfirm={handleRemoveFromCart}
       />
     </>
   );
