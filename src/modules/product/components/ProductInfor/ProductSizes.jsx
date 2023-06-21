@@ -14,12 +14,7 @@ function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisp
   }, [currentSize]);
 
   useEffect(() => {
-    const socket = openSocket(process.env.NEXT_PUBLIC_DB_BASE_URL, {
-      withCredentials: true,
-      extraHeaders: {
-        'my-custom-header': process.env.NEXT_PUBLIC_BASE_URL,
-      },
-    });
+    const socket = openSocket(process.env.NEXT_PUBLIC_DB_BASE_URL);
     socket.on('orders', (data) => {
       const { action } = data;
 
