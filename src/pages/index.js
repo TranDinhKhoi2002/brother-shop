@@ -1,22 +1,21 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import config from '../config';
 import MainCarousel from '@/common/components/Carousel';
 import Intro from '@/common/components/Intro';
-import Products from '@/modules/product/components/Products';
-import Button from '@/common/components/Buttons/Button';
-
+import HomeCarousel from '@/modules/home/components/Carousel';
+import HomePromotionBanner from '@/modules/home/components/HomePromotionBanner';
+import HotProducts from '@/modules/home/components/HotProducts';
+import ProductsOfType from '@/modules/home/components/TShirtProducts';
+import SaleOffProducts from '@/modules/home/components/SaleOffProducts';
 import { getDiscountProducts, getHotProducts, getProductsByType } from '@/services/productRequests';
 import { getIntroImages } from '@/services/imageRequests';
 import { getReadyToSellEvent } from '@/services/eventRequests';
-
+import { useRouter } from 'next/router';
+import { Stack } from '@mui/material';
+import { appAssets } from '@/common/assets';
+import config from '../config';
 import 'lightgallery.js/dist/css/lightgallery.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { useRouter } from 'next/router';
-import { Carousel } from 'react-responsive-carousel';
-import { Box, Stack, Typography } from '@mui/material';
-import { appAssets } from '@/common/assets';
-import Link from 'next/link';
 
 export default function Home({
   hotProducts,
@@ -24,7 +23,7 @@ export default function Home({
   tshirtProducts,
   trouserProducts,
   introImages,
-  readyToSellEvent,
+  readyToSellEvents,
 }) {
   const router = useRouter();
 
@@ -41,77 +40,21 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="xl:px-[3%]">
-        <Carousel
-          showThumbs={false}
-          emulateTouch={true}
-          animationHandler="slide"
-          autoPlay={true}
-          interval={3000}
-          infiniteLoop={true}
-          showArrows={true}
-          showStatus={false}
-          stopOnHover={false}
-        >
-          <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px]">
-            <Image alt="Discount" src={appAssets.banner1} width={1400} height={1000} priority />
-          </div>
-          <div className="animate-image flex justify-center pt-[70px] lg:pt-[79px]">
-            <Image alt="Discount" src={appAssets.banner2} width={1400} height={1000} priority />
-          </div>
-        </Carousel>
-        <MainCarousel events={readyToSellEvent} />
+        <HomeCarousel />
+        <MainCarousel events={readyToSellEvents} />
         <Intro images={introImages} />
-
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
-            Chương trình ưu đãi
-          </Typography>
-          <Typography sx={{ fontWeight: 'light' }}>Nhiều ưu đãi đang chờ bạn lấy</Typography>
-        </Box>
-
-        <Image
-          src={appAssets.promotionBanner}
-          width={1000}
-          height={1000}
-          alt="Chương trình ưu đãi"
-          className="w-full mt-6"
-        />
-
-        <Box sx={{ textAlign: 'center', marginY: 3 }}>
-          <Link href={config.routes.promotions}>
-            <Button>Xem tất cả ưu đãi</Button>
-          </Link>
-        </Box>
-
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
-            Top sản phẩm HOT
-          </Typography>
-          <Typography sx={{ fontWeight: 'light' }}>Những sản phẩm thời trang mới nhất/Hot nhất</Typography>
-        </Box>
-        <Products products={hotProducts} />
+        <HomePromotionBanner />
+        <HotProducts products={hotProducts} />
         <Stack justifyContent="center">
           <Image src={appAssets.banner3} alt="" width={1000} height={1000} className="w-full" />
         </Stack>
-        <Products products={tshirtProducts} />
-        <Box sx={{ textAlign: 'center', marginY: 3 }}>
-          <Button onClick={navigateToProductsPage.bind(this, 'Áo Thun')}>Xem tất cả áo thun</Button>
-        </Box>
+        <ProductsOfType products={tshirtProducts} onSeeMore={navigateToProductsPage} keyword="Áo Thun" />
         <Stack direction={{ md: 'row' }} justifyContent="center" sx={{ mt: 10 }}>
           <Image src={appAssets.banner4} alt="" width={300} height={300} className="w-full" />
           <Image src={appAssets.banner5} alt="" width={300} height={300} className="w-full" />
         </Stack>
-        <Products products={trouserProducts} />
-        <Box sx={{ textAlign: 'center', marginY: 3 }}>
-          <Button onClick={navigateToProductsPage.bind(this, 'Quần')}>Xem tất cả quần</Button>
-        </Box>
-        <Box sx={{ textAlign: 'center', marginY: 3 }}>
-          <Typography sx={{ pt: 5, pb: 1, fontSize: '1.5rem' }} variant="body2">
-            Các sản phẩm giảm giá
-          </Typography>
-          <Typography sx={{ fontWeight: 'light' }}>Đừng bỏ lỡ - Hãy mua ngay</Typography>
-        </Box>
-        <Products products={discountProducts} />
+        <ProductsOfType products={trouserProducts} onSeeMore={navigateToProductsPage} keyword="Quần" />
+        <SaleOffProducts products={discountProducts} />
       </main>
     </>
   );
@@ -126,7 +69,7 @@ export async function getStaticProps() {
     getIntroImages(),
     getReadyToSellEvent(),
   ];
-  const [hotProducts, discountProducts, tshirtProducts, trouserProducts, introImages, readyToSellEvent] =
+  const [hotProducts, discountProducts, tshirtProducts, trouserProducts, introImages, readyToSellEvents] =
     await Promise.all(promises);
 
   return {
@@ -136,7 +79,7 @@ export async function getStaticProps() {
       tshirtProducts,
       trouserProducts,
       introImages,
-      readyToSellEvent,
+      readyToSellEvents,
     },
   };
 }

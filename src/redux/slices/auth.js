@@ -75,6 +75,9 @@ const authSlice = createSlice({
       state.currentUser = user;
       state.isAuthenticated = true;
     },
+    updateOrders(state, action) {
+      state.currentUser.orders = action.payload.updatedOrders;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
@@ -151,7 +154,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, setAuth } = authSlice.actions;
+export const { logout, setAuth, updateOrders } = authSlice.actions;
 
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectCurrentUser = (state) => state.auth.currentUser;

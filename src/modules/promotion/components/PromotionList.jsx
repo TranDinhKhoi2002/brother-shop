@@ -20,7 +20,6 @@ PromotionList.propTypes = {
 };
 
 PromotionList.defaultProps = {
-  promotions: [],
   isUsedInProfile: false,
 };
 

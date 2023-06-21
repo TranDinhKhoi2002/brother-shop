@@ -13,11 +13,12 @@ import { assignProductsToCart } from '@/redux/slices/cart';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import Image from 'next/image';
-import { refreshToken } from '../services/refreshToken';
+import { refreshToken } from '@/utils/auth';
 import { useGoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import config from '@/config';
 import { appAssets } from '@/common/assets';
+import { assignPromotions } from '@/redux/slices/promotions';
 
 function LoginForm({ onLogin }) {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ function LoginForm({ onLogin }) {
 
       dispatch(assignProductsToCart({ cart: user.cart }));
       dispatch(assignProductsToWishlist({ products: user.wishlist }));
+      dispatch(assignPromotions({ promotions: user.promotions }));
     } else {
       toast.error(message);
     }
@@ -77,8 +79,10 @@ function LoginForm({ onLogin }) {
       ).unwrap();
 
       if (success) {
+        debugger;
         dispatch(assignProductsToCart({ cart: user.cart }));
         dispatch(assignProductsToWishlist({ products: user.wishlist }));
+        dispatch(assignPromotions({ promotions: user.promotions }));
 
         if (onLogin) {
           onLogin();

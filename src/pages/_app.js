@@ -9,6 +9,7 @@ import createEmotionCache from '@/common/utility/createEmotionCache';
 import ThemeProvider from '@/common/styles/theme';
 import '@/common/styles/globals.css';
 import MainLayout from '@/common/components/Layout/MainLayout';
+import GoogleAnalytics from '@/modules/ga';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import 'slick-carousel/slick/slick.css';
@@ -26,6 +27,7 @@ const MyApp = (props) => {
         <ThemeProvider>
           {getLayout(
             <MainLayout>
+              <GoogleAnalytics />
               <Component {...pageProps} />
             </MainLayout>,
           )}

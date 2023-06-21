@@ -4,8 +4,20 @@ import { Card, CardActions, CardContent, Divider, Stack, Typography } from '@mui
 import Title from '@/common/components/UI/Title';
 import Button from '@/common/components/Buttons/Button';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { isNumber } from '../services';
 
-function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
+function PreviewOrder({ cartProducts, totalPrice, shippingPrice, selectedPromotion, onPay }) {
+  const parsedPromotion = selectedPromotion ? JSON.parse(selectedPromotion) : {};
+  const discountPrice = (totalPrice * parsedPromotion?.percentage) / 100;
+
+  const handlePay = () => {
+    if (isNumber(discountPrice)) {
+      onPay(totalPrice - discountPrice);
+    } else {
+      onPay(totalPrice);
+    }
+  };
+
   return (
     <Card>
       <CardContent>
@@ -42,13 +54,24 @@ function PreviewOrder({ cartProducts, totalPrice, shippingPrice, onPay }) {
           <Typography>Phí vận chuyển</Typography>
           <Typography>{printNumberWithCommas(shippingPrice)}đ</Typography>
         </Stack>
+        {isNumber(discountPrice) && (
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ my: '4px' }}>
+            <Typography>Ưu đãi</Typography>
+            <Typography>- {printNumberWithCommas(discountPrice)}đ</Typography>
+          </Stack>
+        )}
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ my: '4px' }}>
           <Typography>Tổng thanh toán</Typography>
-          <Typography sx={{ fontWeight: 500, fontSize: '18px' }}>{printNumberWithCommas(totalPrice)}đ</Typography>
+          <Typography sx={{ fontWeight: 500, fontSize: '18px' }}>
+            {isNumber(discountPrice)
+              ? printNumberWithCommas(totalPrice - discountPrice)
+              : printNumberWithCommas(totalPrice)}
+            đ
+          </Typography>
         </Stack>
 
         <CardActions>
-          <Button className="w-full my-3" onClick={onPay} name="redirect">
+          <Button className="w-full my-3" onClick={handlePay} name="redirect">
             Thanh toán
           </Button>
         </CardActions>

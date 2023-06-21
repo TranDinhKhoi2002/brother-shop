@@ -3,6 +3,7 @@ import * as promotionServices from '@/services/promotionRequests';
 
 const initialState = {
   promotions: [],
+  loading: false,
 };
 
 export const fetchSavePromotion = createAsyncThunk('promotions/fetchSavePromotion', async (data) => {
@@ -14,6 +15,14 @@ export const fetchRemovePromotion = createAsyncThunk('promotions/fetchRemoveProm
   const response = await promotionServices.removePromotion(promotionId);
   return response;
 });
+
+export const fetchUpdatePromotionQuantity = createAsyncThunk(
+  'promotions/fetchUpdatePromotionQuantity',
+  async (promotionId) => {
+    const response = await promotionServices.updatePromotionQuantity(promotionId);
+    return response;
+  },
+);
 
 const promotionSlice = createSlice({
   name: 'promotions',
@@ -49,11 +58,23 @@ const promotionSlice = createSlice({
         state.promotions = updatedPromotions;
       }
     });
+
+    builders.addCase(fetchUpdatePromotionQuantity.fulfilled, (state, { payload }) => {
+      const { updatedPromotion, success } = payload;
+
+      if (success) {
+        const existingPromotionIndex = state.promotions.findIndex(
+          (promotion) => promotion._id.toString() === updatedPromotion._id.toString(),
+        );
+        state.promotions[existingPromotionIndex] = updatedPromotion;
+      }
+    });
   },
 });
 
 export const { addPromotion, removePromotion, assignPromotions } = promotionSlice.actions;
 
 export const selectPromotions = (state) => state.promotions.promotions;
+export const selectPromotionLoading = (state) => state.promotions.loading;
 
 export default promotionSlice.reducer;

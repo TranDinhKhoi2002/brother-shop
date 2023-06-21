@@ -1,10 +1,9 @@
 import { createCipher } from 'crypto';
-import Title from '@/common/components/UI/Title';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import { Container, Grid } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { selectCurrentUser } from '@/redux/slices/auth';
+import { selectCurrentUser, updateOrders } from '@/redux/slices/auth';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { createOrder } from '@/services/orderRequests';
@@ -15,15 +14,19 @@ import CompanyBill from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import { TRANSPORTATION_COST, paymentMethods } from '@/constants';
+import PromotionRadioBtnForm from '@/modules/promotion/components/PromotionRadioBtnForm';
+import { fetchUpdatePromotionQuantity } from '@/redux/slices/promotions';
 
 function CheckoutPayment() {
   const [loaded, setLoaded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [selectedPromotion, setSelectedPromotion] = useState();
 
   const cartProducts = useSelector(selectCartProducts);
   const currentUser = useSelector(selectCurrentUser);
 
   const router = useRouter();
+  const dispatch = useDispatch();
   const ref = useRef();
 
   const { toName, toPhone, toAddress, toNote, toEmail } = router.query;
@@ -42,7 +45,7 @@ function CheckoutPayment() {
 
   const totalPrice = totalProductsPrice + TRANSPORTATION_COST;
 
-  const payHandler = async () => {
+  const payHandler = async (totalPrice) => {
     const { companyName, companyAddress, companyTaxNumber } = ref.current.getInvoiceCompany();
 
     const formatedCartProducts = cartProducts.map((cartProduct) => ({
@@ -73,7 +76,15 @@ function CheckoutPayment() {
       customerId: currentUser?._id,
     };
 
-    const { message, orderId } = await createOrder(order);
+    if (selectedPromotion) {
+      const parsedSelectedPromotion = JSON.parse(selectedPromotion);
+      dispatch(fetchUpdatePromotionQuantity(parsedSelectedPromotion._id));
+    }
+
+    const { message, orderId, updatedOrders } = await createOrder(order);
+    if (updatedOrders) {
+      dispatch(updateOrders({ updatedOrders }));
+    }
 
     const cipher = createCipher('aes-256-cbc', 'secret');
     let encrypted = cipher.update(orderId);
@@ -105,12 +116,18 @@ function CheckoutPayment() {
     setPaymentMethod(e.target.value);
   };
 
+  const changePromotionHandler = (e) => {
+    setSelectedPromotion(e.target.value);
+  };
+
   return (
     <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
       <BuySteppers activeStep={2} />
       <Container maxWidth="xxl">
-        <Title sx={{ ml: { xs: 3, xl: 0 } }}>Phương thức thanh toán</Title>
         <Grid container spacing={3} className="mt-5 mb-10">
+          <Grid item xs={12}>
+            <PromotionRadioBtnForm selectedPromotion={selectedPromotion} onChangePromotion={changePromotionHandler} />
+          </Grid>
           <Grid item xs={12} sm={8}>
             <CheckoutMethods method={paymentMethod} onChangeMethod={changePaymentMethodHandler} />
             <CompanyBill ref={ref} />
@@ -120,6 +137,7 @@ function CheckoutPayment() {
               cartProducts={cartProducts}
               totalPrice={totalPrice}
               shippingPrice={TRANSPORTATION_COST}
+              selectedPromotion={selectedPromotion}
               onPay={payHandler}
             />
           </Grid>

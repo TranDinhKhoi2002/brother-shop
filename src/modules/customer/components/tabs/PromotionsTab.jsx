@@ -13,7 +13,7 @@ function PromotionsTab() {
   const customerPromotions = useSelector(selectPromotions);
 
   return (
-    <Box>
+    <>
       <Typography variant="h5">Ưu đãi của bạn</Typography>
       <Typography variant="body1" sx={{ mt: '6px' }}>
         Bạn có thể xem các ưu đãi của mình tại đây.
@@ -32,7 +32,7 @@ function PromotionsTab() {
       ) : (
         <PromotionList promotions={customerPromotions} isUsedInProfile />
       )}
-    </Box>
+    </>
   );
 }
 

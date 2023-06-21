@@ -33,10 +33,4 @@ PromotionEvent.propTypes = {
   promotions: PropTypes.array.isRequired,
 };
 
-PromotionEvent.defaultProps = {
-  banner: '',
-  title: '',
-  promotions: [],
-};
-
 export default PromotionEvent;

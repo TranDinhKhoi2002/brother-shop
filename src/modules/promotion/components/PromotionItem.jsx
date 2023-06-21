@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { appAssets } from '@/common/assets';
-import { Box, Card, CardHeader, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Card, CardHeader, IconButton, Stack, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@/common/components/Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRemovePromotion, fetchSavePromotion, selectPromotions } from '@/redux/slices/promotions';
 import { toast } from 'react-toastify';
@@ -14,7 +13,7 @@ import { useState } from 'react';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import config from '@/config';
 
-function PromotionItem({ item, isUsedInProfile = false }) {
+function PromotionItem({ item, isValid, isUsedInProfile = false, isUsedInPayment = false }) {
   const [loginModalIsVisible, setLoginModalIsVisible] = useState(false);
   const [confirmModalIsVisible, setConfirmModalIsVisible] = useState(false);
   const customerPromotions = useSelector(selectPromotions);
@@ -64,7 +63,7 @@ function PromotionItem({ item, isUsedInProfile = false }) {
     }
 
     return (
-      <Button onClick={!isExist && handleSavePromotion} disabled={isExist}>
+      <Button variant="text" onClick={!isExist && handleSavePromotion} disabled={isExist || item.amount === 0}>
         {!isExist ? 'Lưu' : 'Đã lưu'}
       </Button>
     );
@@ -72,10 +71,10 @@ function PromotionItem({ item, isUsedInProfile = false }) {
 
   return (
     <>
-      <Card>
+      <Card raised sx={!isValid && { opacity: 0.6, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
         <CardHeader
           avatar={<Image src={appAssets.couponIcon} width={50} height={50} alt="" />}
-          action={renderActionButton()}
+          action={!isUsedInPayment && renderActionButton()}
           title={<Typography variant="h4">{item.name}</Typography>}
           subheader={
             <Stack>
@@ -118,12 +117,15 @@ function PromotionItem({ item, isUsedInProfile = false }) {
 
 PromotionItem.propTypes = {
   item: PropTypes.object.isRequired,
+  isValid: PropTypes.bool,
   isUsedInProfile: PropTypes.bool,
+  isUsedInPayment: PropTypes.bool,
 };
 
 PromotionItem.defaultProps = {
-  item: {},
+  isValid: true,
   isUsedInProfile: false,
+  isUsedInPayment: false,
 };
 
 export default PromotionItem;

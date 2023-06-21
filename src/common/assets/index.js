@@ -10,6 +10,7 @@ export const appAssets = {
   promotionBanner: '/assets/images/promotion-banner.png',
   bigSale50: '/assets/images/big-sale-50.jpg',
   bigSale60: '/assets/images/big-sale-60.jpg',
+  bigSale70: '/assets/images/big-sale-70.jpg',
   couponIcon: '/assets/images/coupon.png',
   storageInstructions: '/assets/images/hdbq.png',
   banner1: '/assets/images/banner1.jpg',
@@ -17,4 +18,8 @@ export const appAssets = {
   banner3: '/assets/images/banner3.jpg',
   banner4: '/assets/images/banner4.jpg',
   banner5: '/assets/images/banner5.jpg',
+  banner6: '/assets/images/banner6.jpg',
+  banner7: '/assets/images/banner7.jpg',
+  banner8: '/assets/images/banner8.jpg',
+  banner9: '/assets/images/banner9.jpg',
 };
