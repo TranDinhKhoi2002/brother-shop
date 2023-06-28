@@ -6,12 +6,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import Title from '@/common/components/UI/Title';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import FormProvider from '@/common/components/Form/FormProvider';
 import Button from '@/common/components/Buttons/Button';
-import { PDFDownloadLink, usePDF } from '@react-pdf/renderer';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import InvoiceCompany from './InvoiceCompany';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
@@ -37,7 +36,7 @@ const CompanyBill = React.forwardRef(function CompanyBill(props, ref) {
     resolver: yupResolver(BillSchema),
   });
 
-  const { handleSubmit, getValues, watch } = methods;
+  const { handleSubmit, getValues, watch, formState } = methods;
   const formData = watch();
 
   const onSubmit = (values) => {
@@ -67,19 +66,24 @@ const CompanyBill = React.forwardRef(function CompanyBill(props, ref) {
             <RHFTextField name="companyAddress" label="Địa chỉ công ty" id="companyAddress" />
             <RHFTextField name="companyTaxNumber" label="Mã số thuế" id="companyTaxNumber" />
           </FormProvider>
-          <PDFDownloadLink
-            document={<InvoiceCompany products={cartProducts} formData={formData} />}
-            fileName="bill"
-            style={{ textDecoration: 'none' }}
-            onClick={() => {}}
-          >
-            {({ blob, url, loading, error }) => (
-              <>
-                {error && <span className="text-primary">Đã xảy ra lỗi</span>}
-                <Button type="submit">In hóa đơn</Button>
-              </>
-            )}
-          </PDFDownloadLink>
+          {formState.isValid ? (
+            <PDFDownloadLink
+              document={<InvoiceCompany products={cartProducts} formData={formData} />}
+              fileName={`Bill_BrotherShop_${getValues('companyName')}`}
+              style={{ textDecoration: 'none' }}
+            >
+              {({ blob, url, loading, error }) => (
+                <>
+                  {error && <span className="text-primary">Đã xảy ra lỗi</span>}
+                  <Button type="submit">In hóa đơn</Button>
+                </>
+              )}
+            </PDFDownloadLink>
+          ) : (
+            <Button type="submit" disabled>
+              In hóa đơn
+            </Button>
+          )}
         </AccordionDetails>
       </Accordion>
     </Box>

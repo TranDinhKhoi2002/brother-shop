@@ -4,16 +4,14 @@ import Menu from '@mui/material/Menu';
 import { Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-const options = ['S', 'M', 'L', 'XL'];
-
-export default React.forwardRef(function WishlistSizesMenu(props, ref) {
+export default React.forwardRef(function WishlistSizesMenu({ sizes, onSizeChange }, ref) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const open = Boolean(anchorEl);
 
   useImperativeHandle(ref, () => ({
     getSelectedSize: () => {
-      return options[selectedIndex];
+      return sizes[selectedIndex].name;
     },
   }));
 
@@ -24,6 +22,10 @@ export default React.forwardRef(function WishlistSizesMenu(props, ref) {
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setAnchorEl(null);
+
+    const selectedSize = sizes[index];
+    const isSoldOut = selectedSize.quantity - selectedSize.sold === 0;
+    onSizeChange(isSoldOut);
   };
 
   const handleClose = () => {
@@ -40,7 +42,7 @@ export default React.forwardRef(function WishlistSizesMenu(props, ref) {
         sx={{ my: 1, cursor: 'pointer' }}
         onClick={handleClickListItem}
       >
-        Size: {options[selectedIndex]} <KeyboardArrowDownIcon />
+        Size: {sizes[selectedIndex].name} <KeyboardArrowDownIcon />
       </Typography>
       <Menu
         id="lock-menu"
@@ -52,14 +54,14 @@ export default React.forwardRef(function WishlistSizesMenu(props, ref) {
           role: 'listbox',
         }}
       >
-        {options.map((option, index) => (
+        {sizes.map((size, index) => (
           <MenuItem
-            key={option}
+            key={size._id}
             selected={index === selectedIndex}
             sx={{ paddingX: 3 }}
             onClick={(event) => handleMenuItemClick(event, index)}
           >
-            {option}
+            {size.name}
           </MenuItem>
         ))}
       </Menu>

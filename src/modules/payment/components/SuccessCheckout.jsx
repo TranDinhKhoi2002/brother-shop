@@ -2,10 +2,10 @@ import Button from '@/common/components/Buttons/Button';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
+import { updateOrders } from '@/redux/slices/auth';
 import { checkOut } from '@/redux/slices/cart';
-import { checkOutOrder } from '@/services/orderRequests';
+import { checkOutOrder, createOrder } from '@/services/orderRequests';
 import { Box, Typography } from '@mui/material';
-import { createDecipher } from 'crypto';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -27,16 +27,14 @@ function SuccessCheckout() {
 
   useEffect(() => {
     const updateOrder = async () => {
-      const encryptedOrderId = localStorage.getItem('encryptedOrderId');
-      const encryptedBytes = Buffer.from(encryptedOrderId, 'base64');
-
-      const decipher = createDecipher('aes-256-cbc', 'secret');
-      let decrypted = decipher.update(encryptedBytes);
-      decrypted = Buffer.concat([decrypted, decipher.final()]);
-      const decryptedString = decrypted.toString();
+      const order = JSON.parse(localStorage.getItem('order'));
+      const { orderId, updatedOrders } = await createOrder(order);
+      if (updatedOrders) {
+        dispatch(updateOrders({ updatedOrders }));
+      }
 
       if (router.query.vnp_ResponseCode === '00') {
-        await checkOutOrder({ orderId: decryptedString });
+        await checkOutOrder({ orderId: orderId });
       }
 
       dispatch(checkOut());

@@ -75,6 +75,7 @@ function OrderItem({ order }) {
                     <TableCell align="center">HÌNH ẢNH</TableCell>
                     <TableCell align="center">TÊN SẢN PHẨM</TableCell>
                     <TableCell align="center">ĐƠN GIÁ</TableCell>
+                    <TableCell align="center">SIZE</TableCell>
                     <TableCell align="center">SỐ LƯỢNG</TableCell>
                     <TableCell align="center">THÀNH TIỀN</TableCell>
                   </TableRow>
@@ -87,8 +88,9 @@ function OrderItem({ order }) {
                       </TableCell>
                       <TableCell align="center">{product.name}</TableCell>
                       <TableCell align="center">{printNumberWithCommas(product.price)}đ</TableCell>
+                      <TableCell align="center">{product.size}</TableCell>
                       <TableCell align="center">{product.amount}</TableCell>
-                      <TableCell align="center">{printNumberWithCommas(product.price * product.amount)}</TableCell>
+                      <TableCell align="center">{printNumberWithCommas(product.price * product.amount)}đ</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

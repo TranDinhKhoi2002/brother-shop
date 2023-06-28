@@ -14,6 +14,7 @@ import { addToCart, fetchAddToCart, assignProductsToCart, selectCartProducts } f
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 
 function WishlistDrawerItem({ product }) {
+  const [isSoldOut, setIsSoldOut] = useState(product.sizes[0].quantity - product.sizes[0].sold === 0);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const cartProducts = useSelector(selectCartProducts);
   const isAddedToCart = cartProducts.findIndex((item) => item.productId._id === product._id) !== -1;
@@ -64,6 +65,14 @@ function WishlistDrawerItem({ product }) {
     }
   };
 
+  const handleSizeChange = (isSoldOutParam) => {
+    if (isSoldOutParam) {
+      setIsSoldOut(true);
+    } else {
+      setIsSoldOut(false);
+    }
+  };
+
   return (
     <>
       <Grid container spacing={2} sx={{ my: 4, position: 'relative' }}>
@@ -77,15 +86,21 @@ function WishlistDrawerItem({ product }) {
         <Grid item xs={8}>
           <Box>
             <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
-            <WishlistSizesMenu ref={sizesRef} />
+            <WishlistSizesMenu ref={sizesRef} sizes={product.sizes} onSizeChange={handleSizeChange} />
             <WishlistQuantity ref={quantityRef} price={product.price} id={product._id} />
-            <Button
-              className={`w-[200px] rounded-none mt-2 ${isAddedToCart && '!bg-lightGray100 !text-[#787878]'}`}
-              disabled={isAddedToCart}
-              onClick={handleAddToCart}
-            >
-              {isAddedToCart ? 'Đã thêm' : 'Thêm vào giỏ hàng'}
-            </Button>
+            {isSoldOut ? (
+              <Button className={'w-[200px] rounded-none mt-2 !bg-lightGray100 !text-[#787878]'} disabled>
+                Hết hàng
+              </Button>
+            ) : (
+              <Button
+                className={`w-[200px] rounded-none mt-2 ${isAddedToCart && '!bg-lightGray100 !text-[#787878]'}`}
+                disabled={isAddedToCart}
+                onClick={handleAddToCart}
+              >
+                {isAddedToCart ? 'Đã thêm' : 'Thêm vào giỏ hàng'}
+              </Button>
+            )}
           </Box>
         </Grid>
       </Grid>

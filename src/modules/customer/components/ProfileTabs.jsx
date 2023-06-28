@@ -53,7 +53,7 @@ export default function ProfileTabs() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_, newValue) => {
     setValue(newValue);
   };
 
@@ -79,7 +79,7 @@ export default function ProfileTabs() {
           >
             <Tab label="Thông tin tài khoản" {...a11yProps(0)} sx={{ px: 6, alignItems: 'flex-start' }} />
             <Tab label="Lịch sử mua hàng" {...a11yProps(1)} sx={{ px: 6, alignItems: 'flex-start' }} />
-            <Tab label="Địa chỉ mua hàng" {...a11yProps(2)} sx={{ px: 6, alignItems: 'flex-start' }} />
+            <Tab label="Địa chỉ giao hàng" {...a11yProps(2)} sx={{ px: 6, alignItems: 'flex-start' }} />
             <Tab label="Ưu đãi của bạn" {...a11yProps(3)} sx={{ px: 6, alignItems: 'flex-start' }} />
             <Divider />
             <Typography sx={{ px: 6, pt: 2, fontWeight: 'bold', cursor: 'pointer' }} onClick={handleLogout}>

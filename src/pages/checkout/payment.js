@@ -1,12 +1,10 @@
-import { createCipher } from 'crypto';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import { Container, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { selectCurrentUser, updateOrders } from '@/redux/slices/auth';
+import { selectCurrentUser } from '@/redux/slices/auth';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { createOrder } from '@/services/orderRequests';
 import { toast } from 'react-toastify';
 import CheckoutMethods from '@/modules/payment/components/CheckoutMethods';
 import PreviewOrder from '@/modules/payment/components/PreviewOrder';
@@ -75,25 +73,15 @@ function CheckoutPayment() {
       paymentMethod: paymentMethod === 'cod' ? paymentMethods.COD : paymentMethods.VNPAY,
       customerId: currentUser?._id,
     };
+    localStorage.setItem('order', JSON.stringify(order));
 
     if (selectedPromotion) {
       const parsedSelectedPromotion = JSON.parse(selectedPromotion);
       dispatch(fetchUpdatePromotionQuantity(parsedSelectedPromotion._id));
     }
 
-    const { message, orderId, updatedOrders } = await createOrder(order);
-    if (updatedOrders) {
-      dispatch(updateOrders({ updatedOrders }));
-    }
-
-    const cipher = createCipher('aes-256-cbc', 'secret');
-    let encrypted = cipher.update(orderId);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    const encryptedOrderId = encrypted.toString('base64');
-    localStorage.setItem('encryptedOrderId', encryptedOrderId);
-
     if (paymentMethod === 'cod') {
-      toast.success(message);
+      toast.success('Đặt hàng thành công');
       router.replace(
         {
           pathname: '/checkout/success',
@@ -101,7 +89,6 @@ function CheckoutPayment() {
             name: toName || shippingInfor.name,
             email: toEmail || shippingInfor.email,
             method: 'cod',
-            orderId,
           },
         },
         '/checkout/success',
