@@ -18,6 +18,7 @@ export const appAssets = {
   noImageAvailable: `${IMAGE_PATH}/no-image-available.jpg`,
   loadingGif: `${IMAGE_PATH}/loading.gif`,
   notFound: `${IMAGE_PATH}/404-not-found.jpg`,
+  serverError: `${IMAGE_PATH}/500-server-error.png`,
   banner1: `${IMAGE_PATH}/banner1.jpg`,
   banner2: `${IMAGE_PATH}/banner2.jpg`,
   banner3: `${IMAGE_PATH}/banner3.jpg`,
