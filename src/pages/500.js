@@ -13,12 +13,10 @@ function ServerErrorPage() {
         <title>Đã xảy ra lỗi | Brother Shop</title>
       </Head>
       <Stack direction="column" alignItems="center" sx={{ mt: 20, mb: 16 }}>
-        <Image src={appAssets.serverError} width={450} height={450} alt="Sản phẩm không tồn tại" />
+        <Image src={appAssets.serverError} width={450} height={450} alt="Đã xảy ra lỗi" />
 
         <Link href={config.routes.home}>
-          <Button className="mt-3" onClick={handleBackToPreviousPage}>
-            Trở về trang chủ
-          </Button>
+          <Button className="mt-3">Trở về trang chủ</Button>
         </Link>
       </Stack>
     </>
