@@ -22,7 +22,7 @@ function DetailEvent({ event }) {
         <p className="my-5">{description}</p>
         {subImgs.map((img) => (
           <div key={img}>
-            <Image cloudName="ddajkcbs2" publicId={img} alt="" />
+            <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={img} alt="" />
           </div>
         ))}
 

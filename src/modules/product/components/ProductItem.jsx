@@ -1,4 +1,3 @@
-// import Image from 'next/image';
 import { Image } from 'cloudinary-react';
 import { Fragment } from 'react';
 import PropTypes from 'prop-types';
@@ -10,12 +9,12 @@ function ProductItem({ product, forDetail }) {
     <div className="group flex relative overflow-hidden pb-[22px]">
       <div className="group-hover:translate-x-[-100%] transition-all duration-700 ease-in-out cursor-pointer">
         <Link href={`/shop/products/${product._id}`}>
-          <Image cloudName="ddajkcbs2" publicId={product.images?.mainImg} alt="" />
+          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={product.images?.mainImg} alt="" />
         </Link>
       </div>
       <div className="w-full absolute right-[-300%] group-hover:right-0 transition-all duration-700 ease-in-out cursor-pointer">
         <Link href={`/shop/products/${product._id}`}>
-          <Image cloudName="ddajkcbs2" publicId={product.images?.subImg} alt="" />
+          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={product.images?.subImg} alt="" />
         </Link>
       </div>
       {!forDetail && (

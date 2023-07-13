@@ -81,7 +81,7 @@ function WishlistDrawerItem({ product }) {
           onClick={() => setModalIsVisible(true)}
         />
         <Grid item xs={4}>
-          <Image cloudName="ddajkcbs2" publicId={product.images.mainImg} alt="" />
+          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={product.images.mainImg} alt="" />
         </Grid>
         <Grid item xs={8}>
           <Box>

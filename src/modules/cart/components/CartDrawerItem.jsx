@@ -102,7 +102,7 @@ function CartDrawerItem({ cartProduct }) {
         />
         <Grid item xs={4}>
           <Image
-            cloudName="ddajkcbs2"
+            cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
             publicId={cartProduct.productId.images.mainImg}
             alt=""
             style={{ marginLeft: 0 }}

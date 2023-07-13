@@ -6,6 +6,7 @@ import NextImage from 'next/image';
 import { GlassMagnifier } from 'react-image-magnifiers';
 import { Stack } from '@mui/material';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
+import { appAssets } from '@/common/assets';
 
 function PreviewImages({ images }) {
   const [loaded, setLoaded] = useState(false);
@@ -39,7 +40,7 @@ function PreviewImages({ images }) {
           magnifierSize="50%"
           imageAlt=""
         >
-          <Image cloudName="ddajkcbs2" publicId={images.mainImg} alt="" />
+          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={images.mainImg} alt="" />
         </GlassMagnifier>
 
         <GlassMagnifier
@@ -49,7 +50,7 @@ function PreviewImages({ images }) {
           magnifierSize="50%"
           imageAlt=""
         >
-          <Image cloudName="ddajkcbs2" publicId={images.subImg} alt="" />
+          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={images.subImg} alt="" />
         </GlassMagnifier>
       </Slider>
 
@@ -62,6 +63,8 @@ function PreviewImages({ images }) {
             height={200}
             style={{ objectFit: 'cover', objectPosition: 'center', height: '100%', width: '100px' }}
             alt=""
+            placeholder="blur"
+            blurDataURL={appAssets.loadingGif}
           />
         ))}
       </Stack>

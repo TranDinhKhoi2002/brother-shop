@@ -110,7 +110,7 @@ function DetailCart() {
                 <tr>
                   <td rowSpan={2} className={`w-[100px] ${tdClass}`}>
                     <Image
-                      cloudName="ddajkcbs2"
+                      cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
                       publicId={cartProduct.productId.images.mainImg}
                       alt=""
                       style={{ width: '100px' }}

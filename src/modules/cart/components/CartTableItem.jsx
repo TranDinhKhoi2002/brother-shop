@@ -70,7 +70,7 @@ function CartTableItem({ item, labelId, isItemSelected, onClick }) {
       </TableCell>
       <TableCell component="th" id={labelId} scope="row" align="center">
         <Image
-          cloudName="ddajkcbs2"
+          cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
           publicId={item.productId.images.mainImg}
           style={{ width: '100px' }}
           alt={item.productId.name}

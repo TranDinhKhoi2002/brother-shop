@@ -14,7 +14,11 @@ function CarouselItem({ item1, item2 }) {
             <Link href={`/events/${carouselItem.tag}`}>{carouselItem.title}</Link>
           </h4>
           <Box>
-            <Image cloudName="ddajkcbs2" publicId={carouselItem.mainImg} alt={carouselItem.title} />
+            <Image
+              cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+              publicId={carouselItem.mainImg}
+              alt={carouselItem.title}
+            />
           </Box>
           <LightgalleryProvider>
             <Grid container spacing={1}>
@@ -25,7 +29,11 @@ function CarouselItem({ item1, item2 }) {
                     src={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${product.images.mainImg}`}
                     thumb={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${product.images.mainImg}`}
                   >
-                    <Image cloudName="ddajkcbs2" publicId={product.images.mainImg} alt={product.name} />
+                    <Image
+                      cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+                      publicId={product.images.mainImg}
+                      alt={product.name}
+                    />
                   </LightgalleryItem>
                 </Grid>
               ))}
