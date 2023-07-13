@@ -25,13 +25,21 @@ function ChangePasswordPage({ isValidToken }) {
 
 export async function getServerSideProps(context) {
   const token = context.params.token;
-  const isValidToken = await authServices.checkResetToken({ token });
+  try {
+    const isValidToken = await authServices.checkResetToken({ token });
 
-  return {
-    props: {
-      isValidToken,
-    },
-  };
+    return {
+      props: {
+        isValidToken,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        isValidToken: false,
+      },
+    };
+  }
 }
 
 export default ChangePasswordPage;
