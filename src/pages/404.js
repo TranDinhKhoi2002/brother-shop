@@ -21,7 +21,7 @@ function NotFoundPage() {
         <Image src={appAssets.notFound} width={450} height={450} alt="Sản phẩm không tồn tại" />
 
         <Button className="mt-3" onClick={handleBackToPreviousPage}>
-          Trở về trang chủ
+          Trở về
         </Button>
       </Stack>
     </>

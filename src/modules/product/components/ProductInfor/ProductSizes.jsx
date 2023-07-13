@@ -27,8 +27,6 @@ function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisp
         const remainingCurrentSize = sizesData.sizes.find((size) => size.name === selectedSize?.name);
         if (remainingCurrentSize?.remainingQuantity > 0) {
           setSelectedSize(remainingCurrentSize);
-        } else {
-          setSelectedSize(null);
         }
       }
     });
