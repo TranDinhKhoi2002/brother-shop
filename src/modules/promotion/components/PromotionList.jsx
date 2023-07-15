@@ -3,9 +3,11 @@ import { Grid } from '@mui/material';
 import PromotionItem from './PromotionItem';
 
 function PromotionList({ promotions, isUsedInProfile = false }) {
+  const validPromotions = promotions.filter((promotion) => !promotion.expired);
+
   return (
     <Grid container spacing={4}>
-      {promotions.map((promotion) => (
+      {validPromotions.map((promotion) => (
         <Grid key={promotion?._id} item xs={12} md={6}>
           <PromotionItem item={promotion} isUsedInProfile={isUsedInProfile} />
         </Grid>

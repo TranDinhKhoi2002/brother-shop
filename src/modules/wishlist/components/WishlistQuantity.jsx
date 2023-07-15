@@ -34,7 +34,7 @@ export default React.forwardRef(function WishlistQuantity({ price, id }, ref) {
         alignItems="center"
         sx={{ width: '100px', mt: 1, border: 1, py: '4px', px: 1 }}
       >
-        <IconButton onClick={handleDecreaseQuantity} disabled={quantity === 1}>
+        <IconButton onClick={handleDecreaseQuantity} disabled={quantity === 1 || isAddedToCart}>
           <RemoveIcon sx={{ fontSize: '14px' }} />
         </IconButton>
         <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>{quantity}</Typography>

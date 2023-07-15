@@ -21,6 +21,10 @@ function FilterProductTypes({ onFilter, selectedFilters }) {
     setOpen(!open);
   };
 
+  if (currentCategory?.types?.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <ListItemButton onClick={handleClick}>
