@@ -126,8 +126,11 @@ function ChangePasswordAccordion({ onValidatePhone }) {
           ) : (
             <Box>
               <Typography>Vui lòng xác thực số điện thoại của bạn trước khi thiết lập mật khẩu.</Typography>
-              <Button className="mt-3" onClick={onValidatePhone}>
-                Thêm số điện thoại
+              <Typography sx={{ fontStyle: 'italic' }}>
+                Lưu ý: bạn phải thêm số điện thoại cho tài khoản trước khi xác thực
+              </Typography>
+              <Button className="mt-3" onClick={onValidatePhone} disabled={!currentUser?.phone}>
+                Xác thực
               </Button>
             </Box>
           )}
