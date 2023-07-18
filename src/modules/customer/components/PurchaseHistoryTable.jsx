@@ -107,7 +107,7 @@ export default function PurchaseHistoryTable({ orders }) {
   const [historyOrders, setHistoryOrders] = useState(orders);
 
   useEffect(() => {
-    const socket = openSocket('https://brother-shop-102.onrender.com');
+    const socket = openSocket(process.env.NEXT_PUBLIC_DB_BASE_URL);
     socket.on('orders', (data) => {
       const { action } = data;
 
@@ -116,7 +116,8 @@ export default function PurchaseHistoryTable({ orders }) {
         const existingOrderIndex = updatedOrders.findIndex((order) => order._id.toString() === data.orderId);
 
         const existingOrder = { ...updatedOrders[existingOrderIndex] };
-        existingOrder.shippingStatus = data.orderStatus;
+        existingOrder.shippingStatus = data.orderShippingStatus;
+        existingOrder.paymentStatus = data.orderPaymentStatus;
         updatedOrders[existingOrderIndex] = existingOrder;
         setHistoryOrders(updatedOrders);
       }
