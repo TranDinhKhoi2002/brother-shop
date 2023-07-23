@@ -24,6 +24,6 @@ const dataSlice = createSlice({
 
 export const { setData } = dataSlice.actions;
 
-export const selectCategories = (state) => state.data.categories;
+export const selectCategories = (state) => state.data?.categories || [];
 
 export default dataSlice.reducer;

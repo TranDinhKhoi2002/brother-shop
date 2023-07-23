@@ -6,7 +6,7 @@ import { Box, Typography } from '@mui/material';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import FormProvider from '@/common/components/Form/FormProvider';
-import * as authServices from '@/services/authRequests';
+import * as authServices from '@/services/authRequests.ts';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import config from '@/config';
@@ -43,7 +43,9 @@ function ChangePasswordForm() {
   const onSubmit = async (values) => {
     const { password, confirmPassword } = values;
 
-    const { success, message } = await authServices.updatePassword(token, password, confirmPassword);
+    const data = { token, password, confirmPassword };
+
+    const { success, message } = await authServices.updatePassword(data);
 
     if (success) {
       toast.success(message);

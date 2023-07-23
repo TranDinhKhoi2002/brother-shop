@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as promotionServices from '@/services/promotionRequests';
+import * as promotionServices from '@/services/promotionRequests.ts';
 
 const initialState = {
   promotions: [],

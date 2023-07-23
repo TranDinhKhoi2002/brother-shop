@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Box, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
 import Title from '@/common/components/UI/Title';
 import { useSelector } from 'react-redux';
@@ -61,10 +60,5 @@ function PromotionRadioBtnForm({ selectedPromotion, onChangePromotion }) {
     </Box>
   );
 }
-
-PromotionRadioBtnForm.propTypes = {
-  selectedPromotion: PropTypes.string.isRequired,
-  onChangePromotion: PropTypes.func.isRequired,
-};
 
 export default PromotionRadioBtnForm;

@@ -3,7 +3,7 @@ import {
   updateQuantity,
   removeItemsFromCart,
   removeItemFromCart,
-} from '@/services/cartRequests';
+} from '@/services/cartRequests.ts';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 

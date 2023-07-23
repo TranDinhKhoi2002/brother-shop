@@ -20,7 +20,7 @@ import config from '@/config';
 import { appAssets } from '@/common/assets';
 import { assignPromotions } from '@/redux/slices/promotions';
 
-function LoginForm({ onLogin }) {
+function LoginForm({ onLogin = () => {} }) {
   const dispatch = useDispatch();
   const router = useRouter();
 

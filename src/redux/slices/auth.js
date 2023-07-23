@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as authServices from '@/services/authRequests';
-import * as customerServices from '@/services/customerRequests';
+import * as authServices from '@/services/authRequests.ts';
+import * as customerServices from '@/services/customerRequests.ts';
 
 const initialState = {
   currentUser: undefined,

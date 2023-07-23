@@ -120,6 +120,8 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
       ward: wards,
     };
 
+    console.log(enteredAddress);
+
     if (selectedAddress) {
       enteredAddress._id = selectedAddress._id;
       await handleEditAddress(enteredAddress);

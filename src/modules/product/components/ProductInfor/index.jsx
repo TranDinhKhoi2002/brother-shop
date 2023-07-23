@@ -105,14 +105,14 @@ function ProductInfor({ product }) {
     setModalIsVisible(false);
   };
 
-  const handleAddToWishlist = async (product) => {
+  const handleAddToWishlist = async (productId) => {
     if (!isAuthenticated) {
       setLoginModalIsVisible(true);
       return;
     }
 
     try {
-      const { success, message } = await dispatch(fetchAddToWishlist({ product })).unwrap();
+      const { success, message } = await dispatch(fetchAddToWishlist({ productId })).unwrap();
 
       if (success) {
         toast.success(message);
@@ -158,7 +158,7 @@ function ProductInfor({ product }) {
               </Button>
               <FavoriteBorderIcon
                 sx={{ fontSize: '2.5rem', cursor: 'pointer' }}
-                onClick={handleAddToWishlist.bind(this, product)}
+                onClick={handleAddToWishlist.bind(this, product._id)}
               />
             </Stack>
 

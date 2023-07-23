@@ -3,7 +3,7 @@ import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Products from '../../product/components/Products';
 import { useRouter } from 'next/router';
-import { getProductsByFilters } from '@/services/productRequests';
+import { getProductsByFilters } from '@/services/productRequests.ts';
 import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
 import FilterTag from './FilterTag';
 import RemoveAllButton from './RemoveAllButton';

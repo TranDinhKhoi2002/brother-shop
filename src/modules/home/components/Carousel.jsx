@@ -18,13 +18,13 @@ function HomeCarousel() {
       stopOnHover={false}
     >
       <Link href={config.routes.promotions}>
-        <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px] xl:h-[1000px]">
-          <Image alt="Discount" src={appAssets.banner6} width={1400} height={1000} priority />
+        <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px] xl:h-[600px]">
+          <Image alt="Discount" src={appAssets.banner10} width={1400} height={600} priority />
         </div>
       </Link>
       <Link href={config.routes.promotions}>
-        <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px] xl:h-[1000px]">
-          <Image alt="Discount" src={appAssets.banner9} width={1400} height={1000} priority />
+        <div className="animate-image flex justify-center pt-[64px] lg:pt-[79px] xl:h-[600px]">
+          <Image alt="Discount" src={appAssets.banner11} width={1400} height={600} priority />
         </div>
       </Link>
     </Carousel>

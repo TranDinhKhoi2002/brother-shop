@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import ProductItem from './ProductItem';
 
-function Products({ products, forDetail }) {
+function Products({ products, forDetail = false }) {
   return (
     <Box sx={{ mt: 4 }}>
       <Grid container>
