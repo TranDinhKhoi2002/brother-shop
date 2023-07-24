@@ -1,10 +1,10 @@
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import useCollapse from 'react-collapsed';
 
-function CollapseFooter(props) {
+function CollapseFooter() {
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import type { NextComponentType, NextPageContext, NextLayoutComponentType } from 'next';
 import type { AppProps } from 'next/app';
 

@@ -1,24 +1,33 @@
+import { Promotion } from './../../types/promotion';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as promotionServices from '@/services/promotionRequests.ts';
+import * as promotionServices from '@/services/promotionRequests';
+import { SavePromotionPayload } from '@/services/types/promotion';
+import { RootState } from '../store';
 
-const initialState = {
+const initialState: { promotions: Promotion[]; loading: boolean } = {
   promotions: [],
   loading: false,
 };
 
-export const fetchSavePromotion = createAsyncThunk('promotions/fetchSavePromotion', async (data) => {
-  const response = await promotionServices.savePromotion(data);
-  return response;
-});
+export const fetchSavePromotion = createAsyncThunk<any, SavePromotionPayload>(
+  'promotions/fetchSavePromotion',
+  async (data: SavePromotionPayload) => {
+    const response = await promotionServices.savePromotion(data);
+    return response;
+  },
+);
 
-export const fetchRemovePromotion = createAsyncThunk('promotions/fetchRemovePromotion', async (promotionId) => {
-  const response = await promotionServices.removePromotion(promotionId);
-  return response;
-});
+export const fetchRemovePromotion = createAsyncThunk<any, string>(
+  'promotions/fetchRemovePromotion',
+  async (promotionId: string) => {
+    const response = await promotionServices.removePromotion(promotionId);
+    return response;
+  },
+);
 
-export const fetchUpdatePromotionQuantity = createAsyncThunk(
+export const fetchUpdatePromotionQuantity = createAsyncThunk<any, string>(
   'promotions/fetchUpdatePromotionQuantity',
-  async (promotionId) => {
+  async (promotionId: string) => {
     const response = await promotionServices.updatePromotionQuantity(promotionId);
     return response;
   },
@@ -74,7 +83,7 @@ const promotionSlice = createSlice({
 
 export const { addPromotion, removePromotion, assignPromotions } = promotionSlice.actions;
 
-export const selectPromotions = (state) => state.promotions.promotions;
-export const selectPromotionLoading = (state) => state.promotions.loading;
+export const selectPromotions = (state: RootState) => state.promotions.promotions;
+export const selectPromotionLoading = (state: RootState) => state.promotions.loading;
 
 export default promotionSlice.reducer;

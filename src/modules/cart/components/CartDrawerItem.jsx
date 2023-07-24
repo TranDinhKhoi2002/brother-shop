@@ -45,7 +45,7 @@ function CartDrawerItem({ cartProduct }) {
     }
 
     try {
-      const { cart, success, message } = await dispatch(
+      const { cart, success } = await dispatch(
         fetchUpdateQuantity({ productId: cartProduct.productId._id, size: cartProduct.size, quantity: quantity }),
       ).unwrap();
 

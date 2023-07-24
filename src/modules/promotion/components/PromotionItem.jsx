@@ -6,7 +6,7 @@ import Image from 'next/image';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRemovePromotion, fetchSavePromotion, selectPromotions } from '@/redux/slices/promotions';
+import { fetchRemovePromotion, fetchSavePromotion, selectPromotions } from '@/redux/slices/promotions.ts';
 import { toast } from 'react-toastify';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import { useState } from 'react';

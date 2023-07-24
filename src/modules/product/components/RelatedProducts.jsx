@@ -31,7 +31,6 @@ function RelatedProducts({ products }) {
     dots: true,
     dotsClass: 'slick-dots slick-thumb',
     infinite: true,
-    speed: 500,
     slidesToShow: products.length >= 6 ? 6 : products.length,
     slidesToScroll: 3,
     autoplay: true,

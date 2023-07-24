@@ -1,7 +1,7 @@
 import { Box, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
 import Title from '@/common/components/UI/Title';
 import { useSelector } from 'react-redux';
-import { selectPromotions } from '@/redux/slices/promotions';
+import { selectPromotions } from '@/redux/slices/promotions.ts';
 import PromotionItem from './PromotionItem';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { isValidPromotion } from '@/utils/promotion';

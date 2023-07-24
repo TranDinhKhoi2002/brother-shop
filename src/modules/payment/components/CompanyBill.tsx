@@ -16,7 +16,19 @@ import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { Box } from '@mui/material';
 
-const CompanyBill = React.forwardRef(function CompanyBill(props, ref) {
+type CompanyBillProps = {
+  // Add any props if needed
+};
+
+export type RefType = {
+  getInvoiceCompany: () => {
+    companyName: string;
+    companyAddress: string;
+    companyTaxNumber: string;
+  };
+};
+
+const CompanyBill = React.forwardRef<RefType, CompanyBillProps>(function CompanyBill(props, ref) {
   const cartProducts = useSelector(selectCartProducts);
 
   const BillSchema = Yup.object().shape({
@@ -72,7 +84,7 @@ const CompanyBill = React.forwardRef(function CompanyBill(props, ref) {
               fileName={`Bill_BrotherShop_${getValues('companyName')}`}
               style={{ textDecoration: 'none' }}
             >
-              {({ blob, url, loading, error }) => (
+              {({ error }) => (
                 <>
                   {error && <span className="text-primary">Đã xảy ra lỗi</span>}
                   <Button type="submit">In hóa đơn</Button>

@@ -18,7 +18,7 @@ import { useGoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import config from '@/config';
 import { appAssets } from '@/common/assets';
-import { assignPromotions } from '@/redux/slices/promotions';
+import { assignPromotions } from '@/redux/slices/promotions.ts';
 
 function LoginForm({ onLogin = () => {} }) {
   const dispatch = useDispatch();
@@ -79,7 +79,6 @@ function LoginForm({ onLogin = () => {} }) {
       ).unwrap();
 
       if (success) {
-        debugger;
         dispatch(assignProductsToCart({ cart: user.cart }));
         dispatch(assignProductsToWishlist({ products: user.wishlist }));
         dispatch(assignPromotions({ promotions: user.promotions }));

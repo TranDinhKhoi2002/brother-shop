@@ -53,7 +53,6 @@ function ProductSizes({ sizes, onChange, product, isSoldOut, currentSize, onDisp
             onClick={onChange.bind(this, size)}
             sx={{
               borderColor: theme.palette.grey['900'],
-              color: theme.palette.grey['900'],
               borderRadius: 0,
               backgroundColor:
                 selectedSize?.name === size.name ? `${theme.palette.grey['900']} !important` : 'transparent',

@@ -13,7 +13,6 @@ import { fetchAddAddress, fetchEditAddress, selectCurrentUser } from '@/redux/sl
 
 let addressesDataSource;
 let city;
-let district;
 
 function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
   const [cities, setCities] = useState([]);
@@ -39,7 +38,6 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
       setDistricts(formattedDistricts);
 
       const selectedDistrict = city.districts.find((district) => district.name === selectedAddress.district);
-      district = selectedDistrict;
       const formattedWards = selectedDistrict.wards.map((ward) => ward.name);
       setWards(formattedWards);
     }
@@ -120,8 +118,6 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
       ward: wards,
     };
 
-    console.log(enteredAddress);
-
     if (selectedAddress) {
       enteredAddress._id = selectedAddress._id;
       await handleEditAddress(enteredAddress);
@@ -146,7 +142,6 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }) {
 
     const selectedDistrictName = getValues('districts');
     const selectedDistrict = city.districts.find((district) => district.name === selectedDistrictName);
-    district = selectedDistrict;
     const formattedWards = selectedDistrict.wards.map((ward) => ward.name);
     setWards(formattedWards);
   };

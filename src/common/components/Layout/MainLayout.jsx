@@ -6,13 +6,13 @@ import { fetchCommonData } from '@/redux/slices/data';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Call';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 import { useDispatch } from 'react-redux';
 import Footer from '../Footer/Footer';
 import Header from '../Header';
 import Sidebar from './Sidebar';
-import { assignPromotions } from '@/redux/slices/promotions';
+import { assignPromotions } from '@/redux/slices/promotions.ts';
 
 function Layout(props) {
   const [sideBarActive, setSideBarActive] = useState(false);

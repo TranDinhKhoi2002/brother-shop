@@ -14,7 +14,7 @@ import { addToCart, fetchAddToCart, assignProductsToCart, selectCartProducts } f
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 
 function WishlistDrawerItem({ product }) {
-  const [isSoldOut, setIsSoldOut] = useState(product.sizes[0].quantity - product.sizes[0].sold === 0);
+  const [isSoldOut, setIsSoldOut] = useState(product?.sizes[0]?.quantity - product?.sizes[0].sold === 0);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const cartProducts = useSelector(selectCartProducts);
   const isAddedToCart = cartProducts.findIndex((item) => item.productId._id === product._id) !== -1;

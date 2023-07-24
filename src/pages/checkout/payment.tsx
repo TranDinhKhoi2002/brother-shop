@@ -1,6 +1,5 @@
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import { Container, Grid } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
@@ -8,24 +7,28 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import CheckoutMethods from '@/modules/payment/components/CheckoutMethods';
 import PreviewOrder from '@/modules/payment/components/PreviewOrder';
-import CompanyBill from '@/modules/payment/components/CompanyBill';
+import CompanyBill, { RefType } from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import { TRANSPORTATION_COST, paymentMethods } from '@/constants';
 import PromotionRadioBtnForm from '@/modules/promotion/components/PromotionRadioBtnForm';
 import { fetchUpdatePromotionQuantity } from '@/redux/slices/promotions';
+import { CartItem } from '@/types/customer';
+import { Product } from '@/types/product';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
 function CheckoutPaymentPage() {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<string>('cod');
   const [selectedPromotion, setSelectedPromotion] = useState<string>();
 
-  const cartProducts = useSelector(selectCartProducts);
-  const currentUser = useSelector(selectCurrentUser);
+  const cartProducts = useAppSelector(selectCartProducts);
+  const currentUser = useAppSelector(selectCurrentUser);
 
   const router = useRouter();
-  const dispatch = useDispatch();
-  const ref = useRef(null);
+  const dispatch = useAppDispatch();
+  const ref = useRef<RefType | null>(null);
 
   const { toName, toPhone, toAddress, toNote, toEmail } = router.query;
 
@@ -47,15 +50,15 @@ function CheckoutPaymentPage() {
   const totalPrice = totalProductsPrice + TRANSPORTATION_COST;
 
   const payHandler = async (totalPrice: number) => {
-    const { companyName, companyAddress, companyTaxNumber } = ref.current.getInvoiceCompany();
+    const { companyName, companyAddress, companyTaxNumber } = ref.current!.getInvoiceCompany();
 
-    const formatedCartProducts = cartProducts.map((cartProduct) => ({
-      product: cartProduct.productId._id,
-      name: cartProduct.productId.name,
-      price: cartProduct.productId.price,
+    const formatedCartProducts = cartProducts.map((cartProduct: CartItem) => ({
+      product: (cartProduct.productId as Product)._id,
+      name: (cartProduct.productId as Product).name,
+      price: (cartProduct.productId as Product).price,
       amount: cartProduct.quantity,
       size: cartProduct.size,
-      image: `${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${cartProduct.productId.images.mainImg}`,
+      image: `${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${(cartProduct.productId as Product).images.mainImg}`,
     }));
 
     const shippingInfor = JSON.parse(localStorage.getItem('shippingInfor') || '{}');

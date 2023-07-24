@@ -1,5 +1,4 @@
-import { Box, Divider, Stack, Typography } from '@mui/material';
-import PropTypes from 'prop-types';
+import { Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import PromotionList from '@/modules/promotion/components/PromotionList';
@@ -7,7 +6,7 @@ import Button from '@/common/components/Buttons/Button';
 import { appAssets } from '@/common/assets';
 import config from '@/config';
 import { useSelector } from 'react-redux';
-import { selectPromotions } from '@/redux/slices/promotions';
+import { selectPromotions } from '@/redux/slices/promotions.ts';
 
 function PromotionsTab() {
   const customerPromotions = useSelector(selectPromotions);

@@ -34,11 +34,6 @@ export const fetchRemoveItemFromCart = createAsyncThunk('cart/fetchRemoveItemFro
   return response;
 });
 
-export const fetchCreateReceipt = createAsyncThunk('cart/fetchCreateReceipt', async (receipt) => {
-  const response = await createReceipt(receipt);
-  return response;
-});
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState,

@@ -62,7 +62,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout(state, action) {
+    logout(state) {
       Cookies.remove('token');
       Cookies.remove('accountId');
 
@@ -101,7 +101,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
       }
     });
-    builder.addCase(fetchUserSignup.fulfilled, (state, { payload }) => {
+    builder.addCase(fetchUserSignup.fulfilled, (_, { payload }) => {
       const { success } = payload;
 
       if (success) {
@@ -120,7 +120,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
       }
     });
-    builder.addCase(fetchVerifyUser.fulfilled, (state, { payload }) => {
+    builder.addCase(fetchVerifyUser.fulfilled, (state) => {
       state.currentUser.verified = true;
     });
     builder.addCase(fetchUpdateProfile.fulfilled, (state, { payload }) => {

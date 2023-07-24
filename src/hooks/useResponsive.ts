@@ -1,7 +1,7 @@
-import { useTheme } from '@mui/material/styles';
+import { Breakpoint, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function useResponsive(query, key, start, end) {
+export default function useResponsive(query: string, key: Breakpoint, start: number, end: number) {
   const theme = useTheme();
 
   const mediaUp = useMediaQuery(theme.breakpoints.up(key));
