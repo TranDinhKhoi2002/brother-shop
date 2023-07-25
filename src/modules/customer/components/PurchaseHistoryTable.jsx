@@ -15,7 +15,7 @@ import openSocket from 'socket.io-client';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useTheme } from '@mui/styles';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 
 function OrderItem({ order }) {
   const [open, setOpen] = useState(false);

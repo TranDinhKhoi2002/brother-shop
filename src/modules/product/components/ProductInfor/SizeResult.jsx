@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 
 function SizeResult({ selectedSize, onChooseSize, onChooseAgain }) {
   return (

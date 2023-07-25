@@ -1,4 +1,4 @@
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import Products from '@/modules/product/components/Products';
 import { Box } from '@mui/material';
 

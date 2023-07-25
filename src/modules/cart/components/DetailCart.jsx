@@ -13,7 +13,7 @@ import {
   updateAmountOfProduct,
 } from '@/redux/slices/cart';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import { Image } from 'cloudinary-react';
 import Title from '@/common/components/UI/Title';
 import { toast } from 'react-toastify';

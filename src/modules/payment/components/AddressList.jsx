@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import config from '@/config';
 import AddAddressModal from '@/modules/customer/components/AddAddressModal';

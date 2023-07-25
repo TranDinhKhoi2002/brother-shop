@@ -1,4 +1,4 @@
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import { Box, Stack, Typography } from '@mui/material';
 
 function GeneralInfor(props) {

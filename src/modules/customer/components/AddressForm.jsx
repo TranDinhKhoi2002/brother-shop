@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import FormProvider from '@/common/components/Form/FormProvider';
-import { checkValidVietNamPhoneNumber } from '@/common/utility/checkVietNamPhoneNumber';
+import { checkValidVietNamPhoneNumber } from '@/utils/common/index.ts';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import RHFAutocomplete from '@/common/components/Form/RHFAutocomplete';
 import { useCallback, useEffect, useState } from 'react';

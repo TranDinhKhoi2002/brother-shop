@@ -1,4 +1,4 @@
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';

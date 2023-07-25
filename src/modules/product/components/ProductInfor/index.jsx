@@ -1,7 +1,7 @@
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { addToCart, assignProductsToCart, fetchAddToCart } from '@/redux/slices/cart';
 import { Box, Grid, Stack, Typography, Button as ButtonMUI } from '@mui/material';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';

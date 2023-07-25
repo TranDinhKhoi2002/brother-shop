@@ -13,7 +13,7 @@ import RHFDatePicker from '@/common/components/Form/RHFDatePicker';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
-import { checkValidVietNamPhoneNumber } from '@/common/utility/checkVietNamPhoneNumber';
+import { checkValidVietNamPhoneNumber } from '@/utils/common/index.ts';
 import config from '@/config';
 
 function SignupForm() {

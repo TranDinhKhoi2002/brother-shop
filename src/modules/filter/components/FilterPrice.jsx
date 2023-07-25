@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Collapse, ListItemButton, ListItemText, Slider, Typography } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 
 function valuetext(value) {
   return `${value}`;

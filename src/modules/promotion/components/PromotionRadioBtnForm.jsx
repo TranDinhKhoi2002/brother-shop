@@ -5,7 +5,7 @@ import { selectPromotions } from '@/redux/slices/promotions.ts';
 import PromotionItem from './PromotionItem';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { isValidPromotion } from '@/utils/promotion';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import Link from 'next/link';
 import config from '@/config';
 

@@ -2,7 +2,7 @@ import { Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import PromotionList from '@/modules/promotion/components/PromotionList';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import { appAssets } from '@/common/assets';
 import config from '@/config';
 import { useSelector } from 'react-redux';

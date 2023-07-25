@@ -2,7 +2,7 @@ import { Stack } from '@mui/material';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import { appAssets } from '@/common/assets';
 import config from '@/config';
 

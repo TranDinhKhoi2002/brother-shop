@@ -5,7 +5,7 @@ import { Image } from 'cloudinary-react';
 import { useEffect, useState } from 'react';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import { toast } from 'react-toastify';
 import { assignProductsToCart, fetchUpdateQuantity, updateAmountOfProduct } from '@/redux/slices/cart';
 import Link from 'next/link';

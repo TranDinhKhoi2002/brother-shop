@@ -1,10 +1,10 @@
 import { Drawer, Box, Stack, Typography, IconButton, Button, Divider } from '@mui/material';
-import CustomizedButton from '@/common/components/Buttons/Button';
+import CustomizedButton from '@/common/components/Buttons/Button.tsx';
 import CloseIcon from '@mui/icons-material/Close';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import { useRouter } from 'next/router';
 import CartDrawerItem from './CartDrawerItem';
 import { selectIsAuthenticated } from '@/redux/slices/auth';

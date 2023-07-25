@@ -1,4 +1,4 @@
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import config from '@/config';
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';

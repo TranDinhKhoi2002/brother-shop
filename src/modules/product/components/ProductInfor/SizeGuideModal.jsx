@@ -17,7 +17,7 @@ import {
   Tab,
   Tabs,
 } from '@mui/material';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import { TabContext, TabPanel } from '@mui/lab';
 import ThinPersonIcon from '@/common/components/Icons/ThinPersonIcon';
 import NormalPersonIcon from '@/common/components/Icons/NormalPersonIcon';

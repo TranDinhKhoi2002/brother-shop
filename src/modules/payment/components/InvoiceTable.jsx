@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 
 const styles = StyleSheet.create({
   table: {

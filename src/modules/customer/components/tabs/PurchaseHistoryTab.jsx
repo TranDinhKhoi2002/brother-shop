@@ -1,4 +1,4 @@
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import PropTypes from 'prop-types';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';

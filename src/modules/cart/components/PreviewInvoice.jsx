@@ -1,6 +1,6 @@
-import Button from '@/common/components/Buttons/Button';
-import { calculateTotalCart } from '@/common/utility/calculateTotalCart';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import Button from '@/common/components/Buttons/Button.tsx';
+import { calculateTotalCart } from '@/utils/common/index.ts';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import config from '@/config';
 import { TRANSPORTATION_COST } from '@/constants';
 import { selectIsAuthenticated } from '@/redux/slices/auth';

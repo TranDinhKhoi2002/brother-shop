@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Image } from 'cloudinary-react';
 import WishlistSizesMenu from './WishlistSizesMenu';
 import WishlistQuantity from './WishlistQuantity';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { fetchRemoveFromWishlist } from '@/redux/slices/wishlist';

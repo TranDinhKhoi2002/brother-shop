@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Products from '../../product/components/Products';
 import { useRouter } from 'next/router';
 import { getProductsByFilters } from '@/services/productRequests.ts';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import FilterTag from './FilterTag';
 import RemoveAllButton from './RemoveAllButton';
 import TuneIcon from '@mui/icons-material/Tune';

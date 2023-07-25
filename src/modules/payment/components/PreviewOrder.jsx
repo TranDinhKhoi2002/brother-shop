@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { Card, CardActions, CardContent, Divider, Stack, Typography } from '@mui/material';
 
 import Title from '@/common/components/UI/Title';
-import Button from '@/common/components/Buttons/Button';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import Button from '@/common/components/Buttons/Button.tsx';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import { isNumber } from '../services';
 
 function PreviewOrder({ cartProducts, totalPrice, shippingPrice, selectedPromotion, onPay }) {

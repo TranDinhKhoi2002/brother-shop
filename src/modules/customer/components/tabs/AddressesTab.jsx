@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import { fetchRemoveAddress, fetchUpdateAddressToDefault } from '@/redux/slices/auth';
 import {
   Box,

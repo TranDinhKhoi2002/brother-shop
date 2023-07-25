@@ -2,7 +2,7 @@ import { appAssets } from '@/common/assets';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import config from '@/config';
 
 function HomePromotionBanner() {

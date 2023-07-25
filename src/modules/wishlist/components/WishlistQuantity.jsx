@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useState } from 'react';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
 

@@ -13,7 +13,7 @@ import RHFTextField from '@/common/components/Form/RHFTextField';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/redux/slices/auth';
-import Button from '@/common/components/Buttons/Button';
+import Button from '@/common/components/Buttons/Button.tsx';
 import { changePassword } from '@/services/customerRequests.ts';
 import { toast } from 'react-toastify';
 

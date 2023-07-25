@@ -5,7 +5,7 @@ import store from 'src/redux/store';
 import { AppContext, AppInitialProps, AppLayoutProps } from 'next/app';
 import type { NextComponentType } from 'next';
 import 'regenerator-runtime/runtime';
-import createEmotionCache from '@/common/utility/createEmotionCache';
+import { createEmotionCache } from '@/utils/common';
 import ThemeProvider from '@/common/styles/theme';
 import MainLayout from '@/common/components/Layout/MainLayout';
 import GoogleAnalytics from '@/modules/ga';

@@ -3,7 +3,7 @@ import { Image } from 'cloudinary-react';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { printNumberWithCommas } from '@/common/utility/printPriceWithComma';
+import { printNumberWithCommas } from '@/utils/common/index.ts';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { useTheme } from '@mui/styles';

@@ -42,6 +42,7 @@ export const getProductsByFilters = async (
   textures?: string,
 ) => {
   return await sendGetRequest(
+    // eslint-disable-next-line max-len
     `/products/filters?categoryId=${categoryId}&types=${types}&priceFrom=${priceFrom}&priceTo=${priceTo}&materials=${materials}&textures=${textures}`,
   );
 };
