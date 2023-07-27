@@ -6,7 +6,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-
 import GeneralInfor from './Generalnfor';
 import NumberBox from './NumberBox';
 import PreviewImages from './PreviewImages';
@@ -136,7 +135,7 @@ function ProductInfor({ product }) {
           <Box sx={{ px: 2 }}>
             <GeneralInfor
               name={product.name}
-              id={product._id.slice(0, 8).toUpperCase()}
+              _id={product._id.slice(0, 8).toUpperCase()}
               price={product.price}
               oldPrice={product.oldPrice}
             />

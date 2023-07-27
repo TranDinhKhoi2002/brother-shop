@@ -21,12 +21,14 @@ export interface Customer {
 }
 
 export interface CartItem {
+  readonly _id: string;
   productId: string | Product;
   size: string;
   quantity: number;
 }
 
 export interface Address {
+  readonly _id: string;
   name: string;
   phone: string;
   city: string;

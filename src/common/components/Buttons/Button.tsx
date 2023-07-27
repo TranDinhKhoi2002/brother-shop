@@ -1,14 +1,5 @@
-import { ReactNode } from 'react';
-import { Button as ButtonMUI, Theme } from '@mui/material';
+import { Button as ButtonMUI, Theme, ButtonProps } from '@mui/material';
 import { useTheme } from '@mui/styles';
-
-type ButtonProps = {
-  children: ReactNode;
-  className?: string;
-  disabled?: boolean;
-  variant?: 'text' | 'outlined' | 'contained';
-  onClick?: () => void;
-};
 
 function Button({ children, className, ...other }: ButtonProps) {
   const theme = useTheme<Theme>();

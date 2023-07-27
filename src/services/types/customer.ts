@@ -14,6 +14,7 @@ export interface VerifyPhoneNumberPayload {
 }
 
 export interface AddressPayload {
+  readonly _id?: string;
   name: string;
   phoneNumber: string;
   detail: string;

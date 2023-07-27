@@ -1,15 +1,17 @@
-import { TextField, TextareaAutosize } from '@mui/material';
+import { TextField, TextareaAutosize, TextFieldProps, TextareaAutosizeProps } from '@mui/material';
 import { ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-type RHFTextFieldProps = {
-  name: string;
-  label: string;
-  isRequired?: boolean;
-  id: string;
-  tag?: string;
-  text?: string;
-};
+type RHFTextFieldProps = TextFieldProps &
+  TextareaAutosizeProps & {
+    name: string;
+    label: string;
+    isRequired?: boolean;
+    id?: string;
+    tag?: string;
+    text?: string;
+    type?: string;
+  };
 
 export default function RHFTextField({ name, label, isRequired = true, ...other }: RHFTextFieldProps): ReactElement {
   const { control } = useFormContext();

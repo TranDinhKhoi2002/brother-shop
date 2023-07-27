@@ -1,18 +1,36 @@
 import { ReactNode } from 'react';
-import { CssBaseline } from '@mui/material';
-import { ThemeProvider as MUIThemeProvider, createTheme, StyledEngineProvider } from '@mui/material/styles';
-import { customTheme } from './theme';
+import { CssBaseline, createTheme } from '@mui/material';
+import { ThemeProvider as MUIThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+// import { customTheme } from './theme';
+import palette from './palette';
+import typography from './typography';
+import { CustomTheme } from './theme';
 
 type ThemeProviderProps = {
   children: ReactNode;
 };
 
 export default function ThemeProvider({ children }: ThemeProviderProps) {
-  const theme = createTheme(customTheme);
+  const themeOptions: CustomTheme = {
+    palette,
+    shape: { borderRadius: 8 },
+    typography,
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200,
+        xxl: 1400,
+      },
+    },
+  };
+  const customTheme = createTheme(themeOptions);
 
   return (
     <StyledEngineProvider injectFirst>
-      <MUIThemeProvider theme={theme}>
+      <MUIThemeProvider theme={customTheme}>
         <CssBaseline />
         {children}
       </MUIThemeProvider>

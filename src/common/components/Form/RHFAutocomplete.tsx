@@ -1,14 +1,18 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, SxProps, TextField, Theme } from '@mui/material';
 import { ReactElement } from 'react';
 
-type RHFAutocompleteProps = {
+type RHFAutocompleteProps<T> = {
   name: string;
   onChangeValue?: Function;
   label: string;
+  options: T[];
+  getOptionLabel?: ((_option: T) => string) | undefined;
+  isOptionEqualToValue?: ((_option: T, _value: T) => boolean) | undefined;
+  sx?: SxProps<Theme> | undefined;
 };
 
-export default function RHFAutocomplete({ name, ...other }: RHFAutocompleteProps): ReactElement {
+export default function RHFAutocomplete<T extends {}>({ name, ...other }: RHFAutocompleteProps<T>): ReactElement {
   const { control } = useFormContext();
 
   return (
@@ -21,7 +25,6 @@ export default function RHFAutocomplete({ name, ...other }: RHFAutocompleteProps
             {...field}
             value={field.value || ''}
             fullWidth
-            options={[]}
             onChange={(_, value) => {
               field.onChange(value);
               if (other.onChangeValue) other.onChangeValue();

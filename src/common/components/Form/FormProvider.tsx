@@ -4,7 +4,7 @@ import type { UseFormReturn } from 'react-hook-form';
 
 type FormProviderProps = {
   children: ReactNode;
-  methods: UseFormReturn;
+  methods: UseFormReturn<any, any>;
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 

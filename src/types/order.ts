@@ -18,9 +18,11 @@ export interface Order {
   companyName?: string;
   companyAddress?: string;
   companyTaxNumber?: string;
+  createdAt: Date;
 }
 
 export interface OrderProduct {
+  readonly _id: string;
   product: string | Product;
   name: string;
   price: number;

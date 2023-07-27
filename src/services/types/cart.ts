@@ -1,7 +1,7 @@
 export interface CartPayload {
   productId: string;
   size: string;
-  quantity: number;
+  quantity?: number;
 }
 
 export interface RemovedCartItem {

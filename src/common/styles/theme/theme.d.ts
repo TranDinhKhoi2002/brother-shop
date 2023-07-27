@@ -3,7 +3,6 @@ import { ThemeOptions as ThemeOptionsOld } from '@mui/material/styles/createThem
 import palette from './palette';
 import typography from './typography';
 
-// Override style Mui
 const themeOptions: ThemeOptionsOld = {
   palette,
   shape: { borderRadius: 8 },
@@ -20,7 +19,6 @@ const themeOptions: ThemeOptionsOld = {
   },
 };
 
-// Update for Typescript
 type CustomTheme = {
   [Key in keyof typeof themeOptions]: (typeof themeOptions)[Key];
 };
@@ -29,5 +27,4 @@ declare module '@mui/material/styles/createTheme' {
   export interface ThemeOptions extends CustomTheme {}
 }
 
-// Create theme
 export const customTheme = createTheme(themeOptions);

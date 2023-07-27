@@ -51,7 +51,7 @@ const CompanyBill = React.forwardRef<RefType, CompanyBillProps>(function Company
   const { handleSubmit, getValues, watch, formState } = methods;
   const formData = watch();
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: any) => {
     console.log(values);
   };
 

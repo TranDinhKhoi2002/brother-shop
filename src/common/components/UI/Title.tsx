@@ -3,7 +3,7 @@ import { Typography, SxProps } from '@mui/material';
 
 type TitleProps = {
   children: ReactNode;
-  sx: SxProps;
+  sx?: SxProps;
 };
 
 function Title({ children, sx }: TitleProps): ReactElement {

@@ -115,27 +115,29 @@ function CheckoutPaymentPage() {
 
   return (
     <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
-      <BuySteppers activeStep={2} />
-      <Container maxWidth="xl">
-        <Grid container spacing={3} className="mt-5 mb-10">
-          <Grid item xs={12}>
-            <PromotionRadioBtnForm selectedPromotion={selectedPromotion} onChangePromotion={changePromotionHandler} />
+      <>
+        <BuySteppers activeStep={2} />
+        <Container maxWidth="xl">
+          <Grid container spacing={3} className="mt-5 mb-10">
+            <Grid item xs={12}>
+              <PromotionRadioBtnForm selectedPromotion={selectedPromotion} onChangePromotion={changePromotionHandler} />
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <CheckoutMethods method={paymentMethod} onChangeMethod={changePaymentMethodHandler} />
+              <CompanyBill ref={ref} />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <PreviewOrder
+                cartProducts={cartProducts}
+                totalPrice={totalPrice}
+                shippingPrice={TRANSPORTATION_COST}
+                selectedPromotion={selectedPromotion || '{}'}
+                onPay={payHandler}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={8}>
-            <CheckoutMethods method={paymentMethod} onChangeMethod={changePaymentMethodHandler} />
-            <CompanyBill ref={ref} />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <PreviewOrder
-              cartProducts={cartProducts}
-              totalPrice={totalPrice}
-              shippingPrice={TRANSPORTATION_COST}
-              selectedPromotion={selectedPromotion}
-              onPay={payHandler}
-            />
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </>
     </PageContainer>
   );
 }

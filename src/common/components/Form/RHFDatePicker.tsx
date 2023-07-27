@@ -1,12 +1,15 @@
+import { ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { ReactElement } from 'react';
+import { SxProps, Theme } from '@mui/material';
 
 type RHFDatePickerProps = {
   name: string;
-  text: string;
+  text?: string;
+  label: string;
+  sx?: SxProps<Theme>;
 };
 
 export default function RHFDatePicker({ name, ...other }: RHFDatePickerProps): ReactElement {

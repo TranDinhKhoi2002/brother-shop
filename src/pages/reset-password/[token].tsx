@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   const data: ResetTokenPayload = {
     token: context?.params?.token as string,
   };
-  const isValidToken = await authServices.checkResetToken(data);
+  const isValidToken: boolean = await authServices.checkResetToken(data);
 
   return {
     props: {

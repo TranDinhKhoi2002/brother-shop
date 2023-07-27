@@ -1,14 +1,6 @@
-import { ReactNode } from 'react';
-import { LoadingButton as LoadingButtonMUI } from '@mui/lab';
-import { Theme, SxProps } from '@mui/material';
+import { LoadingButton as LoadingButtonMUI, LoadingButtonProps } from '@mui/lab';
+import { Theme } from '@mui/material';
 import { useTheme } from '@mui/styles';
-
-type LoadingButtonProps = {
-  children: ReactNode;
-  loading: boolean;
-  fullWidth?: boolean | undefined;
-  sx: SxProps;
-};
 
 function LoadingButton({ children, loading, fullWidth, sx, ...other }: LoadingButtonProps) {
   const theme = useTheme<Theme>();

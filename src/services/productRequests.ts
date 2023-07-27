@@ -35,11 +35,11 @@ export const getProductsByKeyword = async (keyword: string, page?: number) => {
 
 export const getProductsByFilters = async (
   categoryId: string,
-  types?: string,
-  priceFrom?: number,
-  priceTo?: number,
-  materials?: string,
-  textures?: string,
+  types?: string | null,
+  priceFrom?: number | null,
+  priceTo?: number | null,
+  materials?: string | null,
+  textures?: string | null,
 ) => {
   return await sendGetRequest(
     // eslint-disable-next-line max-len
