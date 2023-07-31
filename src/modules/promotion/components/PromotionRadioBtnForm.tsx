@@ -1,15 +1,21 @@
+import { ChangeEvent, ReactElement } from 'react';
 import { Box, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
 import Title from '@/common/components/UI/Title';
 import { useSelector } from 'react-redux';
-import { selectPromotions } from '@/redux/slices/promotions.ts';
+import { selectPromotions } from '@/redux/slices/promotions';
 import PromotionItem from './PromotionItem';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { isValidPromotion } from '@/utils/promotion';
-import Button from '@/common/components/Buttons/Button.tsx';
+import Button from '@/common/components/Buttons/Button';
 import Link from 'next/link';
 import config from '@/config';
 
-function PromotionRadioBtnForm({ selectedPromotion, onChangePromotion }) {
+type PromotionRadioBtnFormProps = {
+  selectedPromotion: string | undefined;
+  onChangePromotion: (_event: ChangeEvent<HTMLInputElement>) => void;
+};
+
+function PromotionRadioBtnForm({ selectedPromotion, onChangePromotion }: PromotionRadioBtnFormProps): ReactElement {
   const customerPromotions = useSelector(selectPromotions);
   const cartProducts = useSelector(selectCartProducts);
   const totalProductsPrice = cartProducts.reduce((acc, currentItem) => {

@@ -1,20 +1,29 @@
-import { Image } from 'cloudinary-react';
-import { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { printNumberWithCommas } from '@/utils/common/index.ts';
+import { Fragment, ReactElement } from 'react';
+import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
+import { printNumberWithCommas } from '@/utils/common';
 import Link from 'next/link';
+import { Product } from '@/types/product';
+import { cld } from '@/utils/cloudinary';
 
-function ProductItem({ product, forDetail }) {
+type ProductItemProps = {
+  product: Product;
+  forDetail?: boolean;
+};
+
+function ProductItem({ product, forDetail }: ProductItemProps): ReactElement {
+  const mainImg = cld.image(product.images.mainImg);
+  const subImg = cld.image(product.images.subImg);
+
   return (
     <div className="group flex relative overflow-hidden pb-[22px]">
       <div className="group-hover:translate-x-[-100%] transition-all duration-700 ease-in-out cursor-pointer">
         <Link href={`/shop/products/${product._id}`}>
-          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={product.images?.mainImg} alt="" />
+          <AdvancedImage cldImg={mainImg} plugins={[lazyload(), responsive(), placeholder()]} />
         </Link>
       </div>
       <div className="w-full absolute right-[-300%] group-hover:right-0 transition-all duration-700 ease-in-out cursor-pointer">
         <Link href={`/shop/products/${product._id}`}>
-          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={product.images?.subImg} alt="" />
+          <AdvancedImage cldImg={subImg} plugins={[lazyload(), responsive(), placeholder()]} />
         </Link>
       </div>
       {!forDetail && (
@@ -32,10 +41,5 @@ function ProductItem({ product, forDetail }) {
     </div>
   );
 }
-
-ProductItem.propTypes = {
-  product: PropTypes.object.isRequired,
-  forDetail: PropTypes.bool,
-};
 
 export default ProductItem;

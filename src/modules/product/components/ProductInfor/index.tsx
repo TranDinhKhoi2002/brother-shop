@@ -1,21 +1,27 @@
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { addToCart, assignProductsToCart, fetchAddToCart } from '@/redux/slices/cart';
 import { Box, Grid, Stack, Typography, Button as ButtonMUI } from '@mui/material';
-import Button from '@/common/components/Buttons/Button.tsx';
+import Button from '@/common/components/Buttons/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import GeneralInfor from './Generalnfor';
-import NumberBox from './NumberBox';
+import NumberBox, { NumberBoxRef } from './NumberBox';
 import PreviewImages from './PreviewImages';
 import Policies from './Policies';
-import { useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import ProductSizes from './ProductSizes';
 import SizeGuideModal from './SizeGuideModal';
 import PreservationInstruction from './PreservationInstruction';
 import LoginModal from '@/modules/auth/components/LoginModal';
 import { fetchAddToWishlist } from '@/redux/slices/wishlist';
+import { CustomProductSize, Product } from '@/types/product';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+
+type ProductInforProps = {
+  product: Product;
+};
 
 const styles = {
   title: {
@@ -36,25 +42,27 @@ const styles = {
   },
 };
 
-function ProductInfor({ product }) {
-  const [currentSize, setCurrentSize] = useState();
+function ProductInfor({ product }: ProductInforProps): ReactElement {
+  const [currentSize, setCurrentSize] = useState<CustomProductSize>();
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [loginModalIsVisible, setLoginModalIsVisible] = useState(false);
 
-  const inputRef = useRef();
-  const dispatch = useDispatch();
+  const inputRef = useRef<NumberBoxRef | null>(null);
+  const dispatch = useAppDispatch();
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const sizes = product.sizes.map((size) => ({ name: size.name, remainingQuantity: size.quantity - size.sold }));
 
-  const getRemainingQuantity = (selectedSize) => {
+  const getRemainingQuantity = (selectedSize: string) => {
     const sizeItem = product.sizes.find((size) => size.name === selectedSize);
-    const remainingQuantity = sizeItem.quantity - sizeItem.sold;
-    return remainingQuantity;
+    if (sizeItem) {
+      const remainingQuantity = sizeItem.quantity - sizeItem.sold;
+      return remainingQuantity;
+    }
   };
 
-  const isSoldOut = (selectedSize) => {
+  const isSoldOut = (selectedSize: string) => {
     const remainingQuantity = getRemainingQuantity(selectedSize);
     if (remainingQuantity === 0) {
       return true;
@@ -63,27 +71,27 @@ function ProductInfor({ product }) {
     return false;
   };
 
-  const addToCartHandler = async (size) => {
+  const addToCartHandler = async (size: string) => {
     if (!currentSize) {
       toast.error('Bạn vui lòng chọn size');
       return;
     }
 
     const remainingQuantity = getRemainingQuantity(size);
-    if (remainingQuantity < +inputRef.current.getQuantity()) {
+    if (remainingQuantity && remainingQuantity < +inputRef!.current!.getQuantity()) {
       toast.error('Số lượng sản phẩm còn lại không đủ');
       return;
     }
 
     if (!isAuthenticated) {
-      dispatch(addToCart({ productId: product, size, quantity: +inputRef.current.getQuantity(), _id: uuidv4() }));
+      dispatch(addToCart({ productId: product, size, quantity: +inputRef!.current!.getQuantity(), _id: uuidv4() }));
       toast.success('Đã thêm vào giỏ hàng');
       return;
     }
 
     try {
       const { success, cart } = await dispatch(
-        fetchAddToCart({ productId: product._id, size, quantity: +inputRef.current.getQuantity() }),
+        fetchAddToCart({ productId: product._id, size, quantity: +inputRef!.current!.getQuantity() }),
       ).unwrap();
       if (success) {
         toast.success('Đã thêm vào giỏ hàng');
@@ -94,17 +102,17 @@ function ProductInfor({ product }) {
     }
   };
 
-  const handleChangeSize = (size) => {
+  const handleChangeSize = (size: CustomProductSize) => {
     setCurrentSize(size);
   };
 
-  const handleChooseSize = (sizeName) => {
+  const handleChooseSize = (sizeName: string) => {
     const size = sizes.find((size) => size.name === sizeName);
     setCurrentSize(size);
     setModalIsVisible(false);
   };
 
-  const handleAddToWishlist = async (productId) => {
+  const handleAddToWishlist = async (productId: string) => {
     if (!isAuthenticated) {
       setLoginModalIsVisible(true);
       return;
@@ -152,12 +160,15 @@ function ProductInfor({ product }) {
             <Typography sx={{ fontWeight: 400, mt: 3, mb: 2 }}>Chọn số lượng:</Typography>
             <Stack direction="row" alignItems="center" spacing={3}>
               <NumberBox min={1} max={100} ref={inputRef} />
-              <Button className="w-[250px] rounded-none" onClick={addToCartHandler.bind(this, currentSize?.name)}>
+              <Button
+                className="w-[250px] rounded-none"
+                onClick={() => currentSize?.name && addToCartHandler(currentSize?.name)}
+              >
                 Mua ngay
               </Button>
               <FavoriteBorderIcon
                 sx={{ fontSize: '2.5rem', cursor: 'pointer' }}
-                onClick={handleAddToWishlist.bind(this, product._id)}
+                onClick={() => handleAddToWishlist(product._id)}
               />
             </Stack>
 

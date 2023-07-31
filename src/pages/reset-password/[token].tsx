@@ -1,12 +1,13 @@
+import { ReactNode } from 'react';
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { Box, Container } from '@mui/material';
 import * as authServices from '@/services/authRequests';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import ChangePasswordForm from '@/modules/auth/components/ChangePasswordForm';
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { ResetTokenPayload } from '@/services/types/auth';
 
-function ChangePasswordPage({ isValidToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function ChangePasswordPage({ isValidToken }: InferGetServerSidePropsType<typeof getServerSideProps>): ReactNode {
   const router = useRouter();
 
   if (!isValidToken) {

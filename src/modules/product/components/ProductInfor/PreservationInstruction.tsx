@@ -1,6 +1,11 @@
-import { appAssets } from '@/common/assets';
-import { Box, Typography, Button } from '@mui/material';
+import { MouseEvent } from 'react';
 import Image from 'next/image';
+import { Box, Typography, Button } from '@mui/material';
+import { appAssets } from '@/common/assets';
+
+type PreservationInstructionProps = {
+  onCollapse: (_event: MouseEvent<HTMLButtonElement>) => void;
+};
 
 const styles = {
   title: {
@@ -21,7 +26,7 @@ const styles = {
   },
 };
 
-function PreservationInstruction({ onCollapse }) {
+function PreservationInstruction({ onCollapse }: PreservationInstructionProps) {
   return (
     <Box sx={{ mt: 3 }}>
       <Typography sx={styles.title}>HƯỚNG DẪN BẢO QUẢN</Typography>

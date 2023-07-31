@@ -1,12 +1,13 @@
+import { ReactElement } from 'react';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { Box, Container } from '@mui/material';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import PromotionEvent from '@/modules/promotion/components/PromotionEvent';
 import { appAssets } from '@/common/assets';
 import { getPromotions } from '@/services/promotionRequests';
 import { getPromotionsByPercentage } from '@/utils/promotion';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
-function PromotionsPage({ promotions }: InferGetStaticPropsType<typeof getStaticProps>) {
+function PromotionsPage({ promotions }: InferGetStaticPropsType<typeof getStaticProps>): ReactElement {
   const promotionsUpTo50 = getPromotionsByPercentage(promotions, 50);
   const promotionsUpTo70 = getPromotionsByPercentage(promotions, 50, true);
 

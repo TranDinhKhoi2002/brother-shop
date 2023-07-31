@@ -3,19 +3,22 @@ import {
   updateQuantity,
   removeItemsFromCart,
   removeItemFromCart,
-} from '@/services/cartRequests.ts';
+} from '@/services/cartRequests';
 import { CartPayload, RemovedCartItemPayload } from '@/services/types/cart';
+import { CartItem } from '@/types/customer';
+import { Product } from '@/types/product';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import { RootState } from '../store';
 
-const initialState = {
+const initialState: { products: (CartItem & { productId: Product })[] } = {
   products:
     typeof window !== 'undefined' && localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`)
-      ? JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`))
+      ? JSON.parse(localStorage.getItem(`cart-${localStorage.getItem('sessionID')}`) || '{}')
       : [],
 };
 
-export const fetchAddToCart = createAsyncThunk('cart/fetchAddToCart', async (itemData) => {
+export const fetchAddToCart = createAsyncThunk<any, CartPayload>('cart/fetchAddToCart', async (itemData) => {
   const response = await addToCartApi(itemData);
   return response;
 });
@@ -135,6 +138,6 @@ const cartSlice = createSlice({
 
 export const { addToCart, removeFromCart, checkOut, updateAmountOfProduct, assignProductsToCart } = cartSlice.actions;
 
-export const selectCartProducts = (state) => state.cart.products;
+export const selectCartProducts = (state: RootState) => state.cart.products;
 
 export default cartSlice.reducer;

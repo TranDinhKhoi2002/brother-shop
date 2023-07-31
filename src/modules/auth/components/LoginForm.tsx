@@ -21,7 +21,11 @@ import { appAssets } from '@/common/assets';
 import { assignPromotions } from '@/redux/slices/promotions';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 
-function LoginForm({ onLogin = () => {} }): ReactElement {
+type LoginFormProps = {
+  onLogin?: () => void;
+};
+
+function LoginForm({ onLogin }: LoginFormProps): ReactElement {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -55,6 +59,7 @@ function LoginForm({ onLogin = () => {} }): ReactElement {
     if (success) {
       toast.success(message);
 
+      console.log('here');
       if (onLogin) {
         onLogin();
       } else {

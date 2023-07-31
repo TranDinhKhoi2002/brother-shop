@@ -1,7 +1,14 @@
 import { Box, Typography } from '@mui/material';
-import Button from '@/common/components/Buttons/Button.tsx';
+import Button from '@/common/components/Buttons/Button';
+import { ReactElement } from 'react';
 
-function SizeResult({ selectedSize, onChooseSize, onChooseAgain }) {
+type SizeResultProps<T> = {
+  selectedSize: T;
+  onChooseSize: (_size: T) => void;
+  onChooseAgain: () => void;
+};
+
+function SizeResult({ selectedSize, onChooseSize, onChooseAgain }: SizeResultProps<string>): ReactElement {
   return (
     <>
       {selectedSize && selectedSize !== 'wrong' && (
@@ -15,7 +22,7 @@ function SizeResult({ selectedSize, onChooseSize, onChooseAgain }) {
             </Typography>
           </Box>
           <Box>
-            <Button className="rounded-none px-10 font-medium" onClick={onChooseSize.bind(this, selectedSize)}>
+            <Button className="rounded-none px-10 font-medium" onClick={() => onChooseSize(selectedSize)}>
               Chọn size {selectedSize}
             </Button>
           </Box>

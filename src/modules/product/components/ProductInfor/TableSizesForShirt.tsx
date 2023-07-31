@@ -25,7 +25,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-function createData(name, height, weight, shoulder, chest, waist, longSleeve, shortSleeve, longShirt) {
+function createData(
+  name: string,
+  height: string,
+  weight: string,
+  shoulder: number,
+  chest: number,
+  waist: number,
+  longSleeve: number,
+  shortSleeve: number,
+  longShirt: number,
+) {
   return { name, height, weight, shoulder, chest, waist, longSleeve, shortSleeve, longShirt };
 }
 
@@ -36,7 +46,7 @@ const rows = [
   createData('XL', '177 - 180', '77 - 83', 48, 112, 110, 65, 25, 75),
 ];
 
-export default function TableSizesForShirt() {
+export default function TableSizesForShirt(): React.ReactElement {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="caption table">

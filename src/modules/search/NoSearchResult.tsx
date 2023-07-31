@@ -1,8 +1,13 @@
-import { appAssets } from '@/common/assets';
-import { Box, Typography } from '@mui/material';
+import { ReactElement } from 'react';
 import Image from 'next/image';
+import { Box, Typography } from '@mui/material';
+import { appAssets } from '@/common/assets';
 
-function NoSearchResult({ keyword }) {
+type NoSearchResultProps = {
+  keyword: string;
+};
+
+function NoSearchResult({ keyword }: NoSearchResultProps): ReactElement {
   return (
     <Box sx={{ textAlign: 'center', my: 6 }}>
       <Image src={appAssets.hangerIcon} width={60} height={60} style={{ margin: '0 auto' }} alt="" />

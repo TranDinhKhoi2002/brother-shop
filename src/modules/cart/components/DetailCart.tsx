@@ -1,7 +1,7 @@
 import React, { Fragment, ReactElement, RefObject, useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
-import { AdvancedImage, lazyload, accessibility, responsive, placeholder } from '@cloudinary/react';
+import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 import {
   assignProductsToCart,
   fetchRemoveItemFromCart,
@@ -19,7 +19,7 @@ import { Product } from '@/types/product';
 import { CartItem } from '@/types/customer';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { Cloudinary } from '@cloudinary/url-gen';
+import { cld } from '@/utils/cloudinary';
 
 function DetailCart(): ReactElement {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -108,11 +108,6 @@ function DetailCart(): ReactElement {
   };
 
   const tdClass = 'p-3 align-top border-t-[1px] border-solid border-[#dee2e6]';
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    },
-  });
 
   return (
     <div>
@@ -129,7 +124,7 @@ function DetailCart(): ReactElement {
                   <td rowSpan={2} className={`w-[100px] ${tdClass}`}>
                     <AdvancedImage
                       cldImg={getProductImg(product)}
-                      plugins={[lazyload(), responsive(), accessibility(), placeholder()]}
+                      plugins={[lazyload(), responsive(), placeholder()]}
                       style={{ width: '100px' }}
                       alt={product.name}
                     />

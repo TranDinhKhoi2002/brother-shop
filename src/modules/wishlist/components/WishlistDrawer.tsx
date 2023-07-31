@@ -1,12 +1,19 @@
+import { ReactElement } from 'react';
 import { Box, Drawer, IconButton, Stack, Typography } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from 'react-redux';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
 import WishlistDrawerItem from './WishlistDrawerItem';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { Product } from '@/types/product';
 
-function WishlistDrawer({ isVisible, onClose }) {
-  const wishlistProducts = useSelector(selectWishlistProducts);
+type WishlistDrawerProps = {
+  isVisible: boolean;
+  onClose: () => void;
+};
+
+function WishlistDrawer({ isVisible, onClose }: WishlistDrawerProps): ReactElement {
+  const wishlistProducts = useAppSelector<Product[]>(selectWishlistProducts);
 
   return (
     <Drawer anchor="right" open={isVisible} onClose={onClose}>

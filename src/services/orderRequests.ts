@@ -1,4 +1,4 @@
-import { sendPostRequest, sendPutRequest } from './baseRequest.js';
+import { sendPostRequest, sendPutRequest } from './baseRequest';
 import { CheckoutOrderPayload, CreateOrderPayload } from './types/order';
 
 export const createOrder = async (data: CreateOrderPayload) => {

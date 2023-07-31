@@ -1,11 +1,24 @@
-import React, { useImperativeHandle, useState } from 'react';
+import React, { MouseEvent, ReactElement, useImperativeHandle, useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { ProductSize } from '@/types/product';
 
-export default React.forwardRef(function WishlistSizesMenu({ sizes, onSizeChange }, ref) {
-  const [anchorEl, setAnchorEl] = useState(null);
+export type WishlistSizesMenuRef = {
+  getSelectedSize: () => string;
+};
+
+type WishlistSizesMenuProps = {
+  sizes: ProductSize[];
+  onSizeChange: (_isSoldOut: boolean) => void;
+};
+
+export default React.forwardRef<WishlistSizesMenuRef | undefined, WishlistSizesMenuProps>(function WishlistSizesMenu(
+  { sizes, onSizeChange },
+  ref,
+): ReactElement {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const open = Boolean(anchorEl);
 
@@ -15,11 +28,11 @@ export default React.forwardRef(function WishlistSizesMenu({ sizes, onSizeChange
     },
   }));
 
-  const handleClickListItem = (event) => {
+  const handleClickListItem = (event: MouseEvent<HTMLSpanElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuItemClick = (event, index) => {
+  const handleMenuItemClick = (event: MouseEvent, index: number) => {
     setSelectedIndex(index);
     setAnchorEl(null);
 

@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
-import { Image } from 'cloudinary-react';
 import NextImage from 'next/image';
 import { GlassMagnifier } from 'react-image-magnifiers';
 import { Stack } from '@mui/material';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import { appAssets } from '@/common/assets';
+import { ProductImages } from '@/types/product';
 
-function PreviewImages({ images }) {
+type PreviewImagesProps = {
+  images: ProductImages;
+};
+
+function PreviewImages({ images }: PreviewImagesProps): ReactElement {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -33,24 +37,16 @@ function PreviewImages({ images }) {
     <>
       <Slider {...settings} arrows={false} className="imageContainer">
         <GlassMagnifier
-          alwaysInPlace={true}
-          fillAvailableSpace={true}
           imageSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${images.mainImg}`}
           magnifierSize="50%"
           imageAlt=""
-        >
-          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={images.mainImg} alt="" />
-        </GlassMagnifier>
+        />
 
         <GlassMagnifier
-          alwaysInPlace={true}
-          fillAvailableSpace={true}
           imageSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_PREFIX_PATH}/${images.subImg}`}
           magnifierSize="50%"
           imageAlt=""
-        >
-          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={images.subImg} alt="" />
-        </GlassMagnifier>
+        />
       </Slider>
 
       <Stack direction="row" spacing={2} sx={{ mt: 3 }}>

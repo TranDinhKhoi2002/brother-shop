@@ -1,8 +1,9 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
-import { Image } from 'cloudinary-react';
 import { LightgalleryProvider, LightgalleryItem } from 'react-lightgallery';
 import BackdropLoading from '../Loading/BackdropLoading';
+import { cld } from '@/utils/cloudinary';
+import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 
 type IntroProps = {
   images: {
@@ -28,10 +29,9 @@ function Intro({ images }: IntroProps): ReactElement {
         {images.map((image) => (
           <Grid item xs={6} md={3} key={image.public_id}>
             <LightgalleryItem group="intro" src={image.url} thumb={image.url}>
-              <Image
-                cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
-                publicId={image.public_id}
-                alt=""
+              <AdvancedImage
+                cldImg={cld.image(image.public_id)}
+                plugins={[lazyload(), responsive(), placeholder()]}
                 style={{ cursor: 'pointer' }}
               />
             </LightgalleryItem>

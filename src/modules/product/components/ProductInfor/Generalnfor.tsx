@@ -1,9 +1,15 @@
 import { ReactElement } from 'react';
-import { Product } from '@/types/product';
 import { printNumberWithCommas } from '@/utils/common';
 import { Box, Stack, Typography } from '@mui/material';
 
-function GeneralInfor(props: Product): ReactElement {
+type GeneralInforProps = {
+  name: string;
+  _id: string;
+  price: number;
+  oldPrice?: number;
+};
+
+function GeneralInfor(props: GeneralInforProps): ReactElement {
   return (
     <Box sx={{ my: '12px' }}>
       <Typography sx={{ fontSize: '1.5rem', fontWeight: 500 }}>{props.name}</Typography>

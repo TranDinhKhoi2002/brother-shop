@@ -1,8 +1,7 @@
 import { Checkbox, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { AdvancedImage, lazyload, accessibility, responsive, placeholder } from '@cloudinary/react';
-import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 import { ReactElement, useEffect, useState } from 'react';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { useSelector } from 'react-redux';
@@ -13,6 +12,7 @@ import Link from 'next/link';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { cld } from '@/utils/cloudinary';
 
 type CartTableItemProps = {
   item: CartItem;
@@ -69,11 +69,6 @@ function CartTableItem({ item, labelId, isItemSelected, onClick }: CartTableItem
   };
 
   const product = item.productId as Product;
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    },
-  });
   const img = cld.image(product.images.mainImg);
 
   return (
@@ -91,7 +86,7 @@ function CartTableItem({ item, labelId, isItemSelected, onClick }: CartTableItem
       <TableCell component="th" id={labelId} scope="row" align="center">
         <AdvancedImage
           cldImg={img}
-          plugins={[lazyload(), responsive(), accessibility(), placeholder()]}
+          plugins={[lazyload(), responsive(), placeholder()]}
           style={{ width: '100px' }}
           alt={product.name}
         />

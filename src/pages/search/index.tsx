@@ -6,7 +6,7 @@ import Products from '@/modules/product/components/Products';
 import NoSearchResult from '@/modules/search/NoSearchResult';
 import { getProductsByKeyword } from '@/services/productRequests';
 import { Box, Grid, Pagination, Stack, Typography } from '@mui/material';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, ReactElement, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { Product } from '@/types/product';
@@ -16,7 +16,11 @@ interface IGetStaticProps {
   lastPage: number;
 }
 
-function SearchPage({ loadedProducts, keyword, lastPage }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function SearchPage({
+  loadedProducts,
+  keyword,
+  lastPage,
+}: InferGetServerSidePropsType<typeof getServerSideProps>): ReactElement {
   const [products, setProducts] = useState(loadedProducts);
   const [maxPage, setMaxPage] = useState(lastPage);
 

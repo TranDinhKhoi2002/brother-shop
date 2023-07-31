@@ -1,12 +1,12 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Box, Grid, IconButton, Stack, Typography, Theme } from '@mui/material';
-import { AdvancedImage, lazyload, accessibility, responsive, placeholder } from '@cloudinary/react';
+import { AdvancedImage, responsive, placeholder } from '@cloudinary/react';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { printNumberWithCommas } from '@/utils/common';
 import React from 'react';
 import { useTheme } from '@mui/styles';
+import { toast } from 'react-toastify';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import {
   assignProductsToCart,
@@ -15,13 +15,13 @@ import {
   removeFromCart,
   fetchRemoveItemFromCart,
 } from '@/redux/slices/cart';
-import { toast } from 'react-toastify';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { Cloudinary } from '@cloudinary/url-gen';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { cld } from '@/utils/cloudinary';
+import { printNumberWithCommas } from '@/utils/common';
 
 type CartDrawerItemProps = {
   cartProduct: CartItem;
@@ -33,13 +33,8 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const dispatch = useAppDispatch();
   const theme = useTheme<Theme>();
-
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    },
-  });
-  const img = cld.image((cartProduct.productId as Product).images.mainImg);
+  const product = cartProduct.productId as Product;
+  const img = cld.image(product.images.mainImg);
 
   useEffect(() => {
     setQuantity(cartProduct.quantity);
@@ -49,7 +44,7 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
     if (!isAuthenticated) {
       dispatch(
         updateAmountOfProduct({
-          id: (cartProduct.productId as Product)._id,
+          id: product._id,
           size: cartProduct.size,
           quantity: quantity,
         }),
@@ -60,7 +55,7 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
     try {
       const { cart, success } = await dispatch(
         fetchUpdateQuantity({
-          productId: (cartProduct.productId as Product)._id,
+          productId: product._id,
           size: cartProduct.size,
           quantity: quantity,
         }),
@@ -87,14 +82,14 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
 
   const handleRemoveFromCart = async () => {
     if (!isAuthenticated) {
-      dispatch(removeFromCart({ id: (cartProduct.productId as Product)._id, size: cartProduct.size }));
+      dispatch(removeFromCart({ id: product._id, size: cartProduct.size }));
       setModalIsVisible(false);
       return;
     }
 
     try {
       const { success, cart, message } = await dispatch(
-        fetchRemoveItemFromCart({ productId: (cartProduct.productId as Product)._id, size: cartProduct.size }),
+        fetchRemoveItemFromCart({ productId: product._id, size: cartProduct.size }),
       ).unwrap();
 
       if (success) {
@@ -118,15 +113,11 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
           onClick={() => setModalIsVisible(true)}
         />
         <Grid item xs={4}>
-          <AdvancedImage
-            cldImg={img}
-            plugins={[lazyload(), responsive(), accessibility(), placeholder()]}
-            style={{ marginLeft: 0 }}
-          />
+          <AdvancedImage cldImg={img} plugins={[responsive(), placeholder()]} style={{ marginLeft: 0 }} />
         </Grid>
         <Grid item xs={8}>
           <Box>
-            <Typography sx={{ fontWeight: 400 }}>{(cartProduct.productId as Product).name}</Typography>
+            <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
             <Typography sx={{ fontWeight: 400, color: theme.palette.grey['600'], my: 1 }}>
               SIZE: {cartProduct.size}
             </Typography>
@@ -146,12 +137,10 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
             </Stack>
 
             <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 1 }}>
-              <Typography sx={{ fontWeight: 500 }}>
-                {printNumberWithCommas((cartProduct.productId as Product).price)} đ
-              </Typography>
-              {(cartProduct.productId as Product).oldPrice && (
+              <Typography sx={{ fontWeight: 500 }}>{printNumberWithCommas(product.price * quantity)} đ</Typography>
+              {product.oldPrice && (
                 <Typography sx={{ fontWeight: 400, fontSize: 14, textDecorationLine: 'line-through' }}>
-                  {printNumberWithCommas((cartProduct.productId as Product).oldPrice || 0)} đ
+                  {printNumberWithCommas(product.oldPrice * quantity || 0)} đ
                 </Typography>
               )}
             </Stack>

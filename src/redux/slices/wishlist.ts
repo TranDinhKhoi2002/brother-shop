@@ -1,19 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as wishlistServices from '@/services/wishlistRequests.ts';
+import * as wishlistServices from '@/services/wishlistRequests';
+import { RootState } from '../store';
+import { WishlistPayload } from '@/services/types/wishlist';
 
 const initialState = {
   products: [],
 };
 
-export const fetchAddToWishlist = createAsyncThunk('wishlist/fetchAddToWishlist', async (product) => {
-  const response = await wishlistServices.addProductToWishlist(product);
-  return response;
-});
+export const fetchAddToWishlist = createAsyncThunk<any, WishlistPayload>(
+  'wishlist/fetchAddToWishlist',
+  async (product) => {
+    const response = await wishlistServices.addProductToWishlist(product);
+    return response;
+  },
+);
 
-export const fetchRemoveFromWishlist = createAsyncThunk('wishlist/fetchRemoveFromWishlist', async (productId) => {
-  const response = await wishlistServices.removeProductFromWishlist(productId);
-  return response;
-});
+export const fetchRemoveFromWishlist = createAsyncThunk<any, WishlistPayload>(
+  'wishlist/fetchRemoveFromWishlist',
+  async (productId) => {
+    const response = await wishlistServices.removeProductFromWishlist(productId);
+    return response;
+  },
+);
 
 const wishlistSlice = createSlice({
   name: 'wishlist',
@@ -43,7 +51,7 @@ const wishlistSlice = createSlice({
   },
 });
 
-export const selectWishlistProducts = (state) => state.wishlist.products;
+export const selectWishlistProducts = (state: RootState) => state.wishlist.products;
 
 export const { assignProductsToWishlist } = wishlistSlice.actions;
 

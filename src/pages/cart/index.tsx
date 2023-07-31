@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import CartTable from '@/modules/cart/components/CartTable';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
@@ -7,7 +7,7 @@ import { Container } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
 
-function CartPage() {
+function CartPage(): ReactElement {
   const [loaded, setLoaded] = useState<boolean>(false);
   const cartProducts = useSelector(selectCartProducts);
 

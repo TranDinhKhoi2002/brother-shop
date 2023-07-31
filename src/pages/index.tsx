@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
@@ -22,7 +23,7 @@ export default function Home({
   tshirtProducts = [],
   trouserProducts = [],
   introImages = [],
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>): ReactElement {
   const router = useRouter();
 
   const navigateToProductsPage = (type: string) => {

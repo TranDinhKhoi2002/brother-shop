@@ -1,12 +1,13 @@
+import { ReactElement } from 'react';
 import { Stack } from '@mui/material';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import Button from '@/common/components/Buttons/Button.tsx';
+import Button from '@/common/components/Buttons/Button';
 import { appAssets } from '@/common/assets';
 import config from '@/config';
 
-function ServerErrorPage() {
+function ServerErrorPage(): ReactElement {
   return (
     <>
       <Head>

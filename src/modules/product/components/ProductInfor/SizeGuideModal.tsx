@@ -17,7 +17,7 @@ import {
   Tab,
   Tabs,
 } from '@mui/material';
-import Button from '@/common/components/Buttons/Button.tsx';
+import Button from '@/common/components/Buttons/Button';
 import { TabContext, TabPanel } from '@mui/lab';
 import ThinPersonIcon from '@/common/components/Icons/ThinPersonIcon';
 import NormalPersonIcon from '@/common/components/Icons/NormalPersonIcon';
@@ -25,6 +25,12 @@ import FatPersonIcon from '@/common/components/Icons/FatPersonIcon';
 import CloseIcon from '@mui/icons-material/Close';
 import TableSizesForShirt from './TableSizesForShirt';
 import SizeResult from './SizeResult';
+
+type SizeGuideModalProps = {
+  isVisible: boolean;
+  onClose: () => void;
+  onSelectSize: (_size: string) => void;
+};
 
 const style = {
   position: 'absolute',
@@ -38,31 +44,35 @@ const style = {
   p: 3,
 };
 
-export default function SizeGuideModal({ isVisible, onClose, onSelectSize }) {
+export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: SizeGuideModalProps): React.ReactElement {
   const [value, setValue] = useState('1');
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
   const [body, setBody] = useState('thin');
   const [feeling, setFeeling] = useState('tight');
-  const [selectedSize, setSelectedSize] = useState();
+  const [selectedSize, setSelectedSize] = useState<string | null>();
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
     setValue(newValue);
   };
 
-  const handleHeightChange = (event, newValue) => {
-    setHeight(newValue);
+  const handleHeightChange = (event: Event, newValue: number | number[]) => {
+    if (!Array.isArray(newValue)) {
+      setHeight(newValue);
+    }
   };
 
-  const handleWeightChange = (event, newValue) => {
-    setWeight(newValue);
+  const handleWeightChange = (event: Event, newValue: number | number[]) => {
+    if (!Array.isArray(newValue)) {
+      setWeight(newValue);
+    }
   };
 
-  const handleBodyChange = (event, newValue) => {
+  const handleBodyChange = (event: React.ChangeEvent<HTMLInputElement>, newValue: string) => {
     setBody(newValue);
   };
 
-  const handleFeelingChange = (event, newValue) => {
+  const handleFeelingChange = (event: React.ChangeEvent<HTMLInputElement>, newValue: string) => {
     setFeeling(newValue);
   };
 

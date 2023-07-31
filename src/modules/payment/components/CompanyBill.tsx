@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react';
+import React, { ReactElement, useImperativeHandle } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -28,7 +28,7 @@ export type RefType = {
   };
 };
 
-const CompanyBill = React.forwardRef<RefType, CompanyBillProps>(function CompanyBill(props, ref) {
+const CompanyBill = React.forwardRef<RefType, CompanyBillProps>(function CompanyBill(props, ref): ReactElement {
   const cartProducts = useSelector(selectCartProducts);
 
   const BillSchema = Yup.object().shape({

@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { ReactElement, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import PromotionBanner from './PromotionBanner';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import PromotionList from './PromotionList';
+import { Promotion } from '@/types/promotion';
 
-function PromotionEvent({ banner, title, promotions }) {
+type PromotionEventProps = {
+  banner: string;
+  title: string;
+  promotions: Promotion[];
+};
+
+function PromotionEvent({ banner, title, promotions }: PromotionEventProps): ReactElement {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -26,11 +32,5 @@ function PromotionEvent({ banner, title, promotions }) {
     </Box>
   );
 }
-
-PromotionEvent.propTypes = {
-  banner: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  promotions: PropTypes.array.isRequired,
-};
 
 export default PromotionEvent;

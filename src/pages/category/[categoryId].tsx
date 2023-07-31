@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -13,7 +14,7 @@ interface IGetStaticProps {
   categoryName: string;
 }
 
-function ProductType({ products, categoryName }: InferGetStaticPropsType<typeof getStaticProps>) {
+function ProductType({ products, categoryName }: InferGetStaticPropsType<typeof getStaticProps>): ReactElement {
   const router = useRouter();
   const headTitle = `Dòng sản phẩm ${categoryName} | Brother Shop`;
 

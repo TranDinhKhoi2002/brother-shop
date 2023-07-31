@@ -1,19 +1,19 @@
+import { ReactElement, useEffect, useState } from 'react';
+import { Container, Divider, Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
-import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
+import BuySteppers from '@/common/components/UI/BuySteppers';
 import config from '@/config';
 import ConfirmNotLogin from '@/modules/auth/components/ConfirmNotLogin';
 import LoginForm from '@/modules/auth/components/LoginForm';
 import EmptyCart from '@/modules/cart/components/EmptyCart';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { Container, Divider, Grid } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-function CheckoutLoginPage() {
+function CheckoutLoginPage(): ReactElement {
   const [loaded, setLoaded] = useState<boolean>(false);
   const cartProducts = useSelector(selectCartProducts);
   const isAuthenticated = useSelector(selectIsAuthenticated);

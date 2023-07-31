@@ -19,7 +19,13 @@ export interface ProductImages {
 }
 
 export interface ProductSize {
+  readonly _id: string;
   name: string;
   quantity: number;
   sold: number;
+}
+
+export interface CustomProductSize {
+  name: string;
+  remainingQuantity: number;
 }

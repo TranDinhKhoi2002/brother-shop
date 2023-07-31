@@ -1,9 +1,18 @@
-import React, { useImperativeHandle, useState } from 'react';
+import React, { ChangeEvent, ReactElement, useImperativeHandle, useState } from 'react';
 import { IconButton, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-export default React.forwardRef(function NumberBox(props, ref) {
+export type NumberBoxRef = {
+  getQuantity: () => number;
+};
+
+type NumberBoxProps = {
+  max: number;
+  min: number;
+};
+
+export default React.forwardRef<NumberBoxRef, NumberBoxProps>(function NumberBox(props, ref): ReactElement {
   const { max, min } = props;
   const [localValue, setLocalValue] = useState(1);
 
@@ -13,7 +22,7 @@ export default React.forwardRef(function NumberBox(props, ref) {
     },
   }));
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     if (!isNaN(newValue) && newValue >= min && newValue <= max) {
       setLocalValue(newValue);

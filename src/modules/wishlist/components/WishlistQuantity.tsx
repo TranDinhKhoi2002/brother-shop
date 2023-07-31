@@ -1,12 +1,24 @@
-import React, { useImperativeHandle, useState } from 'react';
+import React, { ReactElement, useImperativeHandle, useState } from 'react';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { printNumberWithCommas } from '@/utils/common/index.ts';
+import { printNumberWithCommas } from '@/utils/common';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
 
-export default React.forwardRef(function WishlistQuantity({ price, id }, ref) {
+export type WishlistQuantityRef = {
+  getQuantity: () => number;
+};
+
+type WishlistQuantityProps = {
+  price: number;
+  id: string;
+};
+
+export default React.forwardRef<WishlistQuantityRef | undefined, WishlistQuantityProps>(function WishlistQuantity(
+  { price, id },
+  ref,
+): ReactElement {
   const [quantity, setQuantity] = useState(1);
 
   const cartProducts = useSelector(selectCartProducts);

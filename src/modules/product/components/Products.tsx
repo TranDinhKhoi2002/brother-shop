@@ -1,7 +1,14 @@
+import { ReactElement } from 'react';
 import { Box, Grid } from '@mui/material';
 import ProductItem from './ProductItem';
+import { Product } from '@/types/product';
 
-function Products({ products, forDetail = false }) {
+type ProductsProps = {
+  products: Product[];
+  forDetail?: boolean;
+};
+
+function Products({ products, forDetail = false }: ProductsProps): ReactElement {
   return (
     <Box sx={{ mt: 4 }}>
       <Grid container>

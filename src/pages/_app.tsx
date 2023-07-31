@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
 import { CacheProvider } from '@emotion/react';
 import { Provider } from 'react-redux';
-import store from 'src/redux/store';
 import { AppContext, AppInitialProps, AppLayoutProps } from 'next/app';
 import type { NextComponentType } from 'next';
+import { ToastContainer } from 'react-toastify';
 import 'regenerator-runtime/runtime';
+import store from 'src/redux/store';
 import { createEmotionCache } from '@/utils/common';
 import ThemeProvider from '@/common/styles/theme';
 import MainLayout from '@/common/components/Layout/MainLayout';
 import GoogleAnalytics from '@/modules/ga';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@/common/styles/globals.css';
 import 'slick-carousel/slick/slick.css';

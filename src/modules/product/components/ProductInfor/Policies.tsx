@@ -1,9 +1,10 @@
-import { Box, Grid, Typography, Stack } from '@mui/material';
+import { ReactElement } from 'react';
+import { Box, Grid, Typography, Stack, Theme } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import Image from 'next/image';
 
-function Policies() {
-  const theme = useTheme();
+function Policies(): ReactElement {
+  const theme = useTheme<Theme>();
 
   const items = [
     {

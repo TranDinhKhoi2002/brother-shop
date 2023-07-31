@@ -1,28 +1,36 @@
-import { useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Image } from 'cloudinary-react';
-import WishlistSizesMenu from './WishlistSizesMenu';
-import WishlistQuantity from './WishlistQuantity';
-import Button from '@/common/components/Buttons/Button.tsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
-import { fetchRemoveFromWishlist } from '@/redux/slices/wishlist';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 import { v4 as uuidv4 } from 'uuid';
+import WishlistSizesMenu, { WishlistSizesMenuRef } from './WishlistSizesMenu';
+import WishlistQuantity, { WishlistQuantityRef } from './WishlistQuantity';
+import Button from '@/common/components/Buttons/Button';
+import { fetchRemoveFromWishlist } from '@/redux/slices/wishlist';
 import { addToCart, fetchAddToCart, assignProductsToCart, selectCartProducts } from '@/redux/slices/cart';
+import { selectIsAuthenticated } from '@/redux/slices/auth';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
+import { Product } from '@/types/product';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { cld } from '@/utils/cloudinary';
 
-function WishlistDrawerItem({ product }) {
+type WishlistDrawerItemProps = {
+  product: Product;
+};
+
+function WishlistDrawerItem({ product }: WishlistDrawerItemProps): ReactElement {
   const [isSoldOut, setIsSoldOut] = useState(product?.sizes[0]?.quantity - product?.sizes[0].sold === 0);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const cartProducts = useSelector(selectCartProducts);
   const isAddedToCart = cartProducts.findIndex((item) => item.productId._id === product._id) !== -1;
+  const cldImg = cld.image(product.images.mainImg);
 
-  const sizesRef = useRef();
-  const quantityRef = useRef();
+  const sizesRef = useRef<WishlistSizesMenuRef>();
+  const quantityRef = useRef<WishlistQuantityRef>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const handleRemoveFromWishlist = async () => {
@@ -38,6 +46,8 @@ function WishlistDrawerItem({ product }) {
   };
 
   const handleAddToCart = async () => {
+    if (!sizesRef.current || !quantityRef.current) return;
+
     const size = sizesRef.current.getSelectedSize();
     const quantity = +quantityRef.current.getQuantity();
 
@@ -65,7 +75,7 @@ function WishlistDrawerItem({ product }) {
     }
   };
 
-  const handleSizeChange = (isSoldOutParam) => {
+  const handleSizeChange = (isSoldOutParam: boolean) => {
     if (isSoldOutParam) {
       setIsSoldOut(true);
     } else {
@@ -81,7 +91,7 @@ function WishlistDrawerItem({ product }) {
           onClick={() => setModalIsVisible(true)}
         />
         <Grid item xs={4}>
-          <Image cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME} publicId={product.images.mainImg} alt="" />
+          <AdvancedImage cldImg={cldImg} plugins={[lazyload(), responsive(), placeholder()]} />
         </Grid>
         <Grid item xs={8}>
           <Box>

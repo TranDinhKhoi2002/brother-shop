@@ -1,25 +1,38 @@
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
 import { appAssets } from '@/common/assets';
 import { Box, Card, CardHeader, IconButton, Stack, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRemovePromotion, fetchSavePromotion, selectPromotions } from '@/redux/slices/promotions.ts';
+import { useSelector } from 'react-redux';
+import { fetchRemovePromotion, fetchSavePromotion, selectPromotions } from '@/redux/slices/promotions';
 import { toast } from 'react-toastify';
 import { selectCurrentUser } from '@/redux/slices/auth';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import config from '@/config';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { Promotion } from '@/types/promotion';
 
-function PromotionItem({ item, isValid, isUsedInProfile = false, isUsedInPayment = false }) {
+type PromotionItemProps = {
+  item: Promotion;
+  isValid?: boolean;
+  isUsedInProfile?: boolean;
+  isUsedInPayment?: boolean;
+};
+
+function PromotionItem({
+  item,
+  isValid = true,
+  isUsedInProfile = false,
+  isUsedInPayment = false,
+}: PromotionItemProps): ReactElement {
   const [loginModalIsVisible, setLoginModalIsVisible] = useState(false);
   const [confirmModalIsVisible, setConfirmModalIsVisible] = useState(false);
   const customerPromotions = useSelector(selectPromotions);
 
   const currentUser = useSelector(selectCurrentUser);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const isExist = customerPromotions.findIndex((promotion) => promotion._id.toString() === item._id.toString()) !== -1;
@@ -63,7 +76,11 @@ function PromotionItem({ item, isValid, isUsedInProfile = false, isUsedInPayment
     }
 
     return (
-      <Button variant="text" onClick={!isExist && handleSavePromotion} disabled={isExist || item.amount === 0}>
+      <Button
+        variant="text"
+        onClick={!isExist ? handleSavePromotion : () => {}}
+        disabled={isExist || item.amount === 0}
+      >
         {!isExist ? 'Lưu' : 'Đã lưu'}
       </Button>
     );
@@ -71,7 +88,7 @@ function PromotionItem({ item, isValid, isUsedInProfile = false, isUsedInPayment
 
   return (
     <>
-      <Card raised sx={!isValid && { opacity: 0.6, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+      <Card raised sx={!isValid ? { opacity: 0.6, backgroundColor: 'rgba(0, 0, 0, 0.2)' } : {}}>
         <CardHeader
           avatar={<Image src={appAssets.couponIcon} width={50} height={50} alt="" />}
           action={!isUsedInPayment && renderActionButton()}
@@ -114,18 +131,5 @@ function PromotionItem({ item, isValid, isUsedInProfile = false, isUsedInPayment
     </>
   );
 }
-
-PromotionItem.propTypes = {
-  item: PropTypes.object.isRequired,
-  isValid: PropTypes.bool,
-  isUsedInProfile: PropTypes.bool,
-  isUsedInPayment: PropTypes.bool,
-};
-
-PromotionItem.defaultProps = {
-  isValid: true,
-  isUsedInProfile: false,
-  isUsedInPayment: false,
-};
 
 export default PromotionItem;

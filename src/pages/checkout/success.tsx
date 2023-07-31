@@ -1,9 +1,10 @@
+import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import SuccessCheckout from '@/modules/payment/components/SuccessCheckout';
 import FailedCheckout from '@/modules/payment/components/FailedCheckout';
 import PageContainer from '@/common/components/Layout/PageContainer';
 
-function CheckoutSuccessPage() {
+function CheckoutSuccessPage(): ReactElement {
   const router = useRouter();
 
   return (

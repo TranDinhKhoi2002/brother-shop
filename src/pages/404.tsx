@@ -1,11 +1,12 @@
+import { ReactElement } from 'react';
 import { Stack } from '@mui/material';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Button from '@/common/components/Buttons/Button.tsx';
+import Button from '@/common/components/Buttons/Button';
 import { appAssets } from '@/common/assets';
 
-function NotFoundPage() {
+function NotFoundPage(): ReactElement {
   const router = useRouter();
 
   const handleBackToPreviousPage = () => {

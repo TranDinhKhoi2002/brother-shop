@@ -1,10 +1,21 @@
 import Title from '@/common/components/UI/Title';
 import { Box, Container } from '@mui/material';
-import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import ProductItem from './ProductItem';
+import { CSSProperties, ReactElement } from 'react';
+import { Product } from '@/types/product';
 
-function NextArrow(props) {
+type ArrowProps = {
+  className?: string;
+  style?: CSSProperties;
+  onClick?: () => void;
+};
+
+type RelatedProductsProps = {
+  products: Product[];
+};
+
+function NextArrow(props: ArrowProps) {
   const { className, style, onClick } = props;
   return (
     <div
@@ -15,7 +26,7 @@ function NextArrow(props) {
   );
 }
 
-function PrevArrow(props) {
+function PrevArrow(props: ArrowProps) {
   const { className, style, onClick } = props;
   return (
     <div
@@ -26,7 +37,7 @@ function PrevArrow(props) {
   );
 }
 
-function RelatedProducts({ products }) {
+function RelatedProducts({ products }: RelatedProductsProps): ReactElement {
   const settings = {
     dots: true,
     dotsClass: 'slick-dots slick-thumb',
@@ -51,7 +62,7 @@ function RelatedProducts({ products }) {
   };
 
   return (
-    <Container maxWidth="xxl">
+    <Container maxWidth="xl">
       <Box sx={{ mt: 8, mb: 5 }}>
         <Title sx={{ textAlign: 'center' }}>Sản phẩm được gợi ý cho bạn</Title>
         <Slider {...settings} className="my-3">
@@ -63,9 +74,5 @@ function RelatedProducts({ products }) {
     </Container>
   );
 }
-
-RelatedProducts.propTypes = {
-  products: PropTypes.array.isRequired,
-};
 
 export default RelatedProducts;

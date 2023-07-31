@@ -1,10 +1,10 @@
-import BuySteppers from '@/common/components/UI/BuySteppers';
-import { Container, Grid } from '@mui/material';
-import { selectCartProducts } from '@/redux/slices/cart';
-import { selectCurrentUser } from '@/redux/slices/auth';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import { Container, Grid } from '@mui/material';
+import BuySteppers from '@/common/components/UI/BuySteppers';
+import { selectCartProducts } from '@/redux/slices/cart';
+import { selectCurrentUser } from '@/redux/slices/auth';
 import CheckoutMethods from '@/modules/payment/components/CheckoutMethods';
 import PreviewOrder from '@/modules/payment/components/PreviewOrder';
 import CompanyBill, { RefType } from '@/modules/payment/components/CompanyBill';
@@ -18,7 +18,7 @@ import { Product } from '@/types/product';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
-function CheckoutPaymentPage() {
+function CheckoutPaymentPage(): ReactElement {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<string>('cod');
   const [selectedPromotion, setSelectedPromotion] = useState<string>();

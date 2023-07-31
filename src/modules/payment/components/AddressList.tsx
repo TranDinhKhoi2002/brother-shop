@@ -6,11 +6,11 @@ import Button from '@/common/components/Buttons/Button';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import config from '@/config';
 import AddAddressModal from '@/modules/customer/components/AddAddressModal';
-import { Address, Customer } from '@/types/customer';
+import { Address } from '@/types/customer';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
 function AddressList(): ReactElement {
-  const currentUser = useAppSelector<Customer>(selectCurrentUser);
+  const currentUser = useAppSelector(selectCurrentUser);
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const [showAddressFormModal, setShowAddressFormModal] = useState(false);
 
@@ -40,7 +40,7 @@ function AddressList(): ReactElement {
       name,
       phone,
       address: mapAddressToData(selectedAddress),
-      email: currentUser.email,
+      email: currentUser?.email,
       note: '',
     };
     localStorage.setItem('shippingInfor', JSON.stringify(shippingInfor));
@@ -50,7 +50,7 @@ function AddressList(): ReactElement {
       query: {
         toName: name,
         toPhone: phone,
-        toEmail: currentUser.email,
+        toEmail: currentUser?.email,
         toAddress: mapAddressToData(selectedAddress),
         toNote: '',
       },
