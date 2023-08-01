@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, MouseEventHandler, ReactElement, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, ReactElement, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, IconButton, Theme } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -7,7 +7,7 @@ import config from '@/config';
 
 type SearchInputProps = {
   className: string;
-  closeSearch: MouseEventHandler<HTMLButtonElement>;
+  closeSearch: () => void;
 };
 
 function SearchInput(props: SearchInputProps): ReactElement {
@@ -28,6 +28,7 @@ function SearchInput(props: SearchInputProps): ReactElement {
 
     if (e.key === 'Enter') {
       router.push({ pathname: config.routes.search, query: { keyword: searchValue } });
+      props.closeSearch();
     }
   };
 

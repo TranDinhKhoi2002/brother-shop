@@ -117,7 +117,7 @@ function CheckoutPaymentPage(): ReactElement {
     <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
       <>
         <BuySteppers activeStep={2} />
-        <Container maxWidth="xl">
+        <Container maxWidth={false}>
           <Grid container spacing={3} className="mt-5 mb-10">
             <Grid item xs={12}>
               <PromotionRadioBtnForm selectedPromotion={selectedPromotion} onChangePromotion={changePromotionHandler} />

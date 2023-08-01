@@ -46,7 +46,7 @@ function CheckoutLoginPage(): ReactElement {
         <>
           <BuySteppers activeStep={0} />
           <Title sx={{ ml: { xs: 3, xl: 0 } }}>Đăng Nhập</Title>
-          <Container maxWidth="xl">
+          <Container maxWidth={false}>
             <Grid container spacing={3} sx={{ mt: '20px', mb: 4 }}>
               <Grid item xs={12} md={6} sx={{ pr: 2 }}>
                 <LoginForm onLogin={handleLogin} />

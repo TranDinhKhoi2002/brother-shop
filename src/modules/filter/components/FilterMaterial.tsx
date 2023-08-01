@@ -2,29 +2,12 @@ import { ReactElement, useState } from 'react';
 import { Checkbox, Collapse, FormControlLabel, FormGroup, ListItemButton, ListItemText } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { MATERIALS } from '@/data/filter';
 
 type FilterMaterialProps = {
   selectedMaterials: string[];
   onChangeMaterial: (_material: string) => void;
 };
-
-const materials = [
-  'Vải tổ ong',
-  'French Terry',
-  'Cotton Compact',
-  'Vải Poly',
-  'COTTON DOUBLE FACE',
-  'Vải dù',
-  'Cotton 4 chiều',
-  'Cotton Compact 2C',
-  'Vải Thun Cotton',
-  'Jean Cotton',
-  'Vải Quần Tây',
-  'MINI ZURRY',
-  'Vải thun gân',
-  'Nylon Fabric',
-  'Kaki',
-];
 
 function FilterMaterial({ selectedMaterials, onChangeMaterial }: FilterMaterialProps): ReactElement {
   const [open, setOpen] = useState(true);
@@ -45,7 +28,7 @@ function FilterMaterial({ selectedMaterials, onChangeMaterial }: FilterMaterialP
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit sx={{ mt: 2 }}>
         <FormGroup sx={{ pl: 3 }}>
-          {materials.map((material) => {
+          {MATERIALS.map((material) => {
             const isChecked = selectedMaterials.findIndex((item) => item === material) !== -1;
 
             return (

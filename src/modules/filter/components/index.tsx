@@ -74,7 +74,7 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
     setTextures([]);
     setProducts(loadedProducts);
 
-    router.push(`/category/${router.query.categoryId}`);
+    router.replace(`/category/${router.query.categoryId}`);
   };
 
   const handleRangeChange = async (newValue: number[]) => {
@@ -171,7 +171,7 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
       path = path.concat(`textures=${textures.join(',')}`);
     }
 
-    router.push(path);
+    router.replace(path);
 
     const { products } = await getProductsByFilters(
       router.query.categoryId as string,

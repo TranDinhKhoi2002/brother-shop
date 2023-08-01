@@ -9,7 +9,7 @@ type NoSearchResultProps = {
 
 function NoSearchResult({ keyword }: NoSearchResultProps): ReactElement {
   return (
-    <Box sx={{ textAlign: 'center', my: 6 }}>
+    <Box sx={{ textAlign: 'center', my: '120px' }}>
       <Image src={appAssets.hangerIcon} width={60} height={60} style={{ margin: '0 auto' }} alt="" />
       <Typography sx={{ mt: 3, mb: 1, fontSize: 22, fontWeight: 400 }}>KHÔNG CÓ KẾT QUẢ TÌM KIẾM</Typography>
       <Typography sx={{ fontWeight: 400 }}>

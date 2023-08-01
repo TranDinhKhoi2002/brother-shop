@@ -1,4 +1,4 @@
-export const southWestAddress = [
+export const SOUTH_WEST_ADDRESSES: ReadonlyArray<string> = [
   'Brother Cần Thơ: 45 đ. 3 Tháng 2',
   'Brother Cần Thơ: 381B Nguyễn Văn Cừ',
   'Brother Tân An: 492 Hùng Vương',
@@ -14,7 +14,7 @@ export const southWestAddress = [
   'Brother Cà Mau: 111 Trần Hưng Đạo',
 ];
 
-export const HCMCityAddress = [
+export const HCM_CITY_ADDRESSES: ReadonlyArray<string> = [
   'Brother Q.10: 770F, Sư Vạn Hạnh (nd)',
   'Brother Q.5: 190, Nguyễn Trãi',
   'Brother Q.6: 102 Hậu Giang',
@@ -31,7 +31,7 @@ export const HCMCityAddress = [
   'Brother Thủ Đức: 336, Võ Văn Ngân',
 ];
 
-export const southEastAddress = [
+export const SOUTH_EAST_ADDRESSES: ReadonlyArray<string> = [
   'Brother Tp.Thủ Dầu Một: 187, Yersin',
   'Brother Tp. Dĩ An: 82A Nguyễn An Ninh',
   'Brother Tp. Thuận An: 132 Ng',

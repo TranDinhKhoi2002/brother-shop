@@ -36,12 +36,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: ActionsProps): ReactElement {
   const cartProducts = useAppSelector(selectCartProducts);
   const wishlistProducts = useAppSelector(selectWishlistProducts);
-
+  const [loaded, setLoaded] = useState(false);
   const router = useRouter();
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
-
   const theme = useTheme<Theme>();
   const styles = useStyles();
+  const isInSearchPage = router.pathname === config.routes.search;
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
 
   const authHandler = () => {
     if (!isAuthenticated) {
@@ -51,23 +55,19 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: Act
     }
   };
 
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
   if (!loaded) {
     return <BackdropLoading isVisible={!loaded} />;
   }
 
   return (
     <Stack direction="row" alignItems="center" spacing={3}>
-      <Tooltip title="Tìm kiếm sản phẩm">
-        <IconButton className={styles.actionItem} onClick={openSearch}>
-          <SearchIcon />
-        </IconButton>
-      </Tooltip>
+      {!isInSearchPage && (
+        <Tooltip title="Tìm kiếm sản phẩm">
+          <IconButton className={styles.actionItem} onClick={openSearch}>
+            <SearchIcon />
+          </IconButton>
+        </Tooltip>
+      )}
 
       <Tooltip title="Tài khoản">
         <IconButton className={styles.actionItem} onClick={authHandler}>

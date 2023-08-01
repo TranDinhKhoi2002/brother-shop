@@ -34,7 +34,7 @@ type HeaderProps = {
 };
 
 const Header = ({ showSideBar, showCartPreview, showWishlist }: HeaderProps): ReactElement => {
-  const [search, setSearch] = useState<boolean>(false);
+  const [searchMode, setSearchMode] = useState<boolean>(false);
   const styles = useStyles();
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -47,14 +47,14 @@ const Header = ({ showSideBar, showCartPreview, showWishlist }: HeaderProps): Re
   }
 
   function openSearchHandler() {
-    setSearch(true);
+    setSearchMode(true);
   }
 
   function closeSearchHandler() {
-    setSearch(false);
+    setSearchMode(false);
   }
 
-  if (search) {
+  if (searchMode) {
     return <SearchInput className={styles.header} closeSearch={closeSearchHandler} />;
   }
 

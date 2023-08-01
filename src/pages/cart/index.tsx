@@ -21,7 +21,7 @@ function CartPage(): ReactElement {
 
   return (
     <PageContainer barTitle="Thông tin giỏ hàng của bạn" headTitle="Giỏ Hàng">
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <CartTable />
         {cartProducts.length > 0 && <PreviewInvoice />}
       </Container>

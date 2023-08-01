@@ -62,7 +62,7 @@ function RelatedProducts({ products }: RelatedProductsProps): ReactElement {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={false}>
       <Box sx={{ mt: 8, mb: 5 }}>
         <Title sx={{ textAlign: 'center' }}>Sản phẩm được gợi ý cho bạn</Title>
         <Slider {...settings} className="my-3">

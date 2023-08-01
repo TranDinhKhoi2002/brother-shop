@@ -8,7 +8,7 @@ function CartInfor(): ReactElement {
   return (
     <>
       <BuySteppers activeStep={1} />
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <Grid container spacing={4} sx={{ mt: '20px', mb: 4 }}>
           <Grid item xs={12} md={6}>
             <DetailCart />

@@ -15,7 +15,7 @@ function MenuItem({ title, path }: MenuItemProps): ReactElement {
     <Box
       sx={{
         py: 1,
-        px: '20px',
+        px: '26px',
         color: theme.palette.grey['200'],
         ':hover': {
           backgroundColor: theme.palette.grey['200'],

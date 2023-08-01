@@ -63,7 +63,7 @@ export default function ProfileTabs(): React.ReactElement {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={false}>
       <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 4 }}>
         <PersonOutlineOutlinedIcon />
         <Typography variant="h4">Tài khoản của bạn</Typography>

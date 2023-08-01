@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { HCMCityAddress, southEastAddress, southWestAddress } from '@/data/address';
+import { HCM_CITY_ADDRESSES, SOUTH_WEST_ADDRESSES, SOUTH_EAST_ADDRESSES } from '@/data/address';
 import CollapseFooter from './CollapseFooter';
 import { Box, Container, Grid, Theme, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ import { appAssets } from '@/common/assets';
 function Footer() {
   const theme = useTheme<Theme>();
 
-  const renderAddresses = (addresses: string[], area: string) => {
+  const renderAddresses = (addresses: ReadonlyArray<string>, area: string) => {
     return (
       <Grid item xs={12} md={4}>
         <Box>
@@ -54,9 +54,9 @@ function Footer() {
             </Link>
             <CollapseFooter />
             <Grid container sx={{ marginY: 3 }}>
-              {renderAddresses(southWestAddress, 'TÂY NAM BỘ')}
-              {renderAddresses(southEastAddress, 'ĐÔNG NAM BỘ')}
-              {renderAddresses(HCMCityAddress, 'TP HỒ CHÍ MINH')}
+              {renderAddresses(SOUTH_WEST_ADDRESSES, 'TÂY NAM BỘ')}
+              {renderAddresses(SOUTH_EAST_ADDRESSES, 'ĐÔNG NAM BỘ')}
+              {renderAddresses(HCM_CITY_ADDRESSES, 'TP HỒ CHÍ MINH')}
             </Grid>
           </Box>
           <Box sx={{ display: { md: 'flex' }, alignItems: 'center', textAlign: { xs: 'center', md: 'left' }, mt: 5 }}>

@@ -2,27 +2,12 @@ import { ReactElement, useState } from 'react';
 import { Checkbox, Collapse, FormControlLabel, FormGroup, ListItemButton, ListItemText } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { TEXTURES } from '@/data/filter';
 
 type FilterTexturesProps = {
   selectedTextures: string[];
   onChangeTexture: (_texture: string) => void;
 };
-
-const textures = [
-  'In dẻo',
-  'In trame',
-  'In nước',
-  'In chuyển nhiệt',
-  'In cây',
-  'In bột nổi',
-  'In trục ống đồng',
-  'Thêu',
-  'Thêu 2D',
-  'Thêu 3D',
-  'May đắp logo',
-  'Ép silicon',
-  'Phối dây viên phản quang',
-];
 
 function FilterTextures({ selectedTextures, onChangeTexture }: FilterTexturesProps): ReactElement {
   const [open, setOpen] = useState(true);
@@ -43,7 +28,7 @@ function FilterTextures({ selectedTextures, onChangeTexture }: FilterTexturesPro
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit sx={{ mt: 2 }}>
         <FormGroup sx={{ pl: 3 }}>
-          {textures.map((texture) => {
+          {TEXTURES.map((texture) => {
             const isChecked = selectedTextures.findIndex((item) => item === texture) !== -1;
 
             return (

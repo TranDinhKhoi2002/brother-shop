@@ -12,7 +12,7 @@ function ProductInforPage({ product, relatedProducts }: InferGetStaticPropsType<
 
   return (
     <PageContainer barTitle={product.name} headTitle={headTitle}>
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <ProductInfor product={product} />
         <RelatedProducts products={relatedProducts} />
       </Container>

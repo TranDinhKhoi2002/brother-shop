@@ -21,9 +21,7 @@ function Menu({ items = [], children, detail = false }: MenuProps): ReactElement
       offset={[12, 8]}
       render={(attrs) => (
         <div
-          className={`absolute top-3 left-[-18px] w-[228px] inline-flex animate-headerMenuFadeIn ${
-            detail && 'w-[200px] left-[-100px]'
-          }`}
+          className={`absolute top-3 left-[-18px] inline-flex animate-headerMenuFadeIn ${detail && 'left-[-100px]'}`}
           tabIndex={-1}
           {...attrs}
         >
@@ -31,7 +29,7 @@ function Menu({ items = [], children, detail = false }: MenuProps): ReactElement
             {detail ? (
               <div className="flex flex-wrap">
                 {(items as Category[]).map((item, index) => (
-                  <div key={index} className="p-4 text-[#f3f3f4]">
+                  <div key={index} className="p-4 px-[26px] text-[#f3f3f4]">
                     <Link
                       className="hover:text-primary transition duration-300"
                       href={{
