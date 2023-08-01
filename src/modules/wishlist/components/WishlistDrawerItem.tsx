@@ -1,4 +1,5 @@
 import { ReactElement, useRef, useState } from 'react';
+import Link from 'next/link';
 import { Box, Grid, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
@@ -26,10 +27,8 @@ function WishlistDrawerItem({ product }: WishlistDrawerItemProps): ReactElement 
   const cartProducts = useSelector(selectCartProducts);
   const isAddedToCart = cartProducts.findIndex((item) => item.productId._id === product._id) !== -1;
   const cldImg = cld.image(product.images.mainImg);
-
   const sizesRef = useRef<WishlistSizesMenuRef>();
   const quantityRef = useRef<WishlistQuantityRef>();
-
   const dispatch = useAppDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
@@ -95,7 +94,9 @@ function WishlistDrawerItem({ product }: WishlistDrawerItemProps): ReactElement 
         </Grid>
         <Grid item xs={8}>
           <Box>
-            <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
+            <Link href={`/shop/products/${product._id}`}>
+              <Typography sx={{ fontWeight: 500 }}>{product.name}</Typography>
+            </Link>
             <WishlistSizesMenu ref={sizesRef} sizes={product.sizes} onSizeChange={handleSizeChange} />
             <WishlistQuantity ref={quantityRef} price={product.price} id={product._id} />
             {isSoldOut ? (

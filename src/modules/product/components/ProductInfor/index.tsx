@@ -18,6 +18,7 @@ import LoginModal from '@/modules/auth/components/LoginModal';
 import { fetchAddToWishlist } from '@/redux/slices/wishlist';
 import { CustomProductSize, Product } from '@/types/product';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { getRemainingQuantity, isSoldOutForAllSizes, isSoldOutForEverySize } from '@/utils/product';
 
 type ProductInforProps = {
   product: Product;
@@ -47,29 +48,10 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [loginModalIsVisible, setLoginModalIsVisible] = useState(false);
-
   const inputRef = useRef<NumberBoxRef | null>(null);
-  const dispatch = useAppDispatch();
-
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const sizes = product.sizes.map((size) => ({ name: size.name, remainingQuantity: size.quantity - size.sold }));
-
-  const getRemainingQuantity = (selectedSize: string) => {
-    const sizeItem = product.sizes.find((size) => size.name === selectedSize);
-    if (sizeItem) {
-      const remainingQuantity = sizeItem.quantity - sizeItem.sold;
-      return remainingQuantity;
-    }
-  };
-
-  const isSoldOut = (selectedSize: string) => {
-    const remainingQuantity = getRemainingQuantity(selectedSize);
-    if (remainingQuantity === 0) {
-      return true;
-    }
-
-    return false;
-  };
+  const dispatch = useAppDispatch();
 
   const addToCartHandler = async (size: string) => {
     if (!currentSize) {
@@ -77,7 +59,7 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
       return;
     }
 
-    const remainingQuantity = getRemainingQuantity(size);
+    const remainingQuantity = getRemainingQuantity(product.sizes, size);
     if (remainingQuantity && remainingQuantity < +inputRef!.current!.getQuantity()) {
       toast.error('Số lượng sản phẩm còn lại không đủ');
       return;
@@ -146,13 +128,14 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
               _id={product._id.slice(0, 8).toUpperCase()}
               price={product.price}
               oldPrice={product.oldPrice}
+              isSoldOut={isSoldOutForAllSizes(product.sizes)}
             />
 
             <ProductSizes
               sizes={sizes}
               onChange={handleChangeSize}
               product={product}
-              isSoldOut={isSoldOut}
+              isSoldOut={(selectedSize) => isSoldOutForEverySize(product.sizes, selectedSize)}
               currentSize={currentSize}
               onDisplayModal={() => setModalIsVisible(true)}
             />
@@ -199,6 +182,7 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
       </Grid>
       <SizeGuideModal
         isVisible={modalIsVisible}
+        productSizes={product.sizes}
         onClose={() => setModalIsVisible(false)}
         onSelectSize={handleChooseSize}
       />

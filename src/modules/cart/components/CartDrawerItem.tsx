@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Box, Grid, IconButton, Stack, Typography, Theme } from '@mui/material';
 import { AdvancedImage, responsive, placeholder } from '@cloudinary/react';
 import CloseIcon from '@mui/icons-material/Close';
@@ -117,7 +118,9 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
         </Grid>
         <Grid item xs={8}>
           <Box>
-            <Typography sx={{ fontWeight: 400 }}>{product.name}</Typography>
+            <Link href={`/shop/products/${product._id}`}>
+              <Typography sx={{ fontWeight: 500 }}>{product.name}</Typography>
+            </Link>
             <Typography sx={{ fontWeight: 400, color: theme.palette.grey['600'], my: 1 }}>
               SIZE: {cartProduct.size}
             </Typography>

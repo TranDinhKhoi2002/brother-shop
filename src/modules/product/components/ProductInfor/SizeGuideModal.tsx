@@ -25,9 +25,12 @@ import FatPersonIcon from '@/common/components/Icons/FatPersonIcon';
 import CloseIcon from '@mui/icons-material/Close';
 import TableSizesForShirt from './TableSizesForShirt';
 import SizeResult from './SizeResult';
+import { SIZES } from '@/constants';
+import { ProductSize } from '@/types/product';
 
 type SizeGuideModalProps = {
   isVisible: boolean;
+  productSizes: ProductSize[];
   onClose: () => void;
   onSelectSize: (_size: string) => void;
 };
@@ -37,14 +40,19 @@ const style = {
   top: '50%',
   left: '50%',
   transform: { xs: 'translate(-50%, -50%)', md: 'translate(-50%, -42%)' },
-  width: { xs: '100%', md: '700px' },
+  width: { xs: '97%', md: '700px' },
   bgcolor: 'background.paper',
   border: '1px solid #000',
   boxShadow: 24,
   p: 3,
 };
 
-export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: SizeGuideModalProps): React.ReactElement {
+export default function SizeGuideModal({
+  isVisible,
+  productSizes,
+  onClose,
+  onSelectSize,
+}: SizeGuideModalProps): React.ReactElement {
   const [value, setValue] = useState('1');
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
@@ -84,11 +92,11 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: Siz
       }
 
       if (feeling === 'wide') {
-        setSelectedSize('M');
+        setSelectedSize(SIZES.M);
         return;
       }
 
-      setSelectedSize('S');
+      setSelectedSize(SIZES.S);
       return;
     }
 
@@ -99,11 +107,11 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: Siz
       }
 
       if (feeling === 'wide') {
-        setSelectedSize('L');
+        setSelectedSize(SIZES.L);
         return;
       }
 
-      setSelectedSize('M');
+      setSelectedSize(SIZES.M);
       return;
     }
 
@@ -114,11 +122,11 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: Siz
       }
 
       if (feeling === 'wide') {
-        setSelectedSize('XL');
+        setSelectedSize(SIZES.XL);
         return;
       }
 
-      setSelectedSize('L');
+      setSelectedSize(SIZES.L);
       return;
     }
 
@@ -128,12 +136,12 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: Siz
         return;
       }
 
-      setSelectedSize('XL');
+      setSelectedSize(SIZES.XL);
       return;
     }
 
     if (height >= 181 && weight >= 84) {
-      setSelectedSize('XL');
+      setSelectedSize(SIZES.XL);
       return;
     }
 
@@ -165,6 +173,7 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: Siz
             <IconButton sx={{ position: 'absolute', right: 30, top: 17 }} onClick={onClose}>
               <CloseIcon />
             </IconButton>
+
             {!selectedSize && (
               <Box>
                 <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
@@ -253,7 +262,12 @@ export default function SizeGuideModal({ isVisible, onClose, onSelectSize }: Siz
               </Box>
             )}
             {selectedSize && (
-              <SizeResult selectedSize={selectedSize} onChooseSize={onSelectSize} onChooseAgain={handleChooseAgain} />
+              <SizeResult
+                selectedSize={selectedSize}
+                productSizes={productSizes}
+                onChooseSize={onSelectSize}
+                onChooseAgain={handleChooseAgain}
+              />
             )}
           </Box>
         </Fade>

@@ -1,14 +1,22 @@
-import { Box, Typography } from '@mui/material';
-import Button from '@/common/components/Buttons/Button';
+import { Alert, Box, Typography } from '@mui/material';
 import { ReactElement } from 'react';
+import { ProductSize } from '@/types/product';
+import { isSoldOutForEverySize } from '@/utils/product';
+import Button from '@/common/components/Buttons/Button';
 
 type SizeResultProps<T> = {
   selectedSize: T;
+  productSizes: ProductSize[];
   onChooseSize: (_size: T) => void;
   onChooseAgain: () => void;
 };
 
-function SizeResult({ selectedSize, onChooseSize, onChooseAgain }: SizeResultProps<string>): ReactElement {
+function SizeResult({
+  selectedSize,
+  productSizes,
+  onChooseSize,
+  onChooseAgain,
+}: SizeResultProps<string>): ReactElement {
   return (
     <>
       {selectedSize && selectedSize !== 'wrong' && (
@@ -21,16 +29,29 @@ function SizeResult({ selectedSize, onChooseSize, onChooseAgain }: SizeResultPro
               {selectedSize}
             </Typography>
           </Box>
-          <Box>
-            <Button className="rounded-none px-10 font-medium" onClick={() => onChooseSize(selectedSize)}>
-              Chọn size {selectedSize}
-            </Button>
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <Button className={`rounded-none font-medium !bg-transparent text-gray`} onClick={onChooseAgain}>
-              Tôi muốn chọn size khác
-            </Button>
-          </Box>
+          {isSoldOutForEverySize(productSizes, selectedSize) ? (
+            <Box sx={{ width: { xs: '100%', md: '80%' }, marginX: 'auto' }}>
+              <Alert variant="outlined" severity="error">
+                Hiện tại size này đã hết hàng, chúng tôi thành thật xin lỗi quý khách
+              </Alert>
+              <Button className="mt-3" onClick={onChooseAgain}>
+                Chọn size khác
+              </Button>
+            </Box>
+          ) : (
+            <>
+              <Box>
+                <Button className="rounded-none px-10 font-medium" onClick={() => onChooseSize(selectedSize)}>
+                  Chọn size {selectedSize}
+                </Button>
+              </Box>
+              <Box sx={{ mt: 2 }}>
+                <Button className={`rounded-none font-medium !bg-transparent text-gray`} onClick={onChooseAgain}>
+                  Tôi muốn chọn size khác
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       )}
 
