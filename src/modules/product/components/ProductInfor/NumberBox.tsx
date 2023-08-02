@@ -5,6 +5,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 
 export type NumberBoxRef = {
   getQuantity: () => number;
+  resetQuantity: () => void;
 };
 
 type NumberBoxProps = {
@@ -19,6 +20,9 @@ export default React.forwardRef<NumberBoxRef, NumberBoxProps>(function NumberBox
   useImperativeHandle(ref, () => ({
     getQuantity: () => {
       return localValue;
+    },
+    resetQuantity: () => {
+      setLocalValue(1);
     },
   }));
 

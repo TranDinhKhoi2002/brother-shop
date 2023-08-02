@@ -10,7 +10,7 @@ import GeneralInfor from './Generalnfor';
 import NumberBox, { NumberBoxRef } from './NumberBox';
 import PreviewImages from './PreviewImages';
 import Policies from './Policies';
-import { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import ProductSizes from './ProductSizes';
 import SizeGuideModal from './SizeGuideModal';
 import PreservationInstruction from './PreservationInstruction';
@@ -19,6 +19,7 @@ import { fetchAddToWishlist } from '@/redux/slices/wishlist';
 import { CustomProductSize, Product } from '@/types/product';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { getRemainingQuantity, isSoldOutForAllSizes, isSoldOutForEverySize } from '@/utils/product';
+import { useRouter } from 'next/router';
 
 type ProductInforProps = {
   product: Product;
@@ -52,6 +53,11 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const sizes = product.sizes.map((size) => ({ name: size.name, remainingQuantity: size.quantity - size.sold }));
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    setCurrentSize(undefined);
+  }, [router.query.productId]);
 
   const addToCartHandler = async (size: string) => {
     if (!currentSize) {
@@ -86,6 +92,7 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
 
   const handleChangeSize = (size: CustomProductSize) => {
     setCurrentSize(size);
+    inputRef.current?.resetQuantity();
   };
 
   const handleChooseSize = (sizeName: string) => {
@@ -142,7 +149,11 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
 
             <Typography sx={{ fontWeight: 400, mt: 3, mb: 2 }}>Chọn số lượng:</Typography>
             <Stack direction="row" alignItems="center" spacing={3}>
-              <NumberBox min={1} max={100} ref={inputRef} />
+              <NumberBox
+                min={1}
+                max={currentSize ? (getRemainingQuantity(product.sizes, currentSize.name) as number) : 100}
+                ref={inputRef}
+              />
               <Button
                 className="w-[250px] rounded-none"
                 onClick={() => currentSize?.name && addToCartHandler(currentSize?.name)}

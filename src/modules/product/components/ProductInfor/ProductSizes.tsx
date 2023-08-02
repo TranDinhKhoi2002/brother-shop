@@ -31,6 +31,10 @@ function ProductSizes({
   }, [currentSize]);
 
   useEffect(() => {
+    setProductSizes(sizes);
+  }, [sizes]);
+
+  useEffect(() => {
     const socket = openSocket(process.env.NEXT_PUBLIC_DB_BASE_URL || '');
     socket.on('orders', (data) => {
       const { action } = data;
@@ -85,7 +89,7 @@ function ProductSizes({
         </Typography>
       </Stack>
       <Stack spacing={2} direction="row" sx={{ mt: 2 }}>
-        {productSizes?.map((size) => renderSizeButton(size))}
+        {productSizes.map((size) => renderSizeButton(size))}
       </Stack>
 
       {selectedSize && (
