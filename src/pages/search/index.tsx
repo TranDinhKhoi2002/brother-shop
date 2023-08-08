@@ -13,6 +13,8 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import { Product } from '@/types/product';
 import config from '@/config';
 import ProductsSkeleton from '@/common/components/Skeleton/Products';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { updateBrandNewBreadcrumb } from '@/redux/slices/breadcrumb';
 
 interface IGetStaticProps {
   products: Product[];
@@ -30,10 +32,17 @@ function SearchPage({
   const [page, setPage] = useState(1);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     getProducts(router.query.page ? +router.query.page : 1);
   }, [router.query.keyword, router.query.page]);
+
+  useEffect(() => {
+    dispatch(
+      updateBrandNewBreadcrumb({ item: { id: 'search', url: config.routes.search, name: 'Tìm kiếm sản phẩm' } }),
+    );
+  }, [dispatch]);
 
   const handlePageChange = async (_: any, page: number) => {
     router.replace({ pathname: config.routes.search, query: { keyword: searchInputRef!.current!.value, page } });

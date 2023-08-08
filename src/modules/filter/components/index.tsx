@@ -12,6 +12,7 @@ import useResponsive from '@/hooks/useResponsive';
 import FilterDrawer from './FilterDrawer';
 import FilterSort from './FilterSort';
 import { Product } from '@/types/product';
+import ProductsSkeleton from '@/common/components/Skeleton/Products';
 
 type CategoryFilterProps = {
   loadedProducts: Product[];
@@ -191,7 +192,7 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
   };
 
   return (
-    <Box sx={{ paddingX: { xs: 4, lg: 0 }, marginBottom: 6 }}>
+    <Box sx={{ marginBottom: 6 }}>
       <Typography variant="h4" sx={{ textAlign: 'center', my: 4 }}>
         {categoryName}
       </Typography>
@@ -213,61 +214,67 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
             </Button>
           )}
         </Grid>
-        <Grid item xs={12} lg={9} sx={{ mt: 4 }}>
-          <Stack
-            direction={{ xs: 'column', md: 'row' }}
-            justifyContent="space-between"
-            alignItems={{ xs: 'flex-start', md: 'center' }}
-            sx={{ mb: 3 }}
-          >
-            <Typography sx={{ fontWeight: 400, fontSize: 18 }}>{products.length} sản phẩm</Typography>
-            <FilterSort onSort={handleSort} />
-          </Stack>
-          <Grid container spacing={1}>
-            {selectedTypes.map((filter) => (
-              <Grid item key={filter}>
-                <FilterTag title={filter} onClick={handleRemoveTypeFilters} />
-              </Grid>
-            ))}
+        {router.isFallback ? (
+          <Grid item xs={12} lg={9} sx={{ mt: 4 }}>
+            <ProductsSkeleton />
+          </Grid>
+        ) : (
+          <Grid item xs={12} lg={9} sx={{ mt: 4 }}>
+            <Stack
+              direction={{ xs: 'column', md: 'row' }}
+              justifyContent="space-between"
+              alignItems={{ xs: 'flex-start', md: 'center' }}
+              sx={{ mb: 3 }}
+            >
+              <Typography sx={{ fontWeight: 400, fontSize: 18 }}>{products?.length} sản phẩm</Typography>
+              <FilterSort onSort={handleSort} />
+            </Stack>
+            <Grid container spacing={1}>
+              {selectedTypes.map((filter) => (
+                <Grid item key={filter}>
+                  <FilterTag title={filter} onClick={handleRemoveTypeFilters} />
+                </Grid>
+              ))}
 
-            {priceRange && (
-              <Grid item>
-                <FilterTag
-                  title={`${printNumberWithCommas(priceRange[0])}đ - ${printNumberWithCommas(priceRange[1])}đ`}
-                  onClick={handleRemovePriceRange}
-                />
-              </Grid>
-            )}
+              {priceRange && (
+                <Grid item>
+                  <FilterTag
+                    title={`${printNumberWithCommas(priceRange[0])}đ - ${printNumberWithCommas(priceRange[1])}đ`}
+                    onClick={handleRemovePriceRange}
+                  />
+                </Grid>
+              )}
 
-            {materials.map((material) => (
-              <Grid item key={material}>
-                <FilterTag title={material} onClick={handleRemoveMaterialFilters} />
-              </Grid>
-            ))}
+              {materials.map((material) => (
+                <Grid item key={material}>
+                  <FilterTag title={material} onClick={handleRemoveMaterialFilters} />
+                </Grid>
+              ))}
 
-            {textures.map((texture) => (
-              <Grid item key={texture}>
-                <FilterTag title={texture} onClick={handleRemoveTextureFilters} />
-              </Grid>
-            ))}
+              {textures.map((texture) => (
+                <Grid item key={texture}>
+                  <FilterTag title={texture} onClick={handleRemoveTextureFilters} />
+                </Grid>
+              ))}
 
-            {(selectedTypes.length > 0 || priceRange || materials.length > 0 || textures.length > 0) && (
-              <Grid item>
-                <RemoveAllButton onClick={handleRemoveAllFilters} />
-              </Grid>
+              {(selectedTypes.length > 0 || priceRange || materials.length > 0 || textures.length > 0) && (
+                <Grid item>
+                  <RemoveAllButton onClick={handleRemoveAllFilters} />
+                </Grid>
+              )}
+            </Grid>
+            {products?.length > 0 ? (
+              <Products products={products} forDetail />
+            ) : (
+              <Box sx={{ my: 8, textAlign: 'center' }}>
+                <Typography variant="h3">Không tìm thấy sản phẩm nào</Typography>
+                <Typography variant="body1" sx={{ fontWeight: 400, mt: 2 }}>
+                  Chúng tôi không thể tìm thấy sản phẩm phù hợp với việc lựa chọn cùa bạn
+                </Typography>
+              </Box>
             )}
           </Grid>
-          {products.length > 0 ? (
-            <Products products={products} />
-          ) : (
-            <Box sx={{ my: 8, textAlign: 'center' }}>
-              <Typography variant="h3">Không tìm thấy sản phẩm nào</Typography>
-              <Typography variant="body1" sx={{ fontWeight: 400, mt: 2 }}>
-                Chúng tôi không thể tìm thấy sản phẩm phù hợp với việc lựa chọn cùa bạn
-              </Typography>
-            </Box>
-          )}
-        </Grid>
+        )}
       </Grid>
       <FilterDrawer isVisible={filterIsVisible} onClose={() => setFilterIsVisible(false)}>
         <Filter

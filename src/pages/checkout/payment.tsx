@@ -17,37 +17,35 @@ import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import config from '@/config';
+
+const breadcrumbs = [
+  { id: 'checkout/login', url: config.routes.checkoutLogin, name: 'Đăng nhập' },
+  { id: 'checkout/shipping', url: config.routes.checkoutShipping, name: 'Thông tin đặt hàng' },
+  { id: 'checkout/payment', url: config.routes.checkoutPayment, name: 'Thanh toán' },
+];
 
 function CheckoutPaymentPage(): ReactElement {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<string>('cod');
   const [selectedPromotion, setSelectedPromotion] = useState<string>();
-
   const cartProducts = useAppSelector(selectCartProducts);
   const currentUser = useAppSelector(selectCurrentUser);
-
   const router = useRouter();
   const dispatch = useAppDispatch();
   const ref = useRef<RefType | null>(null);
-
   const { toName, toPhone, toAddress, toNote, toEmail } = router.query;
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
-  if (!loaded) {
-    return <BackdropLoading isVisible={!loaded} />;
-  }
-
   const totalProductsPrice = cartProducts.reduce(
     (acc: number, currentItem: { productId: { price: number }; quantity: number }) => {
       return acc + currentItem.productId.price * currentItem.quantity;
     },
     0,
   );
-
   const totalPrice = totalProductsPrice + TRANSPORTATION_COST;
+
+  useEffect(() => {
+    setLoaded(true);
+  }, [dispatch]);
 
   const payHandler = async (totalPrice: number) => {
     const { companyName, companyAddress, companyTaxNumber } = ref.current!.getInvoiceCompany();
@@ -113,8 +111,12 @@ function CheckoutPaymentPage(): ReactElement {
     setSelectedPromotion(e.target.value);
   };
 
+  if (!loaded) {
+    return <BackdropLoading isVisible={!loaded} />;
+  }
+
   return (
-    <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
+    <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng" breadcrumbs={breadcrumbs}>
       <>
         <BuySteppers activeStep={2} />
         <Container maxWidth={false}>

@@ -10,9 +10,12 @@ import { useRouter } from 'next/router';
 import { MouseEventHandler, ReactElement, useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@mui/styles';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { updateBrandNewBreadcrumb } from '@/redux/slices/breadcrumb';
+import { PROFILE_TABS } from '@/constants';
+import useAuth from '@/hooks/useAuth';
 
 type ActionsProps = {
   openSearch: MouseEventHandler<HTMLButtonElement>;
@@ -38,7 +41,8 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: Act
   const wishlistProducts = useAppSelector(selectWishlistProducts);
   const [loaded, setLoaded] = useState(false);
   const router = useRouter();
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isAuthenticated = useAuth();
+  const dispatch = useAppDispatch();
   const theme = useTheme<Theme>();
   const styles = useStyles();
   const isInSearchPage = router.pathname === config.routes.search;
@@ -49,9 +53,19 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: Act
 
   const authHandler = () => {
     if (!isAuthenticated) {
+      dispatch(
+        updateBrandNewBreadcrumb({
+          item: { id: 'login', url: config.routes.login, name: 'Đăng nhập' },
+        }),
+      );
       router.push(config.routes.login);
     } else {
-      router.push(config.routes.profile);
+      dispatch(
+        updateBrandNewBreadcrumb({
+          item: { id: 'profile', url: `/profile?tab=${PROFILE_TABS.ACCOUNT}`, name: 'Thông tin tài khoản' },
+        }),
+      );
+      router.push(`${config.routes.profile}?tab=${PROFILE_TABS.ACCOUNT}`);
     }
   };
 

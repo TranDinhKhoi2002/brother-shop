@@ -10,13 +10,16 @@ import config from '@/config';
 import ConfirmNotLogin from '@/modules/auth/components/ConfirmNotLogin';
 import LoginForm from '@/modules/auth/components/LoginForm';
 import EmptyCart from '@/modules/cart/components/EmptyCart';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { selectCartProducts } from '@/redux/slices/cart';
+import useAuth from '@/hooks/useAuth';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { add } from '@/redux/slices/breadcrumb';
 
 function CheckoutLoginPage(): ReactElement {
   const [loaded, setLoaded] = useState<boolean>(false);
   const cartProducts = useSelector(selectCartProducts);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isAuthenticated = useAuth();
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
 
@@ -28,9 +31,12 @@ function CheckoutLoginPage(): ReactElement {
 
   useEffect(() => {
     setLoaded(true);
-  }, []);
+  }, [dispatch]);
 
   const handleLogin = () => {
+    dispatch(
+      add({ item: { id: 'checkout/shipping', url: config.routes.checkoutShipping, name: 'Thông tin đặt hàng' } }),
+    );
     router.push(config.routes.checkoutShipping);
   };
 
@@ -39,7 +45,7 @@ function CheckoutLoginPage(): ReactElement {
   }
 
   return (
-    <PageContainer barTitle="Đặt hàng" headTitle="Đặt Hàng">
+    <PageContainer barTitle="Đăng nhập" headTitle="Đặt Hàng">
       {cartProducts.length === 0 ? (
         <EmptyCart />
       ) : (

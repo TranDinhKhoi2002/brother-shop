@@ -59,7 +59,6 @@ function LoginForm({ onLogin }: LoginFormProps): ReactElement {
     if (success) {
       toast.success(message);
 
-      console.log('here');
       if (onLogin) {
         onLogin();
       } else {

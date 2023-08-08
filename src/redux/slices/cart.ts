@@ -10,6 +10,8 @@ import { Product } from '@/types/product';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../store';
+import { toast } from 'react-toastify';
+import { assignProductsToCartInLocal } from '@/utils/cart';
 
 const initialState: { products: (CartItem & { productId: Product })[] } = {
   products:
@@ -19,28 +21,44 @@ const initialState: { products: (CartItem & { productId: Product })[] } = {
 };
 
 export const fetchAddToCart = createAsyncThunk<any, CartPayload>('cart/fetchAddToCart', async (itemData) => {
-  const response = await addToCartApi(itemData);
-  return response;
+  try {
+    const response = await addToCartApi(itemData);
+    return response;
+  } catch (error) {
+    toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+  }
 });
 
 export const fetchUpdateQuantity = createAsyncThunk<any, CartPayload>('cart/fetchUpdateQuantity', async (itemData) => {
-  const response = await updateQuantity(itemData);
-  return response;
+  try {
+    const response = await updateQuantity(itemData);
+    return response;
+  } catch (error) {
+    toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+  }
 });
 
 export const fetchRemoveItemsFromCart = createAsyncThunk<any, RemovedCartItemPayload>(
   'cart/fetchRemoveItemsFromCart',
   async (itemsData) => {
-    const response = await removeItemsFromCart(itemsData);
-    return response;
+    try {
+      const response = await removeItemsFromCart(itemsData);
+      return response;
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    }
   },
 );
 
 export const fetchRemoveItemFromCart = createAsyncThunk<any, CartPayload>(
   'cart/fetchRemoveItemFromCart',
   async (itemData) => {
-    const response = await removeItemFromCart(itemData);
-    return response;
+    try {
+      const response = await removeItemFromCart(itemData);
+      return response;
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
+    }
   },
 );
 
@@ -94,14 +112,7 @@ const cartSlice = createSlice({
     assignProductsToCart(state, action) {
       const { cart } = action.payload;
       state.products = cart;
-
-      let sessionID = localStorage.getItem('sessionID');
-      if (!sessionID) {
-        sessionID = uuidv4();
-        localStorage.setItem('sessionID', sessionID);
-      }
-
-      localStorage.setItem(`cart-${sessionID}`, JSON.stringify(cart));
+      assignProductsToCartInLocal(cart);
     },
   },
   extraReducers: (builder) => {
@@ -110,6 +121,8 @@ const cartSlice = createSlice({
 
       if (success) {
         state.products = cart;
+        assignProductsToCartInLocal(cart);
+        toast.success('Đã thêm vào giỏ hàng');
       }
     });
     builder.addCase(fetchUpdateQuantity.fulfilled, (state, { payload }) => {
@@ -117,6 +130,7 @@ const cartSlice = createSlice({
 
       if (success) {
         state.products = cart;
+        assignProductsToCartInLocal(cart);
       }
     });
     builder.addCase(fetchRemoveItemsFromCart.fulfilled, (state, { payload }) => {
@@ -124,13 +138,17 @@ const cartSlice = createSlice({
 
       if (success) {
         state.products = cart;
+        assignProductsToCartInLocal(cart);
+        toast.success('Đã xóa các sản phẩm khỏi giỏ hàng');
       }
     });
     builder.addCase(fetchRemoveItemFromCart.fulfilled, (state, { payload }) => {
-      const { success, cart } = payload;
+      const { success, cart, message } = payload;
 
       if (success) {
         state.products = cart;
+        assignProductsToCartInLocal(cart);
+        toast.success(message);
       }
     });
   },

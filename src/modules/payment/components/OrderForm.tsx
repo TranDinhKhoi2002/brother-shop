@@ -1,15 +1,17 @@
 import { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 import Router from 'next/router';
 import Title from '@/common/components/UI/Title';
 import { Box, Divider } from '@mui/material';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
 import config from '@/config';
 import AddressList from './AddressList';
 import AddressForm from '@/modules/customer/components/AddressForm';
+import useAuth from '@/hooks/useAuth';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { add } from '@/redux/slices/breadcrumb';
 
 function OrderForm(): ReactElement {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isAuthenticated = useAuth();
+  const dispatch = useAppDispatch();
 
   const handleSubmitForm = (values: {
     name: string;
@@ -41,6 +43,7 @@ function OrderForm(): ReactElement {
         toNote: shippingInfor.note,
       },
     });
+    dispatch(add({ item: { id: 'checkout/payment', url: config.routes.checkoutPayment, name: 'Thanh toán' } }));
   };
 
   return (

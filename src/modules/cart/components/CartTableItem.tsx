@@ -3,59 +3,30 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 import { ReactElement, useEffect, useState } from 'react';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
-import { useSelector } from 'react-redux';
 import { printNumberWithCommas } from '@/utils/common';
-import { toast } from 'react-toastify';
-import { assignProductsToCart, fetchUpdateQuantity, updateAmountOfProduct } from '@/redux/slices/cart';
 import Link from 'next/link';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { cld } from '@/utils/cloudinary';
+import useCart from '@/hooks/useCart';
 
 type CartTableItemProps = {
   item: CartItem;
   labelId: string;
   isItemSelected: boolean;
-  // eslint-disable-next-line no-unused-vars
-  onClick: (event: any, item: CartItem) => void;
+  onClick: (_event: any, _item: CartItem) => void;
 };
 
 function CartTableItem({ item, labelId, isItemSelected, onClick }: CartTableItemProps): ReactElement {
   const [quantity, setQuantity] = useState(item.quantity);
-
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const dispatch = useAppDispatch();
+  const { handleUpdateQuantity: updateQuantity } = useCart();
 
   useEffect(() => {
     setQuantity(item.quantity);
   }, [item.quantity]);
 
   const handleUpdateQuantity = async (quantity: number) => {
-    if (!isAuthenticated) {
-      dispatch(
-        updateAmountOfProduct({
-          id: product._id,
-          size: item.size,
-          quantity: quantity,
-        }),
-      );
-      return;
-    }
-
-    try {
-      const { cart, success } = await dispatch(
-        fetchUpdateQuantity({ productId: product._id, size: item.size, quantity: quantity }),
-      ).unwrap();
-
-      if (success) {
-        dispatch(assignProductsToCart({ cart }));
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
-    return;
+    updateQuantity(product._id, item.size, quantity);
   };
 
   const handleIncreaseQuantity = () => {

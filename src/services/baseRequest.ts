@@ -8,12 +8,14 @@ const request = axios.create({
   },
 });
 
-function getRequestHeader(): AxiosRequestConfig {
-  return {
-    headers: {
-      Authorization: `Bearer ${Cookies.get('token')}`,
-    },
-  };
+function getRequestHeader(): AxiosRequestConfig | undefined {
+  if (Cookies.get('token')) {
+    return {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      },
+    };
+  }
 }
 
 export const sendPostRequest = async (url: string, data: object | string) => {

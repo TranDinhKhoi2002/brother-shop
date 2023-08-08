@@ -67,7 +67,7 @@ function RelatedProducts({ products }: RelatedProductsProps): ReactElement {
         <Title sx={{ textAlign: 'center' }}>Sản phẩm được gợi ý cho bạn</Title>
         <Slider {...settings} className="my-3">
           {products.map((product) => (
-            <ProductItem key={product._id} product={product} />
+            <ProductItem key={product._id} product={product} forDetail={false} />
           ))}
         </Slider>
       </Box>

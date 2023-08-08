@@ -11,10 +11,9 @@ import Menu from '../Popper/Menu/Menu';
 
 function MainNavigation(): ReactElement {
   const categories = useAppSelector<Category[]>(selectCategories);
+  const router = useRouter();
   const mainCategories = [...categories].slice(0, 4);
   const detailCategories = [...categories].slice(-2);
-
-  const router = useRouter();
 
   const isActive = (categoryId: string) => {
     if (router.query.categoryId === categoryId) {
@@ -39,9 +38,7 @@ function MainNavigation(): ReactElement {
                   }  hover:text-primary`}
                   href={{
                     pathname: `/category/${category._id}`,
-                    query: { title: category.name },
                   }}
-                  as={`/category/${category._id}`}
                 >
                   {category.name}
                   <KeyboardArrowDownIcon sx={{ ml: '2px', fontSize: '24px' }} />
@@ -54,9 +51,7 @@ function MainNavigation(): ReactElement {
                 } hover:text-primary`}
                 href={{
                   pathname: `/category/${category._id}`,
-                  query: { title: category.name },
                 }}
-                as={`/category/${category._id}`}
               >
                 {category.name}
               </Link>

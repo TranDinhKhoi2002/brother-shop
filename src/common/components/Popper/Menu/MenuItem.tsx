@@ -1,14 +1,14 @@
+import { CategoryType } from '@/types/category';
 import { Box, Theme } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 
 type MenuItemProps = {
-  title?: string;
-  path: string;
+  categoryType: CategoryType;
 };
 
-function MenuItem({ title, path }: MenuItemProps): ReactElement {
+function MenuItem({ categoryType }: MenuItemProps): ReactElement {
   const theme = useTheme<Theme>();
 
   return (
@@ -23,8 +23,8 @@ function MenuItem({ title, path }: MenuItemProps): ReactElement {
         },
       }}
     >
-      <Link href={{ pathname: path, query: { title, types: title } }} style={{ display: 'block' }}>
-        {title}
+      <Link href={{ pathname: `/category/${categoryType._id}` }} style={{ display: 'block' }}>
+        {categoryType.type}
       </Link>
     </Box>
   );

@@ -11,7 +11,7 @@ type ProductsProps = {
 function Products({ products, forDetail = false }: ProductsProps): ReactElement {
   return (
     <Box sx={{ mt: 4 }}>
-      <Grid container>
+      <Grid container spacing={2}>
         {products.map((product, index) => (
           <Grid key={index} item xs={6} sm={3}>
             <ProductItem forDetail={forDetail} product={product} />

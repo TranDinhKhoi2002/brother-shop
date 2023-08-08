@@ -1,11 +1,7 @@
-import { selectIsAuthenticated } from '@/redux/slices/auth';
-import { addToCart, assignProductsToCart, fetchAddToCart } from '@/redux/slices/cart';
 import { Box, Grid, Stack, Typography, Button as ButtonMUI } from '@mui/material';
 import Button from '@/common/components/Buttons/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
 import GeneralInfor from './Generalnfor';
 import NumberBox, { NumberBoxRef } from './NumberBox';
 import PreviewImages from './PreviewImages';
@@ -14,12 +10,13 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import ProductSizes from './ProductSizes';
 import SizeGuideModal from './SizeGuideModal';
 import PreservationInstruction from './PreservationInstruction';
-import LoginModal from '@/modules/auth/components/LoginModal';
-import { fetchAddToWishlist } from '@/redux/slices/wishlist';
 import { CustomProductSize, Product } from '@/types/product';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { getRemainingQuantity, isSoldOutForAllSizes, isSoldOutForEverySize } from '@/utils/product';
 import { useRouter } from 'next/router';
+import useLoginModal from '@/hooks/useLoginModal';
+import useCart from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
+import useAuth from '@/hooks/useAuth';
 
 type ProductInforProps = {
   product: Product;
@@ -48,12 +45,13 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
   const [currentSize, setCurrentSize] = useState<CustomProductSize>();
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const [loginModalIsVisible, setLoginModalIsVisible] = useState(false);
   const inputRef = useRef<NumberBoxRef | null>(null);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isAuthenticated = useAuth();
   const sizes = product.sizes.map((size) => ({ name: size.name, remainingQuantity: size.quantity - size.sold }));
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const { onOpenModal, render: renderLoginModal } = useLoginModal();
+  const { handleAddToCart: addToCart } = useCart();
+  const { handleAddToWishlist: addToWishlist } = useWishlist();
 
   useEffect(() => {
     setCurrentSize(undefined);
@@ -71,23 +69,7 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
       return;
     }
 
-    if (!isAuthenticated) {
-      dispatch(addToCart({ productId: product, size, quantity: +inputRef!.current!.getQuantity(), _id: uuidv4() }));
-      toast.success('Đã thêm vào giỏ hàng');
-      return;
-    }
-
-    try {
-      const { success, cart } = await dispatch(
-        fetchAddToCart({ productId: product._id, size, quantity: +inputRef!.current!.getQuantity() }),
-      ).unwrap();
-      if (success) {
-        toast.success('Đã thêm vào giỏ hàng');
-        dispatch(assignProductsToCart({ cart: cart }));
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
+    addToCart(product, size, +inputRef!.current!.getQuantity());
   };
 
   const handleChangeSize = (size: CustomProductSize) => {
@@ -103,21 +85,11 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
 
   const handleAddToWishlist = async (productId: string) => {
     if (!isAuthenticated) {
-      setLoginModalIsVisible(true);
+      onOpenModal();
       return;
     }
 
-    try {
-      const { success, message } = await dispatch(fetchAddToWishlist({ productId })).unwrap();
-
-      if (success) {
-        toast.success(message);
-      } else {
-        toast.warn(message);
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
+    addToWishlist(productId);
   };
 
   return (
@@ -198,7 +170,7 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
         onSelectSize={handleChooseSize}
       />
 
-      <LoginModal isVisible={loginModalIsVisible} onClose={() => setLoginModalIsVisible(false)} />
+      {renderLoginModal()}
     </>
   );
 }

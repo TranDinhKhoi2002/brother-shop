@@ -3,15 +3,14 @@ import EmptyCart from './EmptyCart';
 import CartTableToolbar from './CartTableToolbar';
 import CartTableHead from './CartTableHead';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { assignProductsToCart, fetchRemoveItemsFromCart, selectCartProducts } from '@/redux/slices/cart';
-import { selectCurrentUser, selectIsAuthenticated } from '@/redux/slices/auth';
+import { selectCartProducts } from '@/redux/slices/cart';
+import { selectCurrentUser } from '@/redux/slices/auth';
 import CartTableItem from './CartTableItem';
-import { toast } from 'react-toastify';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { CartItem } from '@/types/customer';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { Product } from '@/types/product';
+import useCart from '@/hooks/useCart';
 
 function CartTable() {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
@@ -22,9 +21,8 @@ function CartTable() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const cartProducts = useAppSelector<CartItem[]>(selectCartProducts);
   const user = useAppSelector(selectCurrentUser);
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
-  const dispatch = useAppDispatch();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const { handleRemoveAllFromCart } = useCart();
 
   useEffect(() => {
     if (cartProducts || user) {
@@ -44,23 +42,9 @@ function CartTable() {
     setRows(restRows);
     setSelected([]);
 
-    if (!isAuthenticated) {
-      dispatch(assignProductsToCart({ cart: restRows }));
+    handleRemoveAllFromCart(restRows, selected, () => {
       setConfirmDelete(false);
-      return;
-    }
-
-    try {
-      const removedItems = selected.map((item) => ({ productId: (item.productId as Product)._id, size: item.size }));
-      const { success, cart } = await dispatch(fetchRemoveItemsFromCart({ items: removedItems })).unwrap();
-      if (success) {
-        dispatch(assignProductsToCart({ cart: cart }));
-        toast.success('Đã xóa sản phẩm khỏi giỏ hàng');
-        setConfirmDelete(false);
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
+    });
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {

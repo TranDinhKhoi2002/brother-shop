@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactElement } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -20,6 +20,11 @@ type TabPanelProps = {
   children: React.ReactNode;
   value: number;
   index: number;
+};
+
+type ProfileTabsProps = {
+  tabIndex: number;
+  onTabChange: (_: React.SyntheticEvent<Element, Event>, _newValue: number) => void;
 };
 
 function TabPanel(props: TabPanelProps): React.ReactElement {
@@ -45,16 +50,10 @@ function a11yProps(index: number) {
   };
 }
 
-export default function ProfileTabs(): React.ReactElement {
-  const [value, setValue] = React.useState(0);
+export default function ProfileTabs({ tabIndex, onTabChange }: ProfileTabsProps): ReactElement {
   const currentUser = useSelector(selectCurrentUser);
-
   const dispatch = useDispatch();
   const router = useRouter();
-
-  const handleChange = (_: React.SyntheticEvent<Element, Event>, newValue: number) => {
-    setValue(newValue);
-  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -72,8 +71,8 @@ export default function ProfileTabs(): React.ReactElement {
         <Grid item xs={12} md={3}>
           <Tabs
             orientation="vertical"
-            value={value}
-            onChange={handleChange}
+            value={tabIndex}
+            onChange={onTabChange}
             sx={{ borderWidth: 1, borderColor: 'divider', py: 2 }}
           >
             <Tab label="Thông tin tài khoản" {...a11yProps(0)} sx={{ px: 6, alignItems: 'flex-start' }} />
@@ -88,16 +87,16 @@ export default function ProfileTabs(): React.ReactElement {
         </Grid>
         <Grid item xs={12} md={9}>
           <Box>
-            <TabPanel value={value} index={0}>
+            <TabPanel value={tabIndex} index={0}>
               <AccountInfoTab currentUser={currentUser} />
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={tabIndex} index={1}>
               <PurchaseHistoryTab orders={currentUser?.orders} />
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            <TabPanel value={tabIndex} index={2}>
               <AddressesTab addresses={currentUser?.address} />
             </TabPanel>
-            <TabPanel value={value} index={3}>
+            <TabPanel value={tabIndex} index={3}>
               <PromotionsTab />
             </TabPanel>
           </Box>

@@ -19,9 +19,16 @@ export interface AppSizes {
   [key: string]: string;
 }
 
-export const SIZES = {
+export const SIZES = Object.freeze({
   S: 'S',
   M: 'M',
   L: 'L',
   XL: 'XL',
-};
+});
+
+export const PROFILE_TABS = Object.freeze({
+  ACCOUNT: 'account',
+  PURCHASE_HISTORY: 'purchaseHistory',
+  ADDRESSES: 'addresses',
+  PROMOTIONS: 'promotions',
+});

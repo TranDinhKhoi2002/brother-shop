@@ -59,7 +59,7 @@ function Menu({ items = [], children, detail = false }: MenuProps): ReactElement
                 ))}
               </div>
             ) : (
-              items.map((item, index) => <MenuItem key={index} title={item.type} path={`/category/${item._id}`} />)
+              items.map((item, index) => <MenuItem key={index} categoryType={item as CategoryType} />)
             )}
           </PopperWrapper>
         </div>

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { Box, Container } from '@mui/material';
@@ -6,14 +6,26 @@ import * as authServices from '@/services/authRequests';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import ChangePasswordForm from '@/modules/auth/components/ChangePasswordForm';
 import { ResetTokenPayload } from '@/services/types/auth';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { updateBrandNewBreadcrumb } from '@/redux/slices/breadcrumb';
 
 function ChangePasswordPage({ isValidToken }: InferGetServerSidePropsType<typeof getServerSideProps>): ReactNode {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  if (!isValidToken) {
-    router.replace('/');
-    return;
-  }
+  useEffect(() => {
+    dispatch(
+      updateBrandNewBreadcrumb({
+        item: { id: 'resetPassword', url: `/reset-password/${router.query.token}`, name: 'Đặt lại mật khẩu' },
+      }),
+    );
+  }, [dispatch, router.query.token]);
+
+  useEffect(() => {
+    if (!isValidToken) {
+      router.replace('/');
+    }
+  }, [isValidToken, router]);
 
   return (
     <PageContainer barTitle="Đặt lại mật khẩu" headTitle="Đặt Lại Mật Khẩu">

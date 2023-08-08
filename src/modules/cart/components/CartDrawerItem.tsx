@@ -7,22 +7,12 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import React from 'react';
 import { useTheme } from '@mui/styles';
-import { toast } from 'react-toastify';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
-import {
-  assignProductsToCart,
-  fetchUpdateQuantity,
-  updateAmountOfProduct,
-  removeFromCart,
-  fetchRemoveItemFromCart,
-} from '@/redux/slices/cart';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
 import { cld } from '@/utils/cloudinary';
 import { printNumberWithCommas } from '@/utils/common';
+import useCart from '@/hooks/useCart';
 
 type CartDrawerItemProps = {
   cartProduct: CartItem;
@@ -31,44 +21,17 @@ type CartDrawerItemProps = {
 function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
   const [quantity, setQuantity] = useState(cartProduct.quantity);
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
-  const dispatch = useAppDispatch();
   const theme = useTheme<Theme>();
   const product = cartProduct.productId as Product;
   const img = cld.image(product.images.mainImg);
+  const { handleRemoveOneFromCart, handleUpdateQuantity: updateQuantity } = useCart();
 
   useEffect(() => {
     setQuantity(cartProduct.quantity);
   }, [cartProduct]);
 
   const handleUpdateQuantity = async (quantity: number) => {
-    if (!isAuthenticated) {
-      dispatch(
-        updateAmountOfProduct({
-          id: product._id,
-          size: cartProduct.size,
-          quantity: quantity,
-        }),
-      );
-      return;
-    }
-
-    try {
-      const { cart, success } = await dispatch(
-        fetchUpdateQuantity({
-          productId: product._id,
-          size: cartProduct.size,
-          quantity: quantity,
-        }),
-      ).unwrap();
-
-      if (success) {
-        dispatch(assignProductsToCart({ cart }));
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
-    return;
+    updateQuantity(product._id, cartProduct.size, quantity);
   };
 
   const handleIncreaseQuantity = () => {
@@ -82,28 +45,9 @@ function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
   };
 
   const handleRemoveFromCart = async () => {
-    if (!isAuthenticated) {
-      dispatch(removeFromCart({ id: product._id, size: cartProduct.size }));
+    handleRemoveOneFromCart(product._id, cartProduct.size, () => {
       setModalIsVisible(false);
-      return;
-    }
-
-    try {
-      const { success, cart, message } = await dispatch(
-        fetchRemoveItemFromCart({ productId: product._id, size: cartProduct.size }),
-      ).unwrap();
-
-      if (success) {
-        dispatch(assignProductsToCart({ cart }));
-
-        setModalIsVisible(false);
-        toast.success(message);
-      } else {
-        toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
+    });
   };
 
   return (

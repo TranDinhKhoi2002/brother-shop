@@ -1,22 +1,24 @@
 import { ReactElement } from 'react';
 import Head from 'next/head';
-import NavigationLayout from './NavigationLayout';
+import withBreadcrumbs from '@/hocs/breadcrumbs';
+import { BreadcrumbItem } from '@/redux/slices/breadcrumb';
 
-type PageContainerProps = {
+export type PageContainerProps = {
   children: ReactElement;
-  barTitle: string;
+  barTitle?: string;
   headTitle: string;
+  breadcrumbs?: BreadcrumbItem[];
 };
 
-function PageContainer({ children, barTitle, headTitle }: PageContainerProps): ReactElement {
+function PageContainer({ children, headTitle }: PageContainerProps): ReactElement {
   return (
     <>
       <Head>
         <title>{headTitle} | Brother Shop</title>
       </Head>
-      <NavigationLayout title={barTitle}>{children}</NavigationLayout>
+      {children}
     </>
   );
 }
 
-export default PageContainer;
+export default withBreadcrumbs(PageContainer);

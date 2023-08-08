@@ -3,16 +3,16 @@ import Button from '@/common/components/Buttons/Button';
 import { calculateTotalCart, printNumberWithCommas } from '@/utils/common';
 import config from '@/config';
 import { TRANSPORTATION_COST } from '@/constants';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { Card, CardContent, Divider, Stack, Typography, Button as ButtonMUI } from '@mui/material';
 import Link from 'next/link';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import useAuth from '@/hooks/useAuth';
 
 function PreviewInvoice(): ReactElement {
   const cartProducts = useAppSelector(selectCartProducts);
   const totalCart = calculateTotalCart(cartProducts);
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isAuthenticated = useAuth();
 
   return (
     <Stack direction="row" justifyContent="flex-end">

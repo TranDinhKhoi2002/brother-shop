@@ -2,31 +2,21 @@ import React, { Fragment, ReactElement, RefObject, useEffect, useState } from 'r
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
 import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
-import {
-  assignProductsToCart,
-  fetchRemoveItemFromCart,
-  fetchUpdateQuantity,
-  removeFromCart,
-  selectCartProducts,
-  updateAmountOfProduct,
-} from '@/redux/slices/cart';
-import { selectIsAuthenticated } from '@/redux/slices/auth';
+import { selectCartProducts } from '@/redux/slices/cart';
 import { printNumberWithCommas } from '@/utils/common';
 import Title from '@/common/components/UI/Title';
-import { toast } from 'react-toastify';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { Product } from '@/types/product';
 import { CartItem } from '@/types/customer';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { cld } from '@/utils/cloudinary';
+import useCart from '@/hooks/useCart';
 
 function DetailCart(): ReactElement {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CartItem | null>();
   const products = useAppSelector<CartItem[]>(selectCartProducts);
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
-  const dispatch = useAppDispatch();
+  const { handleRemoveOneFromCart, handleUpdateQuantity } = useCart();
 
   const childRefs: RefObject<any>[] = React.useMemo(() => products.map(() => React.createRef()), [products]);
   const selectedProductItem = selectedItem?.productId as Product;
@@ -40,35 +30,11 @@ function DetailCart(): ReactElement {
   let totalPrice = 0;
 
   const handleRemoveFromCart = async () => {
-    if (!isAuthenticated) {
-      if (selectedItem !== null && selectedItem !== undefined) {
-        dispatch(removeFromCart({ id: selectedProductItem._id, size: selectedItem.size }));
-      }
+    const callback = () => {
       setModalIsVisible(false);
       setSelectedItem(null);
-      return;
-    }
-
-    try {
-      const { success, cart, message } = await dispatch(
-        fetchRemoveItemFromCart({
-          productId: (selectedItem?.productId as Product)._id,
-          size: selectedItem?.size || '',
-        }),
-      ).unwrap();
-
-      if (success) {
-        toast.success(message);
-        dispatch(assignProductsToCart({ cart }));
-
-        setModalIsVisible(false);
-        setSelectedItem(null);
-      } else {
-        toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
+    };
+    handleRemoveOneFromCart(selectedProductItem._id, selectedItem!.size, callback);
   };
 
   const handleConfirmRemove = (cartProduct: CartItem) => {
@@ -77,30 +43,7 @@ function DetailCart(): ReactElement {
   };
 
   const handleUpdateAmount = async (id: string, size: string, refIndex: number) => {
-    if (!isAuthenticated) {
-      dispatch(
-        updateAmountOfProduct({
-          id,
-          size,
-          quantity: +childRefs[refIndex].current.value,
-        }),
-      );
-      return;
-    }
-
-    try {
-      const { cart, success, message } = await dispatch(
-        fetchUpdateQuantity({ productId: id, size, quantity: +childRefs[refIndex].current.value }),
-      ).unwrap();
-
-      if (success) {
-        dispatch(assignProductsToCart({ cart }));
-        toast.success(message);
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
-    return;
+    handleUpdateQuantity(id, size, +childRefs[refIndex].current.value);
   };
 
   const getProductImg = (product: Product) => {
