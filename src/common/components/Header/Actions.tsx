@@ -12,8 +12,6 @@ import { makeStyles, useTheme } from '@mui/styles';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { updateBrandNewBreadcrumb } from '@/redux/slices/breadcrumb';
 import { PROFILE_TABS } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 
@@ -42,7 +40,6 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: Act
   const [loaded, setLoaded] = useState(false);
   const router = useRouter();
   const isAuthenticated = useAuth();
-  const dispatch = useAppDispatch();
   const theme = useTheme<Theme>();
   const styles = useStyles();
   const isInSearchPage = router.pathname === config.routes.search;
@@ -53,18 +50,8 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: Act
 
   const authHandler = () => {
     if (!isAuthenticated) {
-      dispatch(
-        updateBrandNewBreadcrumb({
-          item: { id: 'login', url: config.routes.login, name: 'Đăng nhập' },
-        }),
-      );
       router.push(config.routes.login);
     } else {
-      dispatch(
-        updateBrandNewBreadcrumb({
-          item: { id: 'profile', url: `/profile?tab=${PROFILE_TABS.ACCOUNT}`, name: 'Thông tin tài khoản' },
-        }),
-      );
       router.push(`${config.routes.profile}?tab=${PROFILE_TABS.ACCOUNT}`);
     }
   };

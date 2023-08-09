@@ -1,6 +1,5 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import { useRouter } from 'next/router';
 import CategoryFilter from '@/modules/filter/components';
 import { getCategories } from '@/services/categoryRequests';
 import { getProductsByCategory } from '@/services/productRequests';
@@ -8,8 +7,6 @@ import { Category } from '@/types/category';
 import { Product } from '@/types/product';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import { Container } from '@mui/material';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { updateBrandNewBreadcrumb } from '@/redux/slices/breadcrumb';
 
 interface IGetStaticProps {
   products: Product[];
@@ -17,21 +14,7 @@ interface IGetStaticProps {
 }
 
 function ProductType({ products, categoryName }: InferGetStaticPropsType<typeof getStaticProps>): ReactElement {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
   const headTitle = `Dòng sản phẩm ${categoryName} | Brother Shop`;
-
-  useEffect(() => {
-    dispatch(
-      updateBrandNewBreadcrumb({
-        item: {
-          id: `category/${router.query.categoryId}`,
-          url: `/category/${router.query.categoryId}`,
-          name: categoryName,
-        },
-      }),
-    );
-  }, [categoryName, dispatch, router.query.categoryId]);
 
   return (
     <PageContainer barTitle={categoryName} headTitle={headTitle}>

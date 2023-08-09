@@ -52,7 +52,7 @@ function AddAddressModal({ address, isVisible, onClose }: AddAddressModalProps):
               <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
                 {address ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
               </Typography>
-              <AddressForm selectedAddress={address} onClose={onClose} onSubmitForm={() => {}} />
+              <AddressForm selectedAddress={address} onClose={onClose} />
             </Box>
           </Box>
         </Fade>

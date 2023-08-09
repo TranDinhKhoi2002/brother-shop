@@ -6,12 +6,9 @@ import config from '@/config';
 import AddressList from './AddressList';
 import AddressForm from '@/modules/customer/components/AddressForm';
 import useAuth from '@/hooks/useAuth';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { add } from '@/redux/slices/breadcrumb';
 
 function OrderForm(): ReactElement {
   const isAuthenticated = useAuth();
-  const dispatch = useAppDispatch();
 
   const handleSubmitForm = (values: {
     name: string;
@@ -43,7 +40,6 @@ function OrderForm(): ReactElement {
         toNote: shippingInfor.note,
       },
     });
-    dispatch(add({ item: { id: 'checkout/payment', url: config.routes.checkoutPayment, name: 'Thanh toán' } }));
   };
 
   return (

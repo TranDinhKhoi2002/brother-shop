@@ -12,14 +12,11 @@ import LoginForm from '@/modules/auth/components/LoginForm';
 import EmptyCart from '@/modules/cart/components/EmptyCart';
 import { selectCartProducts } from '@/redux/slices/cart';
 import useAuth from '@/hooks/useAuth';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { add } from '@/redux/slices/breadcrumb';
 
 function CheckoutLoginPage(): ReactElement {
   const [loaded, setLoaded] = useState<boolean>(false);
   const cartProducts = useSelector(selectCartProducts);
   const isAuthenticated = useAuth();
-  const dispatch = useAppDispatch();
 
   const router = useRouter();
 
@@ -31,12 +28,9 @@ function CheckoutLoginPage(): ReactElement {
 
   useEffect(() => {
     setLoaded(true);
-  }, [dispatch]);
+  }, []);
 
   const handleLogin = () => {
-    dispatch(
-      add({ item: { id: 'checkout/shipping', url: config.routes.checkoutShipping, name: 'Thông tin đặt hàng' } }),
-    );
     router.push(config.routes.checkoutShipping);
   };
 

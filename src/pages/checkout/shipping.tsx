@@ -5,7 +5,6 @@ import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import CartInfor from '@/modules/cart/components/CartInfor';
 import EmptyCart from '@/modules/cart/components/EmptyCart';
 import { selectCartProducts } from '@/redux/slices/cart';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import config from '@/config';
 
 const breadcrumbs = [
@@ -16,11 +15,10 @@ const breadcrumbs = [
 function CheckoutShippingPage(): ReactElement {
   const [loaded, setLoaded] = useState(false);
   const products = useSelector(selectCartProducts);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setLoaded(true);
-  }, [dispatch]);
+  }, []);
 
   if (!loaded) {
     return <BackdropLoading isVisible={!loaded} />;

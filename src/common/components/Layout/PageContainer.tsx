@@ -1,7 +1,12 @@
 import { ReactElement } from 'react';
 import Head from 'next/head';
 import withBreadcrumbs from '@/hocs/breadcrumbs';
-import { BreadcrumbItem } from '@/redux/slices/breadcrumb';
+
+interface BreadcrumbItem {
+  id: string;
+  url: string;
+  name: string;
+}
 
 export type PageContainerProps = {
   children: ReactElement;
@@ -10,15 +15,23 @@ export type PageContainerProps = {
   breadcrumbs?: BreadcrumbItem[];
 };
 
-function PageContainer({ children, headTitle }: PageContainerProps): ReactElement {
+function PageContainer({
+  children,
+  headTitle,
+  renderBreadcrumbs,
+}: PageContainerProps & { renderBreadcrumbs: () => ReactElement }): ReactElement {
   return (
     <>
       <Head>
         <title>{headTitle} | Brother Shop</title>
       </Head>
-      {children}
+      <div className="mt-20 xl:px-[5%]">
+        <div className="flex items-center py-1 px-4 mb-2 bg-[#e9ecef]">{renderBreadcrumbs()}</div>
+        {children}
+      </div>
     </>
   );
 }
 
 export default withBreadcrumbs(PageContainer);
+// console.log(withBreadcrumbs(PageContainer).displayName);

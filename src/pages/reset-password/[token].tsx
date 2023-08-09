@@ -6,20 +6,9 @@ import * as authServices from '@/services/authRequests';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import ChangePasswordForm from '@/modules/auth/components/ChangePasswordForm';
 import { ResetTokenPayload } from '@/services/types/auth';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { updateBrandNewBreadcrumb } from '@/redux/slices/breadcrumb';
 
 function ChangePasswordPage({ isValidToken }: InferGetServerSidePropsType<typeof getServerSideProps>): ReactNode {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(
-      updateBrandNewBreadcrumb({
-        item: { id: 'resetPassword', url: `/reset-password/${router.query.token}`, name: 'Đặt lại mật khẩu' },
-      }),
-    );
-  }, [dispatch, router.query.token]);
 
   useEffect(() => {
     if (!isValidToken) {

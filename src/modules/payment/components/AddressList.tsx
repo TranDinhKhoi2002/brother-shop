@@ -8,14 +8,11 @@ import config from '@/config';
 import AddAddressModal from '@/modules/customer/components/AddAddressModal';
 import { Address } from '@/types/customer';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { add } from '@/redux/slices/breadcrumb';
 
 function AddressList(): ReactElement {
   const currentUser = useAppSelector(selectCurrentUser);
   const [selectedAddress, setSelectedAddress] = useState<Address>();
   const [showAddressFormModal, setShowAddressFormModal] = useState(false);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setSelectedAddress(currentUser?.address[0]);
@@ -58,7 +55,6 @@ function AddressList(): ReactElement {
         toNote: '',
       },
     });
-    dispatch(add({ item: { id: 'checkout/payment', url: config.routes.checkoutPayment, name: 'Thanh toán' } }));
   };
 
   const handleEditAddress = (address: Address) => {

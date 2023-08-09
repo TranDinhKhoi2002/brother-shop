@@ -45,7 +45,7 @@ function CheckoutPaymentPage(): ReactElement {
 
   useEffect(() => {
     setLoaded(true);
-  }, [dispatch]);
+  }, []);
 
   const payHandler = async (totalPrice: number) => {
     const { companyName, companyAddress, companyTaxNumber } = ref.current!.getInvoiceCompany();
