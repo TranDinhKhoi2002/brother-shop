@@ -1,10 +1,11 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { Collapse, ListItemButton, ListItemText, Slider, Typography } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { printNumberWithCommas } from '@/utils/common';
 
 type FilterPriceProps = {
+  priceRange?: number[] | null;
   onChangePriceRange: (_range: number[]) => void;
 };
 
@@ -13,10 +14,19 @@ function valuetext(value: number) {
 }
 
 const minDistance = 50000;
+const initialRange = [100000, 900000];
 
-function FilterPrice({ onChangePriceRange }: FilterPriceProps): ReactElement {
-  const [range, setRange] = useState([100000, 900000]);
+function FilterPrice({ priceRange, onChangePriceRange }: FilterPriceProps): ReactElement {
+  const [range, setRange] = useState(priceRange || initialRange);
   const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    if (priceRange) {
+      setRange(priceRange);
+    } else {
+      setRange(initialRange);
+    }
+  }, [priceRange]);
 
   const handleClick = () => {
     setOpen(!open);
@@ -59,7 +69,7 @@ function FilterPrice({ onChangePriceRange }: FilterPriceProps): ReactElement {
           disableSwap
           max={600000}
           min={100000}
-          step={50000}
+          step={minDistance}
         />
         <Typography sx={{ textAlign: 'center', fontWeight: 400 }}>
           {printNumberWithCommas(range[0])} đ - {printNumberWithCommas(range[1])} đ

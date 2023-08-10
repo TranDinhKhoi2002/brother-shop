@@ -1,23 +1,34 @@
-import Filter from '@/modules/filter/components/Filter';
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { ReactElement, useEffect, useState } from 'react';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import queryString from 'query-string';
+import Filter from '@/modules/filter/components/form';
 import Products from '../../product/components/Products';
 import { useRouter } from 'next/router';
 import { getProductsByFilters } from '@/services/productRequests';
 import { printNumberWithCommas } from '@/utils/common';
-import FilterTag from './FilterTag';
-import RemoveAllButton from './RemoveAllButton';
+import FilterTag from './tags';
+import RemoveAll from './tags/RemoveAll';
 import TuneIcon from '@mui/icons-material/Tune';
 import useResponsive from '@/hooks/useResponsive';
-import FilterDrawer from './FilterDrawer';
-import FilterSort from './FilterSort';
+import FilterDrawer from './drawer';
+import FilterSort from './sort';
 import { Product } from '@/types/product';
 import ProductsSkeleton from '@/common/components/Skeleton/Products';
+import useDrawer from '@/hooks/useDrawer';
+import { uniqBy } from 'lodash';
 
 type CategoryFilterProps = {
   loadedProducts: Product[];
   categoryName: string;
 };
+
+interface FilterQuery {
+  types?: string[];
+  priceFrom?: number;
+  priceTo?: number;
+  materials?: string[];
+  textures?: string[];
+}
 
 function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): ReactElement {
   const [products, setProducts] = useState(loadedProducts);
@@ -25,28 +36,63 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
   const [priceRange, setPriceRange] = useState<number[] | null>();
   const [materials, setMaterials] = useState<string[]>([]);
   const [textures, setTextures] = useState<string[]>([]);
-  const [filterIsVisible, setFilterIsVisible] = useState(false);
-
   const router = useRouter();
-
   const isDesktop = useResponsive('up', 'lg');
+  const { render: renderFilterDrawer, onOpen: handleOpenFilterDrawer } = useDrawer(FilterDrawer);
 
   useEffect(() => {
-    setProducts(loadedProducts);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.categoryId]);
+    const existingTypeFilters = (router.query.types as string)?.split(',');
+    const existingMaterialFilters = (router.query.materials as string)?.split(',');
+    const existingTextureFilters = (router.query.textures as string)?.split(',');
+    const existingPriceRangeFrom = router.query.priceFrom ? +router.query.priceFrom : null;
+    const existingPriceRangeTo = router.query.priceTo ? +router.query.priceTo : null;
+    if (existingPriceRangeFrom && existingPriceRangeTo) {
+      setPriceRange([existingPriceRangeFrom, existingPriceRangeTo]);
+    } else {
+      setPriceRange(null);
+    }
+
+    setSelectedTypes(uniqBy([...(existingTypeFilters || []), categoryName], (value) => value) || []);
+    setMaterials(existingMaterialFilters || []);
+    setTextures(existingTextureFilters || []);
+  }, [
+    router.query.types,
+    router.query.materials,
+    router.query.textures,
+    router.query.priceFrom,
+    router.query.priceTo,
+    categoryName,
+  ]);
 
   useEffect(() => {
-    const existingTypeFilters = router.query.types === undefined ? [] : (router.query.types as string)?.split(',');
-    const existingMaterialFilters =
-      router.query.materials === undefined ? [] : (router.query.materials as string)?.split(',');
-    const existingTextureFilters =
-      router.query.textures === undefined ? [] : (router.query.textures as string)?.split(',');
+    const fetchProducts = async () => {
+      const { products } = await getProductsByFilters(
+        router.query.categoryId as string,
+        router.query.types ? (router.query.types as string) : null,
+        router.query.priceFrom ? +router.query.priceFrom : null,
+        router.query.priceTo ? +router.query.priceTo : null,
+        router.query.materials ? (router.query.materials as string) : null,
+        router.query.textures ? (router.query.textures as string) : null,
+      );
 
-    setSelectedTypes(existingTypeFilters);
-    setMaterials(existingMaterialFilters);
-    setTextures(existingTextureFilters);
-  }, [router.query.types, router.query.materials, router.query.textures]);
+      if (products === null) {
+        setProducts(loadedProducts);
+        return;
+      }
+
+      setProducts(products);
+    };
+
+    fetchProducts();
+  }, [
+    loadedProducts,
+    router.query.categoryId,
+    router.query.materials,
+    router.query.priceFrom,
+    router.query.priceTo,
+    router.query.textures,
+    router.query.types,
+  ]);
 
   const handleSelectTypeFilters = async (filter: string) => {
     let updatedTypeFilters = [...selectedTypes];
@@ -70,7 +116,7 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
 
   const handleRemoveAllFilters = () => {
     setSelectedTypes([]);
-    setPriceRange(null);
+    setPriceRange(undefined);
     setMaterials([]);
     setTextures([]);
     setProducts(loadedProducts);
@@ -148,31 +194,52 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
     setProducts(sortedProducts);
   };
 
+  const handleRenderFilterDrawer = () => {
+    const drawerChildren = (
+      <Filter
+        onFilter={handleSelectTypeFilters}
+        onChangePriceRange={handleRangeChange}
+        onChangeMaterial={handleSelectMaterialFilters}
+        selectedFilters={selectedTypes}
+        selectedMaterials={materials}
+        selectedTextures={textures}
+        priceRange={priceRange}
+        onChangeTexture={handleSelectTextureFilters}
+      />
+    );
+    return renderFilterDrawer(drawerChildren);
+  };
+
   const getProducts = async (
     types: string[],
     priceRange?: number[] | null,
     materials?: string[],
     textures?: string[],
   ) => {
-    let path = `/category/${router.query.categoryId}?`;
+    const filterQuery: FilterQuery = {};
 
     if (types.length > 0) {
-      path = path.concat(`types=${types.join(',')}&`);
+      filterQuery.types = types;
     }
 
     if (priceRange) {
-      path = path.concat(`priceFrom=${priceRange[0]}&priceTo=${priceRange[1]}&`);
+      filterQuery.priceFrom = priceRange[0];
+      filterQuery.priceTo = priceRange[1];
     }
 
     if (materials && materials.length > 0) {
-      path = path.concat(`materials=${materials.join(',')}&`);
+      filterQuery.materials = materials;
     }
 
     if (textures && textures.length > 0) {
-      path = path.concat(`textures=${textures.join(',')}`);
+      filterQuery.textures = textures;
     }
 
-    router.replace(path);
+    const query = queryString.stringify(filterQuery, {
+      arrayFormat: 'comma',
+      encode: false,
+    });
+    router.replace(`/category/${router.query.categoryId}?${query}`);
 
     const { products } = await getProductsByFilters(
       router.query.categoryId as string,
@@ -206,10 +273,11 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
               selectedFilters={selectedTypes}
               selectedMaterials={materials}
               selectedTextures={textures}
+              priceRange={priceRange}
               onChangeTexture={handleSelectTextureFilters}
             />
           ) : (
-            <Button sx={{ fontSize: 20 }} onClick={() => setFilterIsVisible(true)}>
+            <Button sx={{ fontSize: 20 }} onClick={handleOpenFilterDrawer}>
               Bộ lọc <TuneIcon sx={{ ml: 1 }} />
             </Button>
           )}
@@ -259,7 +327,7 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
 
               {(selectedTypes.length > 0 || priceRange || materials.length > 0 || textures.length > 0) && (
                 <Grid item>
-                  <RemoveAllButton onClick={handleRemoveAllFilters} />
+                  <RemoveAll onClick={handleRemoveAllFilters} />
                 </Grid>
               )}
             </Grid>
@@ -276,17 +344,7 @@ function CategoryFilter({ loadedProducts, categoryName }: CategoryFilterProps): 
           </Grid>
         )}
       </Grid>
-      <FilterDrawer isVisible={filterIsVisible} onClose={() => setFilterIsVisible(false)}>
-        <Filter
-          onFilter={handleSelectTypeFilters}
-          onChangePriceRange={handleRangeChange}
-          onChangeMaterial={handleSelectMaterialFilters}
-          selectedFilters={selectedTypes}
-          selectedMaterials={materials}
-          selectedTextures={textures}
-          onChangeTexture={handleSelectTextureFilters}
-        />
-      </FilterDrawer>
+      {handleRenderFilterDrawer()}
     </Box>
   );
 }

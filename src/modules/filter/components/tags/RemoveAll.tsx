@@ -1,11 +1,11 @@
 import { Button } from '@mui/material';
 import { ReactElement } from 'react';
 
-type RemoveAllButtonProps = {
+type RemoveAllProps = {
   onClick: () => void;
 };
 
-function RemoveAllButton({ onClick }: RemoveAllButtonProps): ReactElement {
+function RemoveAll({ onClick }: RemoveAllProps): ReactElement {
   return (
     <Button
       sx={{
@@ -24,4 +24,4 @@ function RemoveAllButton({ onClick }: RemoveAllButtonProps): ReactElement {
   );
 }
 
-export default RemoveAllButton;
+export default RemoveAll;

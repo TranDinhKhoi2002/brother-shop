@@ -1,9 +1,10 @@
 // import CartDrawer from '@/modules/cart/components/CartDrawer';
-import { ReactElement, useState } from 'react';
+import { ReactElement, ReactNode, useState } from 'react';
 
 interface DrawerProps {
   isVisible: boolean;
   onClose: () => void;
+  children?: ReactNode;
 }
 
 type DrawerComponent = (_props: DrawerProps) => ReactElement;
@@ -19,8 +20,12 @@ export default function useDrawer(Drawer: DrawerComponent) {
     setIsOpen(false);
   };
 
-  const render = () => {
-    return <Drawer isVisible={isOpen} onClose={handleCloseDrawer} />;
+  const render = (drawerChildren?: ReactNode) => {
+    return (
+      <Drawer isVisible={isOpen} onClose={handleCloseDrawer}>
+        {drawerChildren}
+      </Drawer>
+    );
   };
 
   return {

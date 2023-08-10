@@ -6,7 +6,7 @@ import { ReactElement, ReactNode } from 'react';
 type FilterDrawerProps = {
   isVisible: boolean;
   onClose?: () => void;
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 function FilterDrawer({ isVisible, onClose, children }: FilterDrawerProps): ReactElement {

@@ -1,9 +1,9 @@
 import { Box, List, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
-import FilterProductTypes from './FilterProductTypes';
-import FilterPrice from './FilterPrice';
-import FilterMaterial from './FilterMaterial';
-import FilterTextures from './FilterTextures';
+import FilterProductTypes from '../categories';
+import FilterPrice from '../prices';
+import FilterMaterial from '../materials';
+import FilterTextures from '../textures';
 import useResponsive from '@/hooks/useResponsive';
 import { ReactElement } from 'react';
 
@@ -11,6 +11,7 @@ type FilterProps = {
   selectedFilters: string[];
   selectedMaterials: string[];
   selectedTextures: string[];
+  priceRange?: number[] | null;
   onFilter: (_type: string) => void;
   onChangePriceRange: (_range: number[]) => void;
   onChangeMaterial: (_material: string) => void;
@@ -21,6 +22,7 @@ function Filter({
   selectedFilters,
   selectedMaterials,
   selectedTextures,
+  priceRange,
   onFilter,
   onChangePriceRange,
   onChangeMaterial,
@@ -37,7 +39,7 @@ function Filter({
       )}
       <List sx={{ width: '100%', bgcolor: 'background.paper' }} component="nav" aria-labelledby="nested-list-subheader">
         <FilterProductTypes onFilter={onFilter} selectedFilters={selectedFilters} />
-        <FilterPrice onChangePriceRange={onChangePriceRange} />
+        <FilterPrice priceRange={priceRange} onChangePriceRange={onChangePriceRange} />
         <FilterMaterial selectedMaterials={selectedMaterials} onChangeMaterial={onChangeMaterial} />
         <FilterTextures selectedTextures={selectedTextures} onChangeTexture={onChangeTexture} />
       </List>
