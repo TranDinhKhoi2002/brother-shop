@@ -1,7 +1,7 @@
 import { MouseEventHandler, ReactElement, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import SearchInput from './SearchInput';
+import SearchInput from './Search';
 import MainNavigation from './MainNavigation';
 import Actions from './Actions';
 import config from '@/config';
@@ -9,10 +9,12 @@ import { Box, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { appAssets } from '@/common/assets';
 import BackdropLoading from '../Loading/BackdropLoading';
+import { InstantSearch } from 'react-instantsearch';
+import { searchClient } from '@/utils/lib/algolia';
 
 const useStyles = makeStyles((theme: Theme) => ({
   header: {
-    position: 'fixed',
+    position: 'relative',
     left: 0,
     right: 0,
     top: 0,
@@ -42,20 +44,24 @@ const Header = ({ showSideBar, showCartPreview, showWishlist }: HeaderProps): Re
     setLoaded(true);
   }, []);
 
+  const openSearchHandler = () => {
+    setSearchMode(true);
+  };
+
+  const closeSearchHandler = () => {
+    setSearchMode(false);
+  };
+
   if (!loaded) {
     return <BackdropLoading isVisible={!loaded} />;
   }
 
-  function openSearchHandler() {
-    setSearchMode(true);
-  }
-
-  function closeSearchHandler() {
-    setSearchMode(false);
-  }
-
   if (searchMode) {
-    return <SearchInput className={styles.header} closeSearch={closeSearchHandler} />;
+    return (
+      <InstantSearch searchClient={searchClient} indexName="product" stalledSearchDelay={500}>
+        <SearchInput className={styles.header} closeSearch={closeSearchHandler} />
+      </InstantSearch>
+    );
   }
 
   return (

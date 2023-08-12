@@ -25,7 +25,7 @@ function PageContainer({
       <Head>
         <title>{headTitle} | Brother Shop</title>
       </Head>
-      <div className="mt-20 xl:px-[5%]">
+      <div className="xl:px-[5%]">
         <div className="flex items-center py-1 px-4 mb-2 bg-[#e9ecef]">{renderBreadcrumbs()}</div>
         {children}
       </div>

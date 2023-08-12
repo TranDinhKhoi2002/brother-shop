@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { LightgalleryProvider, LightgalleryItem } from 'react-lightgallery';
 import BackdropLoading from '../Loading/BackdropLoading';
-import { cld } from '@/utils/cloudinary';
+import { cld } from '@/utils/lib/cloudinary';
 import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 
 type IntroProps = {

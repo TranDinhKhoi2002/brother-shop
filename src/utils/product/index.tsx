@@ -1,5 +1,7 @@
+import { Box, Typography } from '@mui/material';
 import { AppSizes, SIZES } from '@/constants';
 import { ProductSize } from '@/types/product';
+import { printNumberWithCommas } from '../common';
 
 export const getRemainingQuantity = (productSizes: ProductSize[], selectedSize: string) => {
   const sizeItem = productSizes.find((size) => size.name === selectedSize);
@@ -26,4 +28,25 @@ export const isSoldOutForAllSizes = (productSizes: ProductSize[]) => {
     }
   });
   return isSoldOut;
+};
+
+export const renderPrice = (product: any) => {
+  if (product.oldPrice) {
+    return (
+      <Box sx={{ fontSize: { xs: '12px', md: '13px' }, fontWeight: 'bold' }}>
+        <strong className="line-through">{printNumberWithCommas(product.oldPrice)}đ</strong>
+        <strong className="ml-1 text-[#ff0000]">{printNumberWithCommas(product.price)}đ</strong>
+      </Box>
+    );
+  }
+
+  return (
+    <Typography sx={{ fontSize: { xs: '12px', md: '13px' }, fontWeight: 'bold' }}>
+      {printNumberWithCommas(product.price)}đ
+    </Typography>
+  );
+};
+
+export const mapProductsToView = (products: any[]) => {
+  return products.map((product) => ({ ...product, _id: product._id.$oid }));
 };

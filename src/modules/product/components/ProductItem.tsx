@@ -7,7 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 import { printNumberWithCommas } from '@/utils/common';
 import { Product } from '@/types/product';
-import { cld } from '@/utils/cloudinary';
+import { cld } from '@/utils/lib/cloudinary';
 import useAuth from '@/hooks/useAuth';
 import useLoginModal from '@/hooks/useLoginModal';
 import { useTheme } from '@mui/styles';

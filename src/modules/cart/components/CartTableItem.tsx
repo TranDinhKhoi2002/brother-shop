@@ -7,7 +7,7 @@ import { printNumberWithCommas } from '@/utils/common';
 import Link from 'next/link';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';
-import { cld } from '@/utils/cloudinary';
+import { cld } from '@/utils/lib/cloudinary';
 import useCart from '@/hooks/useCart';
 
 type CartTableItemProps = {

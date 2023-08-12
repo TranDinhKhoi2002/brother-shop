@@ -10,7 +10,7 @@ import { useTheme } from '@mui/styles';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';
-import { cld } from '@/utils/cloudinary';
+import { cld } from '@/utils/lib/cloudinary';
 import { printNumberWithCommas } from '@/utils/common';
 import useCart from '@/hooks/useCart';
 

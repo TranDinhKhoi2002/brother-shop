@@ -10,7 +10,7 @@ import Button from '@/common/components/Buttons/Button';
 import { selectCartProducts } from '@/redux/slices/cart';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { Product } from '@/types/product';
-import { cld } from '@/utils/cloudinary';
+import { cld } from '@/utils/lib/cloudinary';
 import useCart from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
 

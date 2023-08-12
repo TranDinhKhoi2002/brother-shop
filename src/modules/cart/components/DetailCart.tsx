@@ -9,7 +9,7 @@ import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { Product } from '@/types/product';
 import { CartItem } from '@/types/customer';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { cld } from '@/utils/cloudinary';
+import { cld } from '@/utils/lib/cloudinary';
 import useCart from '@/hooks/useCart';
 
 function DetailCart(): ReactElement {
