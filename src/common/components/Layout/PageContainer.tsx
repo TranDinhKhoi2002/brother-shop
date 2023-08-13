@@ -34,4 +34,3 @@ function PageContainer({
 }
 
 export default withBreadcrumbs(PageContainer);
-// console.log(withBreadcrumbs(PageContainer).displayName);

@@ -1,4 +1,6 @@
+import { searchClient } from '@/utils/lib/algolia';
 import { FormEvent, RefObject } from 'react';
+import { Autocomplete } from './AutocompleteSearch';
 
 type SearchFormProps = {
   inputRef: RefObject<HTMLInputElement>;
@@ -8,8 +10,8 @@ type SearchFormProps = {
 
 function SearchForm({ inputRef, keyword, onSearch }: SearchFormProps) {
   return (
-    <div className="mt-3 px-4 xl:px-0">
-      <form className="grid grid-cols-6 gap-2 xsm:gap-2" onSubmit={onSearch}>
+    <div className="mt-3">
+      {/* <form className="grid grid-cols-6 gap-2 xsm:gap-2" onSubmit={onSearch}>
         <input
           ref={inputRef}
           defaultValue={keyword}
@@ -24,7 +26,13 @@ function SearchForm({ inputRef, keyword, onSearch }: SearchFormProps) {
         >
           TÌM
         </button>
-      </form>
+      </form> */}
+      <Autocomplete
+        searchClient={searchClient}
+        placeholder="Nhập từ khóa tìm kiếm"
+        detachedMediaQuery="none"
+        openOnFocus
+      />
     </div>
   );
 }

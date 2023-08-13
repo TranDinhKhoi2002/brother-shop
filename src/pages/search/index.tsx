@@ -12,6 +12,7 @@ import SearchResults from '@/modules/search/SearchResults';
 import SearchForm from '@/modules/search/SearchForm';
 import index from '@/utils/lib/algolia';
 import { mapProductsToView } from '@/utils/product';
+import { Container } from '@mui/material';
 
 interface IGetStaticProps {
   products: Product[];
@@ -55,10 +56,6 @@ function SearchPage({
     fetchProducts();
   }, [router.query.keyword, router.query.page]);
 
-  const handlePageChange = async (_: any, page: number) => {
-    router.replace({ pathname: config.routes.search, query: { keyword: searchInputRef!.current!.value, page } });
-  };
-
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.replace({ pathname: config.routes.search, query: { keyword: searchInputRef!.current!.value } });
@@ -71,22 +68,20 @@ function SearchPage({
 
   return (
     <PageContainer barTitle="Tìm kiếm sản phẩm" headTitle="Tìm kiếm sản phẩm">
-      <>
+      <Container maxWidth={false}>
         <SearchForm inputRef={searchInputRef} keyword={keyword} onSearch={handleSearch} />
         {loading ? (
           <ProductsSkeleton />
         ) : (
           <SearchResults
             products={products}
-            inputRef={searchInputRef}
             keyword={keyword}
             maxPage={maxPage}
             page={page}
             onSelectTag={handleSelectTag}
-            onPageChange={handlePageChange}
           />
         )}
-      </>
+      </Container>
     </PageContainer>
   );
 }

@@ -49,7 +49,7 @@ function SearchInput({ className, closeSearch }: SearchInputProps): ReactElement
             Đóng
           </Typography>
           {hits.length > 0 ? (
-            <Box className="h-[65vh] overflow-y-scroll">
+            <Box className="max-h-[65vh] overflow-y-scroll">
               <Hits hitComponent={({ hit }) => <CustomHit hit={hit} onSelect={closeSearch} />} className="px-8" />
 
               {query && (

@@ -51,9 +51,10 @@ export default React.forwardRef<NumberBoxRef, NumberBoxProps>(function NumberBox
     <Stack
       direction="row"
       alignItems="center"
-      justifyContent="space-between"
+      justifyContent="center"
       sx={{
-        width: '150px',
+        minWidth: '100px',
+        maxWidth: '150px',
         height: '50px',
         border: '1px solid #ccc',
         borderRadius: '5px',

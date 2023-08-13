@@ -14,19 +14,20 @@ import { useAppDispatch } from './useAppDispatch';
 import useAuth from './useAuth';
 import { Product } from '@/types/product';
 import { CartItem } from '@/types/customer';
+import { AutocompleteQuerySuggestionsHit } from '@algolia/autocomplete-plugin-query-suggestions/dist/esm/types';
 
 export default function useCart() {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAuth();
 
-  const handleAddToCart = (product: Product, size: string, quantity: number) => {
+  const handleAddToCart = (product: Product | AutocompleteQuerySuggestionsHit, size: string, quantity: number) => {
     if (!isAuthenticated) {
       dispatch(addToCart({ productId: product, size, quantity, _id: uuidv4() }));
       toast.success('Đã thêm vào giỏ hàng');
       return;
     }
 
-    dispatch(fetchAddToCart({ productId: product._id, size, quantity }));
+    dispatch(fetchAddToCart({ productId: product._id.toString(), size, quantity }));
   };
 
   const handleRemoveOneFromCart = async (productId: string, size: string, callback: () => void) => {

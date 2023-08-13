@@ -120,7 +120,7 @@ function ProductInfor({ product }: ProductInforProps): ReactElement {
             />
 
             <Typography sx={{ fontWeight: 400, mt: 3, mb: 2 }}>Chọn số lượng:</Typography>
-            <Stack direction="row" alignItems="center" spacing={3}>
+            <Stack direction="row" alignItems="center" spacing={2}>
               <NumberBox
                 min={1}
                 max={currentSize ? (getRemainingQuantity(product.sizes, currentSize.name) as number) : 100}
