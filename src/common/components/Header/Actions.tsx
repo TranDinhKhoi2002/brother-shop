@@ -1,5 +1,5 @@
+import { MouseEventHandler, ReactElement } from 'react';
 import { Badge, Button, IconButton, Stack, Theme, Tooltip } from '@mui/material';
-import BackdropLoading from '../Loading/BackdropLoading';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
@@ -7,7 +7,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import config from '@/config';
 import { useRouter } from 'next/router';
-import { MouseEventHandler, ReactElement, useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@mui/styles';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
@@ -37,16 +36,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: ActionsProps): ReactElement {
   const cartProducts = useAppSelector(selectCartProducts);
   const wishlistProducts = useAppSelector(selectWishlistProducts);
-  const [loaded, setLoaded] = useState(false);
   const router = useRouter();
   const isAuthenticated = useAuth();
   const theme = useTheme<Theme>();
   const styles = useStyles();
   const isInSearchPage = router.pathname === config.routes.search;
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
 
   const authHandler = () => {
     if (!isAuthenticated) {
@@ -55,10 +49,6 @@ function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: Act
       router.push(`${config.routes.profile}?tab=${PROFILE_TABS.ACCOUNT}`);
     }
   };
-
-  if (!loaded) {
-    return <BackdropLoading isVisible={!loaded} />;
-  }
 
   return (
     <Stack direction="row" alignItems="center" spacing={3}>
