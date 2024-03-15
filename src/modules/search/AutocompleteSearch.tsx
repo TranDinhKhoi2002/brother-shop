@@ -7,6 +7,7 @@ import type { Render } from '@algolia/autocomplete-js';
 import { BaseItem } from '@algolia/autocomplete-core';
 import type { SearchClient } from 'algoliasearch/lite';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import '@algolia/autocomplete-theme-classic';
 import { useRouter } from 'next/router';
 import config from '@/config';
@@ -21,6 +22,7 @@ type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
 
 type SetInstantSearchUiStateOptions = {
   query: string;
+  category?: string;
 };
 
 export function Autocomplete({ className, searchClient, ...autocompleteProps }: AutocompleteProps) {
@@ -30,6 +32,7 @@ export function Autocomplete({ className, searchClient, ...autocompleteProps }: 
   const router = useRouter();
   const [instantSearchUiState, setInstantSearchUiState] = useState<SetInstantSearchUiStateOptions>({
     query,
+    category: '',
   });
   const { handleAddToCart } = useCart();
 
@@ -48,6 +51,7 @@ export function Autocomplete({ className, searchClient, ...autocompleteProps }: 
           onSelect({ item }) {
             setInstantSearchUiState({
               query: item.name.toString(),
+              category: item.__autocomplete_qsCategory,
             });
             router.replace({ pathname: config.routes.search, query: { keyword: item.name.toString() } });
           },
@@ -82,7 +86,15 @@ export function Autocomplete({ className, searchClient, ...autocompleteProps }: 
                         {components.Highlight({
                           hit: item,
                           attribute: 'name',
-                        })}
+                        })}{' '}
+                        -{' '}
+                        <i>
+                          {components.Highlight({
+                            hit: item,
+                            attribute: 'category',
+                            tagName: 'strong',
+                          })}
+                        </i>
                       </div>
                     </div>
                     <div className="aa-ItemActions">
@@ -111,7 +123,38 @@ export function Autocomplete({ className, searchClient, ...autocompleteProps }: 
       },
     });
 
-    return [querySuggestionsPlugin];
+    const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+      key: 'RECENT_SEARCH',
+      limit: 5,
+      transformSource({ source }) {
+        return {
+          ...source,
+          onSelect({ item }) {
+            setInstantSearchUiState({
+              query: item.label,
+            });
+            router.replace({ pathname: config.routes.search, query: { keyword: item.label } });
+          },
+          templates: {
+            ...source.templates,
+            header({ items }) {
+              if (items.length === 0) {
+                return <Fragment />;
+              }
+
+              return (
+                <Fragment>
+                  <span className="aa-SourceHeaderTitle">Tìm kiếm gần đây</span>
+                  <div className="aa-SourceHeaderLine" />
+                </Fragment>
+              );
+            },
+          },
+        };
+      },
+    });
+
+    return [querySuggestionsPlugin, recentSearchesPlugin];
   }, [handleAddToCart, router, searchClient]);
 
   useEffect(() => {

@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import { getProductsByKeyword } from '@/services/productRequests';
-import { FormEvent, ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { Product } from '@/types/product';
@@ -56,20 +56,17 @@ function SearchPage({
     fetchProducts();
   }, [router.query.keyword, router.query.page]);
 
-  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.replace({ pathname: config.routes.search, query: { keyword: searchInputRef!.current!.value } });
-  };
-
   const handleSelectTag = async (tag: string) => {
-    searchInputRef!.current!.value = tag;
+    if (searchInputRef?.current) {
+      searchInputRef!.current!.value = tag;
+    }
     router.replace({ pathname: config.routes.search, query: { keyword: tag } });
   };
 
   return (
     <PageContainer barTitle="Tìm kiếm sản phẩm" headTitle="Tìm kiếm sản phẩm">
       <Container maxWidth={false}>
-        <SearchForm inputRef={searchInputRef} keyword={keyword} onSearch={handleSearch} />
+        <SearchForm />
         {loading ? (
           <ProductsSkeleton />
         ) : (
