@@ -1,11 +1,12 @@
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import FormProvider from '@/common/components/Form/FormProvider';
 import { checkValidVietNamPhoneNumber } from '@/utils/common';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import RHFAutocomplete from '@/common/components/Form/RHFAutocomplete';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
@@ -13,6 +14,7 @@ import { fetchAddAddress, fetchEditAddress, selectCurrentUser } from '@/redux/sl
 import { Address } from '@/types/customer';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { AddressPayload } from '@/services/types/customer';
+import { getDistricts, getProvinces, getWards } from '@/services/address';
 
 type AddressFormProps = {
   selectedAddress?: Address;
@@ -28,52 +30,59 @@ type AddressFormProps = {
   }) => void;
 };
 
-interface ProvincesData {
-  name: string;
-  districts: District[];
-}
-
-interface District {
-  name: string;
-  wards: {
-    name: string;
-  }[];
-}
-
-let addressesDataSource: ProvincesData[];
-let city: ProvincesData;
-
 function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProps): ReactElement {
   const [cities, setCities] = useState<string[]>([]);
   const [districts, setDistricts] = useState<string[]>([]);
   const [wards, setWards] = useState<string[]>([]);
 
-  const isEditMode = selectedAddress ? true : false;
-  const dispatch = useAppDispatch();
-  const currentUser = useSelector(selectCurrentUser);
+  const { data: citiesData } = useQuery({
+    queryKey: ['vn_provinces'],
+    queryFn: getProvinces,
+  });
 
-  const getProvinceData = useCallback(async () => {
-    const response = await fetch('https://provinces.open-api.vn/api/?depth=3');
-    const data: ProvincesData[] = await response.json();
-    addressesDataSource = data;
-    const formattedCities = data.map((item) => item.name);
-    setCities(formattedCities);
+  const { mutate: fetchDistricts, data: districtsData } = useMutation({
+    mutationFn: getDistricts,
+    onSuccess: (data) => {
+      if (!data) return;
+      const districtNames = data.results.map((district: { district_name: string }) => district.district_name);
+      setDistricts(districtNames);
+    },
+  });
 
-    if (isEditMode) {
-      const selectedCity = addressesDataSource.find((city) => city.name === selectedAddress?.city);
-      city = selectedCity!;
-      const formattedDistricts = selectedCity!.districts.map((district) => district.name);
-      setDistricts(formattedDistricts);
+  const { mutate: fetchWards } = useMutation({
+    mutationFn: getWards,
+    onSuccess: (data) => {
+      if (!data) return;
+      const wardNames = data.results.map((ward: { ward_name: string }) => ward.ward_name);
+      setWards(wardNames);
+    },
+  });
 
-      const selectedDistrict = city.districts.find((district) => district.name === selectedAddress?.district);
-      const formattedWards = selectedDistrict?.wards.map((ward) => ward.name);
-      setWards(formattedWards || []);
-    }
-  }, [isEditMode, selectedAddress]);
+  const { mutate: addAddress } = useMutation({
+    mutationFn: (address: AddressPayload) => dispatch(fetchAddAddress(address)).unwrap(),
+    onSuccess: (data) => {
+      const { message } = data;
+      toast.success(message);
+    },
+  });
+
+  const { mutate: updateAddress } = useMutation({
+    mutationFn: (updatedAddress: AddressPayload) => dispatch(fetchEditAddress(updatedAddress)).unwrap(),
+    onSuccess: (data) => {
+      const { message } = data;
+      toast.success(message);
+    },
+  });
 
   useEffect(() => {
-    getProvinceData();
-  }, [getProvinceData]);
+    if (!citiesData) return;
+    const cityNames = citiesData.results.map((province: { province_name: string }) => province.province_name);
+    setCities(cityNames);
+  }, [citiesData]);
+
+  const dispatch = useAppDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+  const isEditMode = !!selectedAddress;
 
   const AddAddressSchema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập họ tên'),
@@ -111,24 +120,6 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
     formState: { isSubmitting },
   } = methods;
 
-  const handleAddAddress = async (address: AddressPayload) => {
-    const { success, message } = await dispatch(fetchAddAddress(address)).unwrap();
-    if (success) {
-      toast.success(message);
-    } else {
-      toast.error(message);
-    }
-  };
-
-  const handleEditAddress = async (updatedAddress: AddressPayload) => {
-    const { success, message } = await dispatch(fetchEditAddress(updatedAddress)).unwrap();
-    if (success) {
-      toast.success(message);
-    } else {
-      toast.error(message);
-    }
-  };
-
   const onSubmit = async (values: {
     name: string;
     email: string;
@@ -143,7 +134,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
       return;
     }
 
-    onClose && onClose();
+    onClose?.();
     const { name, phone, address, cities, districts, wards } = values;
     const enteredAddress = {
       name,
@@ -155,9 +146,9 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
     };
 
     if (selectedAddress) {
-      await handleEditAddress({ ...enteredAddress, _id: selectedAddress._id });
+      updateAddress({ ...enteredAddress, _id: selectedAddress._id });
     } else {
-      await handleAddAddress(enteredAddress);
+      addAddress(enteredAddress);
     }
   };
 
@@ -165,22 +156,23 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
     resetField('districts', { defaultValue: '' });
     resetField('wards', { defaultValue: '' });
 
+    if (!citiesData) return;
     const selectedCityName = getValues('cities');
-    const selectedCity = addressesDataSource.find((city) => city.name === selectedCityName);
-    city = selectedCity!;
-    const formattedDistricts = selectedCity?.districts.map((district: { name: any }) => district.name);
-    setDistricts(formattedDistricts || []);
+    const selectedCity = citiesData.results.find(
+      (province: { province_name: string }) => province.province_name === selectedCityName,
+    );
+    fetchDistricts(selectedCity?.province_id);
   };
 
   const handleChangeDistrict = async () => {
     resetField('wards', { defaultValue: '' });
 
+    if (!districtsData) return;
     const selectedDistrictName = getValues('districts');
-    const selectedDistrict = city.districts.find(
-      (district: { name: string }) => district.name === selectedDistrictName,
+    const selectedDistrict = districtsData.results.find(
+      (district: { district_name: string }) => district.district_name === selectedDistrictName,
     );
-    const formattedWards = selectedDistrict?.wards.map((ward: { name: any }) => ward.name);
-    setWards(formattedWards || []);
+    fetchWards(selectedDistrict?.district_id);
   };
 
   return (
@@ -194,7 +186,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
         label="Tỉnh/Thành phố (*)"
         options={cities || []}
         getOptionLabel={(option: string) => option}
-        isOptionEqualToValue={(option: any, value: any) => option === value}
+        isOptionEqualToValue={(option: string, value: string) => option === value}
         sx={{ mt: 4, mb: 2 }}
         onChangeValue={handleChangeCity}
       />
@@ -203,8 +195,8 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
         name="districts"
         label="Quận/Huyện (*)"
         options={districts}
-        getOptionLabel={(option: any) => option}
-        isOptionEqualToValue={(option: any, value: any) => option === value}
+        getOptionLabel={(option: string) => option}
+        isOptionEqualToValue={(option: string, value: string) => option === value}
         sx={{ mt: 4, mb: 2 }}
         onChangeValue={handleChangeDistrict}
       />
@@ -213,8 +205,8 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
         name="wards"
         label="Phường/Xã (*)"
         options={wards}
-        getOptionLabel={(option: any) => option}
-        isOptionEqualToValue={(option: any, value: any) => option === value}
+        getOptionLabel={(option: string) => option}
+        isOptionEqualToValue={(option: string, value: string) => option === value}
         sx={{ mt: 4, mb: 2 }}
       />
 
