@@ -2,11 +2,12 @@ import WishlistDrawer from '@/modules/wishlist/components/WishlistDrawer';
 import { fetchCommonData } from '@/redux/slices/data';
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Call';
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 import Footer from '../Footer/Footer';
 import Header from '../Header/index';
 import Sidebar from './Sidebar/index';
+import BackdropLoading from '../Loading/BackdropLoading';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import useDrawer from '@/hooks/useDrawer';
 import CartDrawer from '@/modules/cart/components/CartDrawer';
@@ -19,11 +20,21 @@ function Layout(props: LayoutProps): ReactElement {
   const { render: renderCartDrawer, onOpen: onOpenCartDrawer } = useDrawer(CartDrawer);
   const { render: renderSidebar, onOpen: onOpenSidebar } = useDrawer(Sidebar);
   const { render: renderWishlistDrawer, onOpen: onOpenWishlistDrawer } = useDrawer(WishlistDrawer);
+
+  const [loaded, setLoaded] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCommonData());
   }, [dispatch]);
+
+  if (!loaded) {
+    return <BackdropLoading isVisible={!loaded} />;
+  }
 
   return (
     <Box sx={{ position: 'relative' }}>

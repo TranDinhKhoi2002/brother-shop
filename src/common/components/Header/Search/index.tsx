@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { isEmpty } from 'lodash';
@@ -6,9 +6,10 @@ import { Hits, SearchBox, useHits, useSearchBox } from 'react-instantsearch';
 import { Box, Card, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import CustomHit from './Hit';
-import config from '@/config';
+import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import NoSearchResult from '@/modules/search/NoSearchResult';
+import config from '@/config';
+import CustomHit from './Hit';
 
 type SearchInputProps = {
   className: string;
@@ -16,15 +17,22 @@ type SearchInputProps = {
 };
 
 function SearchInput({ className, closeSearch }: SearchInputProps): ReactElement {
+  const [loading, setLoading] = useState(false);
   const { query } = useSearchBox();
   const { hits } = useHits();
   const router = useRouter();
 
+  useEffect(() => {
+    if (router.pathname === config.routes.search) {
+      setLoading(false);
+      closeSearch();
+    }
+  }, [router.pathname, closeSearch]);
+
   const handleSearchSubmit = () => {
     if (isEmpty(query)) return;
-
     router.push({ pathname: config.routes.search, query: { keyword: query } });
-    closeSearch();
+    setLoading(true);
   };
 
   return (
@@ -68,6 +76,7 @@ function SearchInput({ className, closeSearch }: SearchInputProps): ReactElement
           )}
         </Card>
       </Box>
+      <BackdropLoading isVisible={loading} />
     </>
   );
 }
