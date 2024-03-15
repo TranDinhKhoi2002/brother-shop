@@ -1,4 +1,4 @@
-import { MOST_SEARCHED } from '@/constants';
+import { MOST_SEARCHED } from '@/utils/constants';
 import { Product } from '@/types/product';
 import { Box, Button, Grid, Pagination, Stack, Typography } from '@mui/material';
 import Products from '../product/components/Products';

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { HCM_CITY_ADDRESSES, SOUTH_WEST_ADDRESSES, SOUTH_EAST_ADDRESSES } from '@/data/address';
+import { HCM_CITY_ADDRESSES, SOUTH_WEST_ADDRESSES, SOUTH_EAST_ADDRESSES } from '@/utils/data/address';
 import CollapseFooter from './CollapseFooter';
 import { Box, Container, Grid, Theme, Typography } from '@mui/material';
 import Link from 'next/link';

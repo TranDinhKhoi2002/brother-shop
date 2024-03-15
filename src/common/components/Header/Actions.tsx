@@ -11,7 +11,7 @@ import { makeStyles, useTheme } from '@mui/styles';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { PROFILE_TABS } from '@/constants';
+import { PROFILE_TABS } from '@/utils/constants';
 import useAuth from '@/hooks/useAuth';
 
 type ActionsProps = {

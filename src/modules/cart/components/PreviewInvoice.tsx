@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import Button from '@/common/components/Buttons/Button';
 import { calculateTotalCart, printNumberWithCommas } from '@/utils/common';
 import config from '@/config';
-import { TRANSPORTATION_COST } from '@/constants';
+import { TRANSPORTATION_COST } from '@/utils/constants';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { Card, CardContent, Divider, Stack, Typography, Button as ButtonMUI } from '@mui/material';
 import Link from 'next/link';

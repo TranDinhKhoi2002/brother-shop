@@ -25,7 +25,7 @@ import FatPersonIcon from '@/common/components/Icons/FatPersonIcon';
 import CloseIcon from '@mui/icons-material/Close';
 import TableSizesForShirt from './TableSizesForShirt';
 import SizeResult from './SizeResult';
-import { SIZES } from '@/constants';
+import { SIZES } from '@/utils/constants';
 import { ProductSize } from '@/types/product';
 
 type SizeGuideModalProps = {

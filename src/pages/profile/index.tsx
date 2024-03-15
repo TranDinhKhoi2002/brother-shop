@@ -3,7 +3,7 @@ import PageContainer from '@/common/components/Layout/PageContainer';
 import ProfileTabs from '@/modules/customer/components/ProfileTabs';
 import { ReactElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { PROFILE_TABS } from '@/constants';
+import { PROFILE_TABS } from '@/utils/constants';
 import config from '@/config';
 
 function ProfilePage(): ReactElement {
