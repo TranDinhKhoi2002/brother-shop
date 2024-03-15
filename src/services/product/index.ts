@@ -1,4 +1,4 @@
-import { sendGetRequest } from './baseRequest';
+import { sendGetRequest } from '../request';
 
 export const getAllProducts = async () => {
   const { products } = await sendGetRequest('/products');

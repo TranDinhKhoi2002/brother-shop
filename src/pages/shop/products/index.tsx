@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import Products from '@/modules/product/components/Products';
-import { getProductsByType } from '@/services/productRequests';
+import { getProductsByType } from '@/services/product';
 
 function ProductsPage({ products, type }: InferGetServerSidePropsType<typeof getServerSideProps>): ReactElement {
   const headTitle = `Sản phẩm ${type} | Brother Shop`;

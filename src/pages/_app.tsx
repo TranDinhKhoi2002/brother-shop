@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { CacheProvider } from '@emotion/react';
 import { Provider } from 'react-redux';
 import { InstantSearch } from 'react-instantsearch-hooks';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppContext, AppInitialProps, AppLayoutProps } from 'next/app';
 import type { NextComponentType } from 'next';
 import { ToastContainer } from 'react-toastify';
@@ -18,6 +19,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { searchClient } from '@/utils/lib/algolia';
 
 const clientSideEmotionCache = createEmotionCache();
+const queryClient = new QueryClient();
 
 const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = (props: AppLayoutProps) => {
   const { Component, pageProps } = props;
@@ -29,10 +31,12 @@ const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = (p
         <ThemeProvider>
           {getLayout(
             <InstantSearch searchClient={searchClient} indexName="product" stalledSearchDelay={500}>
-              <MainLayout>
-                <GoogleAnalytics />
-                <Component {...pageProps} />
-              </MainLayout>
+              <QueryClientProvider client={queryClient}>
+                <MainLayout>
+                  <GoogleAnalytics />
+                  <Component {...pageProps} />
+                </MainLayout>
+              </QueryClientProvider>
             </InstantSearch>,
           )}
         </ThemeProvider>

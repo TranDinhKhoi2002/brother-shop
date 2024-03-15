@@ -1,6 +1,6 @@
 import { Promotion } from './../../types/promotion';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as promotionServices from '@/services/promotionRequests';
+import * as promotionServices from '@/services/promotion';
 import { SavePromotionPayload } from '@/services/types/promotion';
 import { RootState } from '../store';
 

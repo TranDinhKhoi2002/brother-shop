@@ -4,7 +4,7 @@ import { Box, Container } from '@mui/material';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import PromotionEvent from '@/modules/promotion/components/PromotionEvent';
 import { appAssets } from '@/common/assets';
-import { getPromotions } from '@/services/promotionRequests';
+import { getPromotions } from '@/services/promotion';
 import { getPromotionsByPercentage } from '@/utils/promotion';
 
 function PromotionsPage({ promotions }: InferGetStaticPropsType<typeof getStaticProps>): ReactElement {

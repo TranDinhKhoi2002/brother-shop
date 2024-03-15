@@ -2,7 +2,7 @@ import { ReactNode, useEffect } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { Box, Container } from '@mui/material';
-import * as authServices from '@/services/authRequests';
+import * as authServices from '@/services/auth';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import ChangePasswordForm from '@/modules/auth/components/ChangePasswordForm';
 import { ResetTokenPayload } from '@/services/types/auth';

@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import Filter from '@/modules/filter/components/form';
 import Products from '../../product/components/Products';
 import { useRouter } from 'next/router';
-import { getProductsByFilters } from '@/services/productRequests';
+import { getProductsByFilters } from '@/services/product';
 import { printNumberWithCommas } from '@/utils/common';
 import FilterTag from './tags';
 import RemoveAll from './tags/RemoveAll';

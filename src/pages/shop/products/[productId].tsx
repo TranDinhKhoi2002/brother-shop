@@ -4,7 +4,7 @@ import { Container } from '@mui/material';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import ProductInfor from '@/modules/product/components/ProductInfor';
 import RelatedProducts from '@/modules/product/components/RelatedProducts';
-import { getAllProducts, getProductById, getProductsByType } from '@/services/productRequests';
+import { getAllProducts, getProductById, getProductsByType } from '@/services/product';
 import { Product } from '@/types/product';
 
 function ProductInforPage({ product, relatedProducts }: InferGetStaticPropsType<typeof getStaticProps>): ReactElement {

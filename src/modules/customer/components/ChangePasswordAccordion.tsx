@@ -14,7 +14,7 @@ import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import Button from '@/common/components/Buttons/Button';
-import { changePassword } from '@/services/customerRequests';
+import { changePassword } from '@/services/customer';
 import { toast } from 'react-toastify';
 
 type ChangePasswordAccordionProps = {

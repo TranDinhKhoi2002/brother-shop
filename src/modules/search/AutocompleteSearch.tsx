@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import config from '@/config';
 import useCart from '@/hooks/useCart';
 import Image from 'next/image';
-import { SIZES } from '@/constants';
+import { SIZES } from '@/utils/constants';
 
 type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
   searchClient: SearchClient;

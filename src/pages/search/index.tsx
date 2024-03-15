@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { useRouter } from 'next/router';
 import PageContainer from '@/common/components/Layout/PageContainer';
-import { getProductsByKeyword } from '@/services/productRequests';
+import { getProductsByKeyword } from '@/services/product';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';

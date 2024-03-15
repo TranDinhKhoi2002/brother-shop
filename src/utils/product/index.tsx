@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { AppSizes, SIZES } from '@/constants';
+import { AppSizes, SIZES } from '@/utils/constants';
 import { ProductSize } from '@/types/product';
 import { printNumberWithCommas } from '../common';
 

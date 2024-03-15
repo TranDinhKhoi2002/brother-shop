@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as dataServices from '@/services/dataRequests';
+import * as dataServices from '@/services/data';
 import { RootState } from '../store';
 import { Category } from '@/types/category';
 import { setAuth } from './auth';

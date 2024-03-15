@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import CategoryFilter from '@/modules/filter/components';
-import { getCategories } from '@/services/categoryRequests';
-import { getProductsByCategory } from '@/services/productRequests';
+import { getCategories } from '@/services/category';
+import { getProductsByCategory } from '@/services/product';
 import { Category } from '@/types/category';
 import { Product } from '@/types/product';
 import PageContainer from '@/common/components/Layout/PageContainer';

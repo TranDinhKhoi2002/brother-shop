@@ -1,5 +1,5 @@
-import { sendDeleteRequest, sendGetRequest, sendPostRequest, sendPutRequest } from './baseRequest';
-import { SavePromotionPayload } from './types/promotion';
+import { sendDeleteRequest, sendGetRequest, sendPostRequest, sendPutRequest } from '../request';
+import { SavePromotionPayload } from '../types/promotion';
 
 export const getPromotions = async () => {
   return await sendGetRequest('/promotions');

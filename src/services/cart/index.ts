@@ -1,5 +1,5 @@
-import { sendPutRequest } from './baseRequest';
-import { CartPayload, RemovedCartItemPayload } from './types/cart';
+import { sendPutRequest } from '../request';
+import { CartPayload, RemovedCartItemPayload } from '../types/cart';
 
 export const addToCart = async (item: CartPayload) => {
   return await sendPutRequest('/cart/add-to-cart', item);

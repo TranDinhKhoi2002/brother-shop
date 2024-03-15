@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as authServices from '@/services/authRequests';
-import * as customerServices from '@/services/customerRequests';
+import * as authServices from '@/services/auth';
+import * as customerServices from '@/services/customer';
 import { LoginPayload, LoginWithSocialMediaAccountPayload, SignupPayload } from '@/services/types/auth';
 import {
   AddressPayload,

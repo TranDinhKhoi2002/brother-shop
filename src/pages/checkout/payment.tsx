@@ -10,7 +10,7 @@ import PreviewOrder from '@/modules/payment/components/PreviewOrder';
 import CompanyBill, { RefType } from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
-import { TRANSPORTATION_COST, paymentMethods } from '@/constants';
+import { TRANSPORTATION_COST, paymentMethods } from '@/utils/constants';
 import PromotionRadioBtnForm from '@/modules/promotion/components/PromotionRadioBtnForm';
 import { fetchUpdatePromotionQuantity } from '@/redux/slices/promotions';
 import { CartItem } from '@/types/customer';

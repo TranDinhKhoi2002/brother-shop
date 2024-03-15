@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react';
 import { Checkbox, Collapse, FormControlLabel, FormGroup, ListItemButton, ListItemText } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { TEXTURES } from '@/data/filter';
+import { TEXTURES } from '@/utils/data/filter';
 
 type FilterTexturesProps = {
   selectedTextures: string[];
