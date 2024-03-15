@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import * as wishlistServices from '@/services/wishlistRequests';
+import * as wishlistServices from '@/services/wishlist';
 import { RootState } from '../store';
 import { WishlistPayload } from '@/services/types/wishlist';
 

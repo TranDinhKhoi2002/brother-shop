@@ -4,7 +4,7 @@ import BuySteppers from '@/common/components/UI/BuySteppers';
 import Title from '@/common/components/UI/Title';
 import { updateOrders } from '@/redux/slices/auth';
 import { checkOut } from '@/redux/slices/cart';
-import { checkOutOrder, createOrder } from '@/services/orderRequests';
+import { checkOutOrder, createOrder } from '@/services/order';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';

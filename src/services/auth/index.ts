@@ -1,4 +1,4 @@
-import { sendPostRequest, sendGetRequest } from './baseRequest';
+import { sendPostRequest, sendGetRequest } from '../request';
 import {
   LoginPayload,
   LoginWithSocialMediaAccountPayload,
@@ -6,7 +6,7 @@ import {
   ResetTokenPayload,
   SignupPayload,
   UpdatePasswordPayload,
-} from './types/auth';
+} from '../types/auth';
 
 export const signup = async (account: SignupPayload) => {
   return await sendPostRequest('/auth/signup', account);

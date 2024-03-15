@@ -1,5 +1,5 @@
-import { sendPostRequest } from './baseRequest';
-import { WishlistPayload } from './types/wishlist';
+import { sendPostRequest } from '../request';
+import { WishlistPayload } from '../types/wishlist';
 
 export const addProductToWishlist = async (data: WishlistPayload) => {
   return await sendPostRequest('/wishlist/add', data);

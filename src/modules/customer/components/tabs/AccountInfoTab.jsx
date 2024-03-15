@@ -12,7 +12,7 @@ import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { useDispatch } from 'react-redux';
 import { fetchUpdateProfile, fetchVerifyUser } from '@/redux/slices/auth';
 import { checkValidVietNamPhoneNumber } from '@/utils/common/index.ts';
-import { verifyPhoneNumber } from '@/services/customerRequests.ts';
+import { verifyPhoneNumber } from '@/services/customer';
 import { toast } from 'react-toastify';
 import PhoneValidationModal from '../PhoneValidationModal';
 import GenderRadioButtonsGroup from '../GenderRadioButtonsGroup';

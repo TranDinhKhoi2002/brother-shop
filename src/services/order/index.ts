@@ -1,5 +1,5 @@
-import { sendPostRequest, sendPutRequest } from './baseRequest';
-import { CheckoutOrderPayload, CreateOrderPayload } from './types/order';
+import { sendPostRequest, sendPutRequest } from '../request';
+import { CheckoutOrderPayload, CreateOrderPayload } from '../types/order';
 
 export const createOrder = async (data: CreateOrderPayload) => {
   return await sendPostRequest('/orders/create-order', data);

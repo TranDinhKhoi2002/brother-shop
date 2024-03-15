@@ -1,4 +1,4 @@
-import { sendPostRequest } from './baseRequest';
+import { sendPostRequest } from '../request';
 import {
   AddressPayload,
   ChangePasswordPayload,
@@ -6,7 +6,7 @@ import {
   UpdateAddressToDefaultPayload,
   UpdateProfilePayload,
   VerifyPhoneNumberPayload,
-} from './types/customer';
+} from '../types/customer';
 
 export const updateProfile = async (data: UpdateProfilePayload) => {
   return await sendPostRequest('/customer/update-profile', data);

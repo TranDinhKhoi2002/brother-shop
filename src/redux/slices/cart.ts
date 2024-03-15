@@ -1,9 +1,4 @@
-import {
-  addToCart as addToCartApi,
-  updateQuantity,
-  removeItemsFromCart,
-  removeItemFromCart,
-} from '@/services/cartRequests';
+import { addToCart as addToCartApi, updateQuantity, removeItemsFromCart, removeItemFromCart } from '@/services/cart';
 import { CartPayload, RemovedCartItemPayload } from '@/services/types/cart';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';

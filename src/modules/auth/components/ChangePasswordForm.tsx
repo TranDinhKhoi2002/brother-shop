@@ -6,7 +6,7 @@ import { Box, Typography } from '@mui/material';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import FormProvider from '@/common/components/Form/FormProvider';
-import * as authServices from '@/services/authRequests';
+import * as authServices from '@/services/auth';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import config from '@/config';
