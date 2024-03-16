@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Document, Font, Line, Page, StyleSheet, Svg, Text, View, Image } from '@react-pdf/renderer';
 import { printNumberWithCommas } from '@/utils/common';
-import InvoiceTable from './InvoiceTable';
+import InvoiceTable from '../InvoiceTable';
 import { appAssets } from '@/common/assets';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';

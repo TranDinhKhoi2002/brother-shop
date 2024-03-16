@@ -3,7 +3,7 @@ import Router from 'next/router';
 import Title from '@/common/components/UI/Title';
 import { Box, Divider } from '@mui/material';
 import config from '@/config';
-import AddressList from './AddressList';
+import AddressList from '../../../AddressList';
 import AddressForm from '@/modules/customer/components/Address/components/AddressForm';
 import useAuth from '@/hooks/useAuth';
 

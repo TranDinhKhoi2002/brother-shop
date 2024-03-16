@@ -4,7 +4,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Divider } from '@mui/material';
-import ShippingMethod from '@/modules/payment/components/ShippingMethod';
+import ShippingMethod from '@/modules/payment/components/Checkout/components/Methods/components/ShippingMethod';
 import Title from '@/common/components/UI/Title';
 
 type CheckoutMethodsProps = {

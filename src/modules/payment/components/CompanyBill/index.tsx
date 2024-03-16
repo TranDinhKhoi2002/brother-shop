@@ -11,7 +11,7 @@ import RHFTextField from '@/common/components/Form/RHFTextField';
 import FormProvider from '@/common/components/Form/FormProvider';
 import Button from '@/common/components/Buttons/Button';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import InvoiceCompany from './InvoiceCompany';
+import InvoiceCompany from './components/InvoiceCompany';
 import { useSelector } from 'react-redux';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { Box } from '@mui/material';
