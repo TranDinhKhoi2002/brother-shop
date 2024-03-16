@@ -5,7 +5,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { selectCategories } from '@/redux/slices/data';
-import CollapseButton from './CollapseButton';
+import CollapseButton from './components/CollapseButton';
 import { Stack, Theme, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/styles';

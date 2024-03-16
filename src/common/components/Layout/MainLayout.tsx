@@ -1,16 +1,16 @@
-import WishlistDrawer from '@/modules/wishlist/components/WishlistDrawer';
+import WishlistDrawer from '@/modules/wishlist/components/Drawer';
 import { fetchCommonData } from '@/redux/slices/data';
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Call';
 import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
-import Footer from '../Footer/Footer';
+import Footer from '../Footer';
 import Header from '../Header/index';
 import Sidebar from './Sidebar/index';
 import BackdropLoading from '../Loading/BackdropLoading';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import useDrawer from '@/hooks/useDrawer';
-import CartDrawer from '@/modules/cart/components/CartDrawer';
+import CartDrawer from '@/modules/cart/components/Drawer';
 import { useRouter } from 'next/router';
 
 type LayoutProps = {

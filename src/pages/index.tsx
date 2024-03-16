@@ -10,10 +10,8 @@ import ProductsOfType from '@/modules/home/components/TShirtProducts';
 import SaleOffProducts from '@/modules/home/components/SaleOffProducts';
 import { getDiscountProducts, getHotProducts, getProductsByType } from '@/services/product';
 import { getIntroImages } from '@/services/image';
-import { useRouter } from 'next/router';
 import { Stack } from '@mui/material';
 import { appAssets } from '@/common/assets';
-import config from '../config';
 import 'lightgallery.js/dist/css/lightgallery.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
@@ -24,12 +22,6 @@ export default function Home({
   trouserProducts = [],
   introImages = [],
 }: InferGetStaticPropsType<typeof getStaticProps>): ReactElement {
-  const router = useRouter();
-
-  const navigateToProductsPage = (type: string) => {
-    router.push(`${config.routes.products}?type=${type}`);
-  };
-
   return (
     <>
       <Head>
@@ -46,12 +38,12 @@ export default function Home({
         <Stack justifyContent="center">
           <Image src={appAssets.banner3} alt="" width={1000} height={1000} className="w-full" />
         </Stack>
-        <ProductsOfType products={tshirtProducts} onSeeMore={navigateToProductsPage} keyword="Áo Thun" />
+        <ProductsOfType products={tshirtProducts} keyword="Áo Thun" />
         <Stack direction={{ md: 'row' }} justifyContent="center" sx={{ mt: 10 }}>
           <Image src={appAssets.banner4} alt="" width={300} height={300} className="w-full" />
           <Image src={appAssets.banner5} alt="" width={300} height={300} className="w-full" />
         </Stack>
-        <ProductsOfType products={trouserProducts} onSeeMore={navigateToProductsPage} keyword="Quần" />
+        <ProductsOfType products={trouserProducts} keyword="Quần" />
         <SaleOffProducts products={discountProducts} />
       </main>
     </>

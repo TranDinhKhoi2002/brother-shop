@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
-import CategoryFilter from '@/modules/filter/components';
+import CategoryFilter from '@/modules/filter';
 import { getCategories } from '@/services/category';
 import { getProductsByCategory } from '@/services/product';
 import { Category } from '@/types/category';

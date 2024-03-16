@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
-import SuccessCheckout from '@/modules/payment/components/SuccessCheckout';
-import FailedCheckout from '@/modules/payment/components/FailedCheckout';
+import SuccessCheckout from '@/modules/payment/components/Checkout/components/SuccessCheckout';
+import FailedCheckout from '@/modules/payment/components/Checkout/components/FailedCheckout';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import config from '@/config';
 import { Container } from '@mui/material';
