@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import queryString from 'query-string';
-import Filter from '@/modules/filter/components/Form';
+import Filter from './Form';
 import Products from '../../product/components/Products';
 import { useRouter } from 'next/router';
 import { getProductsByFilters } from '@/services/product';
