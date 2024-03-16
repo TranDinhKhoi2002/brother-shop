@@ -1,9 +1,8 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Container, Divider, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import PageContainer from '@/common/components/Layout/PageContainer';
-import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import Title from '@/common/components/UI/Title';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import config from '@/config';
@@ -14,7 +13,6 @@ import { selectCartProducts } from '@/redux/slices/cart';
 import useAuth from '@/hooks/useAuth';
 
 function CheckoutLoginPage(): ReactElement {
-  const [loaded, setLoaded] = useState<boolean>(false);
   const cartProducts = useSelector(selectCartProducts);
   const isAuthenticated = useAuth();
 
@@ -26,17 +24,9 @@ function CheckoutLoginPage(): ReactElement {
     }
   }, [isAuthenticated, router]);
 
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
   const handleLogin = () => {
     router.push(config.routes.checkoutShipping);
   };
-
-  if (!loaded) {
-    return <BackdropLoading isVisible={!loaded} />;
-  }
 
   return (
     <PageContainer barTitle="Đăng nhập" headTitle="Đặt Hàng">
