@@ -1,7 +1,7 @@
 import Title from '@/common/components/UI/Title';
 import { Box, Container } from '@mui/material';
 import Slider from 'react-slick';
-import ProductItem from './ProductItem';
+import ProductItem from '../Item';
 import { CSSProperties, ReactElement } from 'react';
 import { Product } from '@/types/product';
 

@@ -23,8 +23,8 @@ import ThinPersonIcon from '@/common/components/Icons/ThinPersonIcon';
 import NormalPersonIcon from '@/common/components/Icons/NormalPersonIcon';
 import FatPersonIcon from '@/common/components/Icons/FatPersonIcon';
 import CloseIcon from '@mui/icons-material/Close';
-import TableSizesForShirt from './TableSizesForShirt';
-import SizeResult from './SizeResult';
+import TableSizesForShirt from './components/TableSizesForShirt';
+import SizeResult from './components/Result';
 import { SIZES } from '@/utils/constants';
 import { ProductSize } from '@/types/product';
 

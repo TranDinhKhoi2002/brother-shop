@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Box, Grid } from '@mui/material';
-import ProductItem from './ProductItem';
+import ProductItem from './components/Item';
 import { Product } from '@/types/product';
 
 type ProductsProps = {
