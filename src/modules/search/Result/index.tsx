@@ -1,9 +1,9 @@
 import { MOST_SEARCHED } from '@/utils/constants';
 import { Product } from '@/types/product';
 import { Box, Button, Grid, Pagination, Stack, Typography } from '@mui/material';
-import Products from '../product/components/Products';
+import Products from '../../product/components/Products';
 import { ReactElement } from 'react';
-import NoSearchResult from './NoSearchResult';
+import NoSearchResult from './components/NoResult';
 import { useRouter } from 'next/router';
 import config from '@/config';
 

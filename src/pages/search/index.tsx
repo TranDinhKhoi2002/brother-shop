@@ -8,8 +8,8 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import { Product } from '@/types/product';
 import config from '@/config';
 import ProductsSkeleton from '@/common/components/Skeleton/Products';
-import SearchResults from '@/modules/search/SearchResults';
-import SearchForm from '@/modules/search/SearchForm';
+import SearchResults from '@/modules/search/Result';
+import SearchForm from '@/modules/search/Form';
 import index from '@/utils/lib/algolia';
 import { mapProductsToView } from '@/utils/product';
 import { Container } from '@mui/material';

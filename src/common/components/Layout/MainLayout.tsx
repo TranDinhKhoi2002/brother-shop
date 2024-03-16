@@ -1,4 +1,4 @@
-import WishlistDrawer from '@/modules/wishlist/components/WishlistDrawer';
+import WishlistDrawer from '@/modules/wishlist/components/Drawer';
 import { fetchCommonData } from '@/redux/slices/data';
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Call';

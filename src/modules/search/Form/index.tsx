@@ -1,5 +1,5 @@
 import { searchClient } from '@/utils/lib/algolia';
-import { Autocomplete } from './AutocompleteSearch';
+import { Autocomplete } from './components/Autocomplete';
 
 function SearchForm() {
   return (

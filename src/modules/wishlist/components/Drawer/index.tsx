@@ -3,7 +3,7 @@ import { Box, Drawer, IconButton, Stack, Typography } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CloseIcon from '@mui/icons-material/Close';
 import { selectWishlistProducts } from '@/redux/slices/wishlist';
-import WishlistDrawerItem from './WishlistDrawerItem';
+import WishlistDrawerItem from './components/Item';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { Product } from '@/types/product';
 

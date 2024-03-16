@@ -6,7 +6,7 @@ import { Hits, SearchBox, useHits, useSearchBox } from 'react-instantsearch';
 import { Box, Card, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import NoSearchResult from '@/modules/search/NoSearchResult';
+import NoSearchResult from '@/modules/search/Result/components/NoResult';
 import config from '@/config';
 import CustomHit from './Hit';
 
