@@ -1,26 +1,31 @@
-import { ReactElement } from 'react';
+import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
 import { Box, Typography } from '@mui/material';
-import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import FormProvider from '@/common/components/Form/FormProvider';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
-import * as authServices from '@/services/auth';
-import { toast } from 'react-toastify';
+import { requestNewPassword } from '@/services/auth';
+import { RequestNewPasswordPayload } from '@/services/types/auth';
 import config from '@/config';
+import { ResetPasswordSchema, defaultValues } from './validation';
 
-function ResetPasswordForm(): ReactElement {
+function ResetPasswordForm() {
   const router = useRouter();
 
-  const ResetPasswordSchema = Yup.object().shape({
-    email: Yup.string().email('Email không hợp lệ!').required('Vui lòng nhập email'),
+  const { mutate: requestNewPasswordMutation } = useMutation({
+    mutationFn: ({ email, isCustomer }: RequestNewPasswordPayload) => requestNewPassword({ email, isCustomer }),
+    onSuccess: (data) => {
+      const { message } = data;
+      toast.success(message);
+      router.push(config.routes.login);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
-
-  const defaultValues = {
-    email: '',
-  };
 
   const methods = useForm({
     resolver: yupResolver(ResetPasswordSchema),
@@ -34,14 +39,7 @@ function ResetPasswordForm(): ReactElement {
 
   const onSubmit = async (values: { email: string }) => {
     const { email } = values;
-    const { success, message } = await authServices.requestNewPassword({ email, isCustomer: true });
-
-    if (success) {
-      toast.success(message);
-      router.push(config.routes.login);
-    } else {
-      toast.error(message);
-    }
+    requestNewPasswordMutation({ email, isCustomer: true });
   };
 
   return (

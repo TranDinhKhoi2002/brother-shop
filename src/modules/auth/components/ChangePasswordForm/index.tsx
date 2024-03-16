@@ -1,34 +1,32 @@
-import { ReactElement } from 'react';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
 import { Box, Typography } from '@mui/material';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import FormProvider from '@/common/components/Form/FormProvider';
-import * as authServices from '@/services/auth';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import { updatePassword } from '@/services/auth';
+import { UpdatePasswordPayload } from '@/services/types/auth';
 import config from '@/config';
+import { ChangePasswordSchema, defaultValues } from './validation';
 
-function ChangePasswordForm(): ReactElement {
+function ChangePasswordForm() {
   const router = useRouter();
   const token = router.query.token as string;
 
-  const ChangePasswordSchema = Yup.object().shape({
-    password: Yup.string().required('Vui lòng nhập mật khẩu').min(8, 'Mật khẩu phải có ít nhất 8 ký tự'),
-    confirmPassword: Yup.string()
-      .required('Vui lòng xác nhận lại mật khẩu')
-      .test('equal', 'Mật khẩu không trùng khớp', function (confirmPassword) {
-        const { password } = this.parent;
-        return password === confirmPassword;
-      }),
+  const { mutate: updatePasswordMutation } = useMutation({
+    mutationFn: (data: UpdatePasswordPayload) => updatePassword(data),
+    onSuccess: (data) => {
+      const { message } = data;
+      toast.success(message);
+      router.replace(config.routes.login);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
-
-  const defaultValues = {
-    password: '',
-    confirmPassword: '',
-  };
 
   const methods = useForm({
     resolver: yupResolver(ChangePasswordSchema),
@@ -40,17 +38,10 @@ function ChangePasswordForm(): ReactElement {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async (values: { password: string; confirmPassword: string }) => {
+  const onSubmit = (values: { password: string; confirmPassword: string }) => {
     const { password, confirmPassword } = values;
     const data = { token, password, confirmPassword };
-    const { success, message } = await authServices.updatePassword(data);
-
-    if (success) {
-      toast.success(message);
-      router.replace(config.routes.login);
-    } else {
-      toast.error(message);
-    }
+    updatePasswordMutation(data);
   };
 
   return (
@@ -63,9 +54,7 @@ function ChangePasswordForm(): ReactElement {
       </Typography>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <RHFTextField name="password" label="Mật khẩu" type="password" />
-
         <RHFTextField name="confirmPassword" label="Xác nhận mật khẩu" type="password" />
-
         <LoadingButton type="submit" fullWidth loading={isSubmitting} sx={{ mt: 1 }}>
           Cập nhật
         </LoadingButton>

@@ -2,13 +2,14 @@ import { LoadingButton as LoadingButtonMUI, LoadingButtonProps } from '@mui/lab'
 import { Theme } from '@mui/material';
 import { useTheme } from '@mui/styles';
 
-function LoadingButton({ children, loading, fullWidth, sx, ...other }: LoadingButtonProps) {
+function LoadingButton({ children, loading, fullWidth, sx, disabled, ...other }: LoadingButtonProps) {
   const theme = useTheme<Theme>();
 
   return (
     <LoadingButtonMUI
       fullWidth={fullWidth}
       loading={loading}
+      disabled={disabled || loading}
       sx={{
         px: 3,
         py: '12px',

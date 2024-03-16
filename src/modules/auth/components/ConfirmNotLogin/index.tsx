@@ -1,10 +1,9 @@
-import { ReactElement } from 'react';
+import Link from 'next/link';
+import { Box, Typography } from '@mui/material';
 import Button from '@/common/components/Buttons/Button';
 import config from '@/config';
-import { Box, Typography } from '@mui/material';
-import Link from 'next/link';
 
-function ConfirmNotLogin(): ReactElement {
+function ConfirmNotLogin() {
   return (
     <>
       <Typography sx={{ display: { xs: 'block', md: 'none' }, my: 4, textAlign: 'center' }}>Hoặc</Typography>

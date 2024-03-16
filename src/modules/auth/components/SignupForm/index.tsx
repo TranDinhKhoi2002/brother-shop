@@ -1,57 +1,40 @@
-import * as Yup from 'yup';
-import FormProvider from '@/common/components/Form/FormProvider';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import RHFTextField from '@/common/components/Form/RHFTextField';
-import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, Typography } from '@mui/material';
-import { fetchUserSignup } from '@/redux/slices/auth';
 import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
 import Link from 'next/link';
+import { useMutation } from '@tanstack/react-query';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, Typography } from '@mui/material';
+import { toast } from 'react-toastify';
+import { Dayjs } from 'dayjs';
+import FormProvider from '@/common/components/Form/FormProvider';
+import RHFTextField from '@/common/components/Form/RHFTextField';
 import RHFDatePicker from '@/common/components/Form/RHFDatePicker';
-import dayjs, { Dayjs } from 'dayjs';
-import { ReactElement, useState } from 'react';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
-import { checkValidVietNamPhoneNumber } from '@/utils/common';
+import { fetchUserSignup } from '@/redux/slices/auth';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { SignupPayload } from '@/services/types/auth';
+import { GENDER } from '@/utils/constants';
 import config from '@/config';
+import { SignupSchema, defaultValues } from './validation';
 
-function SignupForm(): ReactElement {
-  const [gender, setGender] = useState('Nam');
+function SignupForm() {
+  const [gender, setGender] = useState(GENDER.male);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const SignupSchema = Yup.object().shape({
-    name: Yup.string().required('Vui lòng nhập họ tên'),
-    email: Yup.string().required('Vui lòng nhập email').email('Email không hợp lệ'),
-    password: Yup.string().required('Vui lòng nhập mật khẩu').min(8, 'Mật khẩu phải có ít nhất 8 ký tự'),
-    confirmPassword: Yup.string()
-      .required('Vui lòng xác nhận mật khẩu')
-      .test('equal', 'Xác nhận mật khẩu không chính xác', function (confirmPassword) {
-        const { password } = this.parent;
-        return password === confirmPassword;
-      }),
-    phone: Yup.string()
-      .required('Vui lòng nhập số điện thoại')
-      .test('viet_nam_phone_number', 'Số điện thoại không hợp lệ', function (phoneNumber) {
-        if (phoneNumber !== undefined) {
-          return checkValidVietNamPhoneNumber(phoneNumber);
-        }
-        return false;
-      }),
-    address: Yup.string().required('Vui lòng nhập địa chỉ'),
+  const { mutate: signupMutation } = useMutation({
+    mutationFn: (account: SignupPayload) => dispatch(fetchUserSignup(account)).unwrap(),
+    onSuccess: (data) => {
+      const { message } = data;
+      toast.success(message);
+      router.replace(config.routes.home);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
-
-  const defaultValues = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: '',
-    address: '',
-    birthday: dayjs(Date.now()),
-  };
 
   const methods = useForm({
     resolver: yupResolver(SignupSchema),
@@ -82,15 +65,7 @@ function SignupForm(): ReactElement {
       gender: gender,
       birthday: new Date(values.birthday.toDate()).toISOString(),
     };
-
-    const { success, message } = await dispatch(fetchUserSignup(account)).unwrap();
-
-    if (success) {
-      toast.success(message);
-      router.replace('/');
-    } else {
-      toast.error(message);
-    }
+    signupMutation(account);
   };
 
   return (
@@ -123,10 +98,10 @@ function SignupForm(): ReactElement {
               Giới tính <span className="text-primary">*</span>
             </label>
           </FormLabel>
-          <RadioGroup row defaultValue="Nam" value={gender} onChange={(e) => setGender(e.target.value)}>
-            <FormControlLabel value="Nam" control={<Radio />} label="Nam" />
-            <FormControlLabel value="Nữ" control={<Radio />} label="Nữ" />
-            <FormControlLabel value="Khác" control={<Radio />} label="Khác" />
+          <RadioGroup row defaultValue={GENDER.male} value={gender} onChange={(e) => setGender(e.target.value)}>
+            <FormControlLabel value={GENDER.male} control={<Radio />} label={GENDER.male} />
+            <FormControlLabel value={GENDER.female} control={<Radio />} label={GENDER.female} />
+            <FormControlLabel value={GENDER.other} control={<Radio />} label={GENDER.other} />
           </RadioGroup>
         </FormControl>
 

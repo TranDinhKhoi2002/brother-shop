@@ -1,62 +1,39 @@
-import { ReactElement } from 'react';
-import * as Yup from 'yup';
-import FormProvider from '@/common/components/Form/FormProvider';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import RHFTextField from '@/common/components/Form/RHFTextField';
-import { Box, Button, Divider, Stack, Typography } from '@mui/material';
-import { fetchSocialMediaUserLogin, fetchUserLogin } from '@/redux/slices/auth';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
-import Link from 'next/link';
-import { assignProductsToCart } from '@/redux/slices/cart';
-import LoadingButton from '@/common/components/Buttons/LoadingButton';
-import { assignProductsToWishlist } from '@/redux/slices/wishlist';
-import Image from 'next/image';
-import { refreshToken } from '@/utils/auth';
 import { GoogleLoginResponse, GoogleLoginResponseOffline, useGoogleLogin } from 'react-google-login';
 import FacebookLogin, { ReactFacebookFailureResponse, ReactFacebookLoginInfo } from 'react-facebook-login';
-import config from '@/config';
-import { appAssets } from '@/common/assets';
+import { Box, Button, Divider, Stack, Typography } from '@mui/material';
+import { toast } from 'react-toastify';
+import FormProvider from '@/common/components/Form/FormProvider';
+import RHFTextField from '@/common/components/Form/RHFTextField';
+import LoadingButton from '@/common/components/Buttons/LoadingButton';
+import { fetchSocialMediaUserLogin, fetchUserLogin } from '@/redux/slices/auth';
 import { assignPromotions } from '@/redux/slices/promotions';
+import { assignProductsToCart } from '@/redux/slices/cart';
+import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { refreshToken } from '@/utils/auth';
+import config from '@/config';
+import { LoginPayload, LoginWithSocialMediaAccountPayload } from '@/services/types/auth';
+import { appAssets } from '@/common/assets';
+import { LoginSchema, defaultValues } from './validation';
 
 type LoginFormProps = {
   onLogin?: () => void;
 };
 
-function LoginForm({ onLogin }: LoginFormProps): ReactElement {
+function LoginForm({ onLogin }: LoginFormProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const LoginSchema = Yup.object().shape({
-    username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
-    password: Yup.string().required('Vui lòng nhập mật khẩu'),
-  });
-
-  const defaultValues = {
-    username: '',
-    password: '',
-  };
-
-  const methods = useForm({
-    resolver: yupResolver(LoginSchema),
-    defaultValues,
-  });
-
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
-
-  const onSubmit = async (values: { username: string; password: string }) => {
-    const account = {
-      username: values.username,
-      password: values.password,
-    };
-    const { success, user, message } = await dispatch(fetchUserLogin(account)).unwrap();
-
-    if (success) {
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: (account: LoginPayload) => dispatch(fetchUserLogin(account)).unwrap(),
+    onSuccess: (data) => {
+      const { message, user } = data;
       toast.success(message);
 
       if (onLogin) {
@@ -68,59 +45,72 @@ function LoginForm({ onLogin }: LoginFormProps): ReactElement {
       dispatch(assignProductsToCart({ cart: user.cart }));
       dispatch(assignProductsToWishlist({ products: user.wishlist }));
       dispatch(assignPromotions({ promotions: user.promotions }));
-    } else {
-      toast.error(message);
-    }
-  };
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  const handleLoginWithSocialMedia = async (name: string, email: string) => {
-    try {
-      const { success, user } = await dispatch(
-        fetchSocialMediaUserLogin({
-          name,
-          email,
-        }),
-      ).unwrap();
+  const { mutate: loginWithSocialMedia } = useMutation({
+    mutationFn: (data: LoginWithSocialMediaAccountPayload) => dispatch(fetchSocialMediaUserLogin(data)).unwrap(),
+    onSuccess: (data) => {
+      const { user } = data;
+      dispatch(assignProductsToCart({ cart: user.cart }));
+      dispatch(assignProductsToWishlist({ products: user.wishlist }));
+      dispatch(assignPromotions({ promotions: user.promotions }));
 
-      if (success) {
-        dispatch(assignProductsToCart({ cart: user.cart }));
-        dispatch(assignProductsToWishlist({ products: user.wishlist }));
-        dispatch(assignPromotions({ promotions: user.promotions }));
-
-        if (onLogin) {
-          onLogin();
-        } else {
-          router.replace(config.routes.home);
-        }
+      if (onLogin) {
+        onLogin();
+      } else {
+        router.replace(config.routes.home);
       }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra, vui lòng thử lại!!');
-    }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const methods = useForm({
+    resolver: yupResolver(LoginSchema),
+    defaultValues,
+  });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = async (values: { username: string; password: string }) => {
+    const account = {
+      username: values.username,
+      password: values.password,
+    };
+    login(account);
   };
 
-  const onSuccess = async (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+  const handleLoginWithSocialMedia = (name: string, email: string) => {
+    loginWithSocialMedia({ name, email });
+  };
+
+  const onLoginGoogleSuccess = (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     refreshToken(res);
     const googleProfile = (res as GoogleLoginResponse).profileObj;
-
-    await handleLoginWithSocialMedia(googleProfile.name, googleProfile.email);
+    handleLoginWithSocialMedia(googleProfile.name, googleProfile.email);
   };
 
-  const onFailure = async (error: any) => {
-    console.log('Login failed', error);
+  const onLoginGoogleFailure = () => {
+    toast.error('Login failed');
   };
 
   const { signIn } = useGoogleLogin({
     clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
-    onSuccess,
-    onFailure,
+    onSuccess: onLoginGoogleSuccess,
+    onFailure: onLoginGoogleFailure,
     accessType: 'offline',
     scope: 'https://www.googleapis.com/auth/userinfo.profile',
   });
 
-  const responseFacebook = async (
+  const responseFacebook = (
     userInfo: (ReactFacebookLoginInfo | ReactFacebookFailureResponse) & { name: string; email: string },
   ) => {
-    await handleLoginWithSocialMedia(userInfo.name, userInfo.email);
+    handleLoginWithSocialMedia(userInfo.name, userInfo.email);
   };
 
   return (
@@ -140,7 +130,7 @@ function LoginForm({ onLogin }: LoginFormProps): ReactElement {
         <Link href="/reset-password">
           <Typography sx={{ fontWeight: 400, textAlign: 'right' }}>Quên mật khẩu?</Typography>
         </Link>
-        <LoadingButton type="submit" fullWidth loading={isSubmitting} sx={{ mt: 3, mb: 1 }}>
+        <LoadingButton type="submit" fullWidth loading={isPending} sx={{ mt: 3, mb: 1 }}>
           Đăng nhập
         </LoadingButton>
       </FormProvider>

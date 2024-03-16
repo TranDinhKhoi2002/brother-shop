@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { Box, Fade, IconButton, Modal, Stack } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
@@ -20,7 +19,7 @@ type LoginModalProps = {
   onClose: () => void;
 };
 
-function LoginModal({ isVisible, onClose }: LoginModalProps): ReactElement {
+function LoginModal({ isVisible, onClose }: LoginModalProps) {
   const handleLogin = () => {
     onClose();
   };
@@ -28,8 +27,6 @@ function LoginModal({ isVisible, onClose }: LoginModalProps): ReactElement {
   return (
     <div>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
         open={isVisible}
         onClose={onClose}
         closeAfterTransition
