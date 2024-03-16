@@ -1,11 +1,11 @@
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from '@mui/material';
-import EmptyCart from './EmptyCart';
-import CartTableToolbar from './CartTableToolbar';
-import CartTableHead from './CartTableHead';
+import EmptyCart from '../Empty';
+import CartTableToolbar from './components/Toolbar';
+import CartTableHead from './components/Head';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { selectCurrentUser } from '@/redux/slices/auth';
-import CartTableItem from './CartTableItem';
+import CartTableItem from './components/Item';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { CartItem } from '@/types/customer';

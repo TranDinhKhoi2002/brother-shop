@@ -10,7 +10,7 @@ import Sidebar from './Sidebar/index';
 import BackdropLoading from '../Loading/BackdropLoading';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import useDrawer from '@/hooks/useDrawer';
-import CartDrawer from '@/modules/cart/components/CartDrawer';
+import CartDrawer from '@/modules/cart/components/Drawer';
 import { useRouter } from 'next/router';
 
 type LayoutProps = {

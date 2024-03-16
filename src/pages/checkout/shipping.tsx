@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import PageContainer from '@/common/components/Layout/PageContainer';
-import CartInfor from '@/modules/cart/components/CartInfor';
-import EmptyCart from '@/modules/cart/components/EmptyCart';
+import CartInfor from '@/modules/cart/components/Infor';
+import EmptyCart from '@/modules/cart/components/Empty';
 import { selectCartProducts } from '@/redux/slices/cart';
 import config from '@/config';
 

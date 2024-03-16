@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { Drawer, Box, Stack, Typography, IconButton, Button, Divider } from '@mui/material';
 import CustomizedButton from '@/common/components/Buttons/Button';
 import CloseIcon from '@mui/icons-material/Close';
@@ -6,7 +5,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { printNumberWithCommas } from '@/utils/common';
 import { useRouter } from 'next/router';
-import CartDrawerItem from './CartDrawerItem';
+import CartDrawerItem from './components/Item';
 import { selectIsAuthenticated } from '@/redux/slices/auth';
 import config from '@/config';
 import { CartItem } from '@/types/customer';
@@ -18,7 +17,7 @@ type CartDrawerProps = {
   onClose: () => void;
 };
 
-function CartDrawer({ isVisible, onClose }: CartDrawerProps): ReactElement {
+function CartDrawer({ isVisible, onClose }: CartDrawerProps) {
   const cartProducts = useAppSelector<CartItem[]>(selectCartProducts);
   const isAuthenticated = useAppSelector<boolean>(selectIsAuthenticated);
   const router = useRouter();

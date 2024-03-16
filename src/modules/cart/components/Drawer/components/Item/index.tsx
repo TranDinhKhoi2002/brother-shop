@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Box, Grid, IconButton, Stack, Typography, Theme } from '@mui/material';
 import { AdvancedImage, responsive, placeholder } from '@cloudinary/react';
@@ -18,7 +18,7 @@ type CartDrawerItemProps = {
   cartProduct: CartItem;
 };
 
-function CartDrawerItem({ cartProduct }: CartDrawerItemProps): ReactElement {
+function CartDrawerItem({ cartProduct }: CartDrawerItemProps) {
   const [quantity, setQuantity] = useState(cartProduct.quantity);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const theme = useTheme<Theme>();

@@ -9,7 +9,7 @@ import BuySteppers from '@/common/components/UI/BuySteppers';
 import config from '@/config';
 import ConfirmNotLogin from '@/modules/auth/components/ConfirmNotLogin';
 import LoginForm from '@/modules/auth/components/LoginForm';
-import EmptyCart from '@/modules/cart/components/EmptyCart';
+import EmptyCart from '@/modules/cart/components/Empty';
 import { selectCartProducts } from '@/redux/slices/cart';
 import useAuth from '@/hooks/useAuth';
 

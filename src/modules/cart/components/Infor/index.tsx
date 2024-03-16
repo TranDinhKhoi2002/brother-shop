@@ -1,10 +1,9 @@
-import { ReactElement } from 'react';
 import BuySteppers from '@/common/components/UI/BuySteppers';
 import { Container, Grid } from '@mui/material';
-import DetailCart from './DetailCart';
-import OrderForm from '../../payment/components/OrderForm';
+import DetailCart from '../Detail';
+import OrderForm from '../../../payment/components/OrderForm';
 
-function CartInfor(): ReactElement {
+function CartInfor() {
   return (
     <>
       <BuySteppers activeStep={1} />
