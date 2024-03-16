@@ -5,7 +5,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AddressForm from './AddressForm';
+import AddressForm from '../AddressForm';
 import { Address } from '@/types/customer';
 
 const style = {

@@ -5,7 +5,7 @@ import Router from 'next/router';
 import Button from '@/common/components/Buttons/Button';
 import { selectCurrentUser } from '@/redux/slices/auth';
 import config from '@/config';
-import AddAddressModal from '@/modules/customer/components/AddAddressModal';
+import AddAddressModal from '@/modules/customer/components/Address/components/AddAddressModal';
 import { Address } from '@/types/customer';
 import { useAppSelector } from '@/hooks/useAppSelector';
 

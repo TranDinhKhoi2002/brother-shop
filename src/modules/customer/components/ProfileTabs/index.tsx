@@ -5,16 +5,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Container, Divider, Grid, Stack } from '@mui/material';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import AccountInfoTab from './tabs/AccountInfoTab';
-import PurchaseHistoryTab from './tabs/PurchaseHistoryTab';
-import AddressesTab from './tabs/AddressesTab';
+import AccountInfoTab from './components/AccountInfoTab';
+import PurchaseHistoryTab from './components/PurchaseHistoryTab';
+import AddressesTab from './components/AddressesTab';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { logout, selectCurrentUser } from '@/redux/slices/auth';
 import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import config from '@/config';
-import PromotionsTab from './tabs/PromotionsTab';
+import PromotionsTab from './components/PromotionsTab';
 
 type TabPanelProps = {
   children: React.ReactNode;

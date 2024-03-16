@@ -1,9 +1,9 @@
 import { Box, List, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
-import FilterProductTypes from '../categories';
-import FilterPrice from '../prices';
-import FilterMaterial from '../materials';
-import FilterTextures from '../textures';
+import FilterProductTypes from './components/Categories';
+import FilterPrice from './components/Prices';
+import FilterMaterial from './components/Materials';
+import FilterTextures from './components/Textures';
 import useResponsive from '@/hooks/useResponsive';
 import { ReactElement } from 'react';
 

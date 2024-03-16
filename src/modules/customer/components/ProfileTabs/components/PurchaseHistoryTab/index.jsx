@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import PurchaseHistoryTable from '../PurchaseHistoryTable';
+import PurchaseHistoryTable from './components/PurchaseHistoryTable';
 import { appAssets } from '@/common/assets';
 
 function PurchaseHistoryTab({ orders }) {

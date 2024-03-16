@@ -15,7 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/styles';
 import { useDispatch } from 'react-redux';
 import { Fragment, useState } from 'react';
-import AddAddressModal from '../AddAddressModal';
+import AddAddressModal from '../../../Address/components/AddAddressModal';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import { toast } from 'react-toastify';

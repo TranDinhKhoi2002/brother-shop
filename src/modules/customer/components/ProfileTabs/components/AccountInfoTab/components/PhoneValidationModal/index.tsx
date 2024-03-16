@@ -4,7 +4,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/redux/slices/auth';
-import FormOTP from './FormOTP';
+import FormOTP from './components/FormOTP';
 
 const style = {
   position: 'absolute',

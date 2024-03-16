@@ -2,7 +2,7 @@ import Button from '@/common/components/Buttons/Button';
 import { Box, Stack, TextField, Typography } from '@mui/material';
 import { ReactElement, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import CountDownTimer from './CountdownTimer';
+import CountDownTimer from '../CountDownTimer';
 
 type FormOTPProps = {
   onSubmit: (_otpCode: string) => void;

@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import FormProvider from '@/common/components/Form/FormProvider';
 import RHFTextField from '@/common/components/Form/RHFTextField';
-import ChangePasswordAccordion from '../ChangePasswordAccordion';
+import ChangePasswordAccordion from './components/ChangePasswordAccordion';
 import dayjs from 'dayjs';
 import LoadingButton from '@/common/components/Buttons/LoadingButton';
 import { useDispatch } from 'react-redux';
@@ -14,8 +14,8 @@ import { fetchUpdateProfile, fetchVerifyUser } from '@/redux/slices/auth';
 import { checkValidVietNamPhoneNumber } from '@/utils/common/index.ts';
 import { verifyPhoneNumber } from '@/services/customer';
 import { toast } from 'react-toastify';
-import PhoneValidationModal from '../PhoneValidationModal';
-import GenderRadioButtonsGroup from '../GenderRadioButtonsGroup';
+import PhoneValidationModal from './components/PhoneValidationModal';
+import GenderRadioButtonsGroup from './components/PhoneValidationModal/components/GenderRadioButtonsGroup';
 
 let receivedOtpCode;
 
