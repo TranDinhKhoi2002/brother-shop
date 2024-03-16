@@ -1,7 +1,7 @@
 import Button from '@/common/components/Buttons/Button';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
-import BuySteppers from '@/common/components/UI/BuySteppers';
-import Title from '@/common/components/UI/Title';
+import BuySteppers from '@/common/components/_shared/Payment/Steppers';
+import Title from '@/common/components/_shared/UIElements/Title';
 import { updateOrders } from '@/redux/slices/auth';
 import { checkOut } from '@/redux/slices/cart';
 import { checkOutOrder, createOrder } from '@/services/order';

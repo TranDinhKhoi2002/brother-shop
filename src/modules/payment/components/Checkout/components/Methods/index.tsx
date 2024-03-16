@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Divider } from '@mui/material';
 import ShippingMethod from '@/modules/payment/components/Checkout/components/Methods/components/ShippingMethod';
-import Title from '@/common/components/UI/Title';
+import Title from '@/common/components/_shared/UIElements/Title';
 
 type CheckoutMethodsProps = {
   method: string;

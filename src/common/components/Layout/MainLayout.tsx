@@ -4,7 +4,7 @@ import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Call';
 import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
-import Footer from '../Footer/Footer';
+import Footer from '../Footer';
 import Header from '../Header/index';
 import Sidebar from './Sidebar/index';
 import BackdropLoading from '../Loading/BackdropLoading';

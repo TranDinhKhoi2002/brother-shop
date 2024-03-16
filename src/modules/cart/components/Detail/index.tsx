@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { printNumberWithCommas } from '@/utils/common';
-import Title from '@/common/components/UI/Title';
+import Title from '@/common/components/_shared/UIElements/Title';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
 import { Product } from '@/types/product';
 import { CartItem } from '@/types/customer';

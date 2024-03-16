@@ -1,8 +1,8 @@
 import { JSXElementConstructor, ReactElement } from 'react';
 import Link from 'next/link';
 import Tippy from '@tippyjs/react/headless';
-import PopperWrapper from './PopperWrapper';
-import MenuItem from './MenuItem';
+import PopperWrapper from './components/PopperWrapper';
+import MenuItem from './components/Item';
 import { Category, CategoryType } from '@/types/category';
 import 'tippy.js/dist/tippy.css';
 

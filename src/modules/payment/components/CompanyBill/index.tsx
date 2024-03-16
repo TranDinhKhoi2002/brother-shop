@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Title from '@/common/components/UI/Title';
+import Title from '@/common/components/_shared/UIElements/Title';
 import RHFTextField from '@/common/components/Form/RHFTextField';
 import FormProvider from '@/common/components/Form/FormProvider';
 import Button from '@/common/components/Buttons/Button';

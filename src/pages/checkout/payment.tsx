@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Container } from '@mui/material';
-import BuySteppers from '@/common/components/UI/BuySteppers';
+import BuySteppers from '@/common/components/_shared/Payment/Steppers';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import config from '@/config';
 import PaymentForm from '@/modules/payment';

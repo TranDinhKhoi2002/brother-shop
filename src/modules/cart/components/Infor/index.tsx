@@ -1,4 +1,4 @@
-import BuySteppers from '@/common/components/UI/BuySteppers';
+import BuySteppers from '@/common/components/_shared/Payment/Steppers';
 import { Container, Grid } from '@mui/material';
 import OrderForm from '@/modules/payment/components/Order/components/Form';
 import DetailCart from '../Detail';

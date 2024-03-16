@@ -1,4 +1,4 @@
-import Title from '@/common/components/UI/Title';
+import Title from '@/common/components/_shared/UIElements/Title';
 import { Box, Container } from '@mui/material';
 import Slider from 'react-slick';
 import ProductItem from '../Item';

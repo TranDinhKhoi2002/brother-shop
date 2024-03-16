@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import Image from 'next/image';
-import BuySteppers from '@/common/components/UI/BuySteppers';
-import Title from '@/common/components/UI/Title';
+import BuySteppers from '@/common/components/_shared/Payment/Steppers';
+import Title from '@/common/components/_shared/UIElements/Title';
 import Button from '@/common/components/Buttons/Button';
 import Link from 'next/link';
 import { Box, Typography } from '@mui/material';

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Card, CardActions, CardContent, Divider, Stack, Typography } from '@mui/material';
 
-import Title from '@/common/components/UI/Title';
+import Title from '@/common/components/_shared/UIElements/Title';
 import Button from '@/common/components/Buttons/Button';
 import { printNumberWithCommas } from '@/utils/common';
 import { isNumber } from '@/utils/common';

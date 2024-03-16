@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { Category } from '@/types/category';
-import Menu from '../Popper/Menu/Menu';
+import Menu from '../../Popper/Menu';
 
 function MainNavigation(): ReactElement {
   const categories = useAppSelector<Category[]>(selectCategories);

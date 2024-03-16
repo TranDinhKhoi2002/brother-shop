@@ -1,6 +1,6 @@
 import { ChangeEvent, ReactElement } from 'react';
 import { Box, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
-import Title from '@/common/components/UI/Title';
+import Title from '@/common/components/_shared/UIElements/Title';
 import { useSelector } from 'react-redux';
 import { selectPromotions } from '@/redux/slices/promotions';
 import PromotionItem from '../List/components/Item';

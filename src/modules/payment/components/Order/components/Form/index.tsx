@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import Router from 'next/router';
-import Title from '@/common/components/UI/Title';
+import Title from '@/common/components/_shared/UIElements/Title';
 import { Box, Divider } from '@mui/material';
 import config from '@/config';
 import AddressList from '../../../AddressList';
