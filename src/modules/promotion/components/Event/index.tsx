@@ -1,8 +1,8 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import PromotionBanner from './PromotionBanner';
+import PromotionBanner from '../Banner';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
-import PromotionList from './PromotionList';
+import PromotionList from '../List';
 import { Promotion } from '@/types/promotion';
 
 type PromotionEventProps = {

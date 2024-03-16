@@ -11,7 +11,7 @@ import CompanyBill, { RefType } from '@/modules/payment/components/CompanyBill';
 import PageContainer from '@/common/components/Layout/PageContainer';
 import BackdropLoading from '@/common/components/Loading/BackdropLoading';
 import { TRANSPORTATION_COST, paymentMethods } from '@/utils/constants';
-import PromotionRadioBtnForm from '@/modules/promotion/components/PromotionRadioBtnForm';
+import PromotionRadioBtnForm from '@/modules/promotion/components/Form';
 import { fetchUpdatePromotionQuantity } from '@/redux/slices/promotions';
 import { CartItem } from '@/types/customer';
 import { Product } from '@/types/product';

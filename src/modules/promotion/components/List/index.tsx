@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Grid } from '@mui/material';
-import PromotionItem from './PromotionItem';
+import PromotionItem from './components/Item';
 import { Promotion } from '@/types/promotion';
 
 type PromotionListProps = {

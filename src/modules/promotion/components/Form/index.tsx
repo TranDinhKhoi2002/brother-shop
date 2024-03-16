@@ -3,7 +3,7 @@ import { Box, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, Typ
 import Title from '@/common/components/UI/Title';
 import { useSelector } from 'react-redux';
 import { selectPromotions } from '@/redux/slices/promotions';
-import PromotionItem from './PromotionItem';
+import PromotionItem from '../List/components/Item';
 import { selectCartProducts } from '@/redux/slices/cart';
 import { isValidPromotion } from '@/utils/promotion';
 import Button from '@/common/components/Buttons/Button';

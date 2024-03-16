@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { Box, Container } from '@mui/material';
 import PageContainer from '@/common/components/Layout/PageContainer';
-import PromotionEvent from '@/modules/promotion/components/PromotionEvent';
+import PromotionEvent from '@/modules/promotion/components/Event';
 import { appAssets } from '@/common/assets';
 import { getPromotions } from '@/services/promotion';
 import { getPromotionsByPercentage } from '@/utils/promotion';
