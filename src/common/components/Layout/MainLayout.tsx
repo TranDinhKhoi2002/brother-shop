@@ -2,7 +2,7 @@ import WishlistDrawer from '@/modules/wishlist/components/Drawer';
 import { fetchCommonData } from '@/redux/slices/data';
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Call';
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 import Footer from '../Footer';
 import Header from '../Header/index';
@@ -13,11 +13,7 @@ import useDrawer from '@/hooks/useDrawer';
 import CartDrawer from '@/modules/cart/components/Drawer';
 import { useRouter } from 'next/router';
 
-type LayoutProps = {
-  children: ReactNode;
-};
-
-function Layout(props: LayoutProps): ReactElement {
+function Layout(props: PropsWithChildren) {
   const { render: renderCartDrawer, onOpen: onOpenCartDrawer } = useDrawer(CartDrawer);
   const { render: renderSidebar, onOpen: onOpenSidebar } = useDrawer(Sidebar);
   const { render: renderWishlistDrawer, onOpen: onOpenWishlistDrawer } = useDrawer(WishlistDrawer);

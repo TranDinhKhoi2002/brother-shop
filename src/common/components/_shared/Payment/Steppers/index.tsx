@@ -1,16 +1,14 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
+import { STEPS } from './constants';
 
 type BuySteppersProps = {
   activeStep: number;
 };
 
-const steps = ['Đăng nhập', 'Thông tin đặt hàng', 'Thanh toán', 'Hoàn tất'];
-
-export default function BuySteppers({ activeStep }: BuySteppersProps): React.ReactElement {
+export default function BuySteppers({ activeStep }: BuySteppersProps) {
   return (
     <Box
       sx={{
@@ -22,7 +20,7 @@ export default function BuySteppers({ activeStep }: BuySteppersProps): React.Rea
       }}
     >
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => (
+        {STEPS.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>

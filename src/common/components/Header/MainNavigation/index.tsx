@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -9,7 +8,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { Category } from '@/types/category';
 import Menu from '../../Popper/Menu';
 
-function MainNavigation(): ReactElement {
+function MainNavigation() {
   const categories = useAppSelector<Category[]>(selectCategories);
   const router = useRouter();
   const mainCategories = [...categories].slice(0, 4);

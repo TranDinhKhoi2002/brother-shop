@@ -2,13 +2,12 @@ import { CategoryType } from '@/types/category';
 import { Box, Theme } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import Link from 'next/link';
-import { ReactElement } from 'react';
 
 type MenuItemProps = {
   categoryType: CategoryType;
 };
 
-function MenuItem({ categoryType }: MenuItemProps): ReactElement {
+function MenuItem({ categoryType }: MenuItemProps) {
   const theme = useTheme<Theme>();
 
   return (

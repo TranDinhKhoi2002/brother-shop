@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,7 +16,7 @@ type CollapseButtonProps = {
   };
 };
 
-function CollapseButton({ item }: CollapseButtonProps): ReactElement {
+function CollapseButton({ item }: CollapseButtonProps) {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleClick = () => {

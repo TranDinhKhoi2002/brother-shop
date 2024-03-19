@@ -12,7 +12,7 @@ type MenuProps = {
   detail?: boolean;
 };
 
-function Menu({ items = [], children, detail = false }: MenuProps): ReactElement {
+function Menu({ items = [], children, detail = false }: MenuProps) {
   return (
     <Tippy
       delay={[0, 100]}

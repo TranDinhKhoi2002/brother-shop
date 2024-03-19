@@ -1,7 +1,5 @@
-import { ReactElement, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { LightgalleryProvider, LightgalleryItem } from 'react-lightgallery';
-import BackdropLoading from '../Loading/BackdropLoading';
 import { cld } from '@/utils/lib/cloudinary';
 import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 
@@ -12,17 +10,7 @@ type IntroProps = {
   }[];
 };
 
-function Intro({ images }: IntroProps): ReactElement {
-  const [loaded, setLoaded] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
-  if (!loaded) {
-    return <BackdropLoading isVisible={!loaded} />;
-  }
-
+function Intro({ images }: IntroProps) {
   return (
     <LightgalleryProvider>
       <Grid container spacing={1} sx={{ mt: 6 }}>

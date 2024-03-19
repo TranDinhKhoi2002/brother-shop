@@ -32,3 +32,5 @@ export const defaultValues = {
   address: '',
   birthday: dayjs(Date.now()),
 };
+
+export type FormValuesType = typeof defaultValues;

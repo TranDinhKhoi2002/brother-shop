@@ -1,4 +1,4 @@
-import { FormEventHandler, ReactElement, ReactNode } from 'react';
+import { FormEventHandler, ReactNode } from 'react';
 import { FormProvider as Form } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 
@@ -8,7 +8,7 @@ type FormProviderProps = {
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
-export default function FormProvider({ children, onSubmit, methods }: FormProviderProps): ReactElement {
+export default function FormProvider({ children, onSubmit, methods }: FormProviderProps) {
   return (
     <Form {...methods}>
       <form onSubmit={onSubmit}>{children}</form>

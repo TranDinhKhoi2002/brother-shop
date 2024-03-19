@@ -9,3 +9,5 @@ export const defaultValues = {
   username: '',
   password: '',
 };
+
+export type FormValuesType = typeof defaultValues;

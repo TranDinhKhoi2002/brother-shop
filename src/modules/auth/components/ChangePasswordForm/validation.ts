@@ -14,3 +14,5 @@ export const defaultValues = {
   password: '',
   confirmPassword: '',
 };
+
+export type FormValuesType = typeof defaultValues;

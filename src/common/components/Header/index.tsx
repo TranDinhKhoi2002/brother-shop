@@ -1,15 +1,15 @@
-import { MouseEventHandler, ReactElement, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { InstantSearch } from 'react-instantsearch';
+import { Box, Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import config from '@/config';
+import { appAssets } from '@/common/assets';
+import { searchClient } from '@/utils/lib/algolia';
 import SearchInput from './Search';
 import MainNavigation from './MainNavigation';
 import Actions from './Actions';
-import config from '@/config';
-import { Box, Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import { appAssets } from '@/common/assets';
-import { InstantSearch } from 'react-instantsearch';
-import { searchClient } from '@/utils/lib/algolia';
 
 const useStyles = makeStyles((theme: Theme) => ({
   header: {
@@ -34,7 +34,7 @@ type HeaderProps = {
   showWishlist: MouseEventHandler<HTMLButtonElement>;
 };
 
-const Header = ({ showSideBar, showCartPreview, showWishlist }: HeaderProps): ReactElement => {
+const Header = ({ showSideBar, showCartPreview, showWishlist }: HeaderProps) => {
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const styles = useStyles();
 

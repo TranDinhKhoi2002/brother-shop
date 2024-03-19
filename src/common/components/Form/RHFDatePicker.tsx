@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -12,7 +11,7 @@ type RHFDatePickerProps = {
   sx?: SxProps<Theme>;
 };
 
-export default function RHFDatePicker({ name, ...other }: RHFDatePickerProps): ReactElement {
+export default function RHFDatePicker({ name, ...other }: RHFDatePickerProps) {
   const { control } = useFormContext();
 
   return (

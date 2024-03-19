@@ -3,7 +3,6 @@ import { renderPrice } from '@/utils/product';
 import { AdvancedImage } from '@cloudinary/react';
 import { Grid } from '@mui/material';
 import Link from 'next/link';
-import { ReactElement } from 'react';
 import { Highlight } from 'react-instantsearch';
 
 type SearchResultsProps = {
@@ -11,7 +10,7 @@ type SearchResultsProps = {
   onSelect: () => void;
 };
 
-function CustomHit({ hit, onSelect }: SearchResultsProps): ReactElement {
+function CustomHit({ hit, onSelect }: SearchResultsProps) {
   const mainImg = cld.image(hit.images.mainImg);
 
   return (

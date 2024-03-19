@@ -1,6 +1,6 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Typography, Collapse } from '@mui/material';
 import { useState } from 'react';
+import { Box, Typography, Collapse } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function CollapseFooter() {
   const [isExpanded, setExpanded] = useState<boolean>(false);

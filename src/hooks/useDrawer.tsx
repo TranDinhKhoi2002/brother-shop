@@ -1,11 +1,9 @@
-// import CartDrawer from '@/modules/cart/components/CartDrawer';
-import { ReactElement, ReactNode, useState } from 'react';
+import { PropsWithChildren, ReactElement, ReactNode, useState } from 'react';
 
-interface DrawerProps {
+type DrawerProps = PropsWithChildren & {
   isVisible: boolean;
   onClose: () => void;
-  children?: ReactNode;
-}
+};
 
 type DrawerComponent = (_props: DrawerProps) => ReactElement;
 

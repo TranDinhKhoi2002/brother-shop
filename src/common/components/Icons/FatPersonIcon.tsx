@@ -1,7 +1,4 @@
-/* eslint-disable max-len */
-import { ReactElement } from 'react';
-
-function FatPersonIcon(): ReactElement {
+function FatPersonIcon() {
   return (
     <svg width="38" height="113" viewBox="0 0 38 113" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_1_5192)">

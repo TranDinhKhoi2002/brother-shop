@@ -7,3 +7,5 @@ export const ResetPasswordSchema = Yup.object().shape({
 export const defaultValues = {
   email: '',
 };
+
+export type FormValuesType = typeof defaultValues;

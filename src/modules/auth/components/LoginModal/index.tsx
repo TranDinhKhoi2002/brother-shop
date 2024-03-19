@@ -25,34 +25,32 @@ function LoginModal({ isVisible, onClose }: LoginModalProps) {
   };
 
   return (
-    <div>
-      <Modal
-        open={isVisible}
-        onClose={onClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
-        sx={{ overflowY: 'scroll' }}
-      >
-        <Fade in={isVisible}>
-          <Box sx={style}>
-            <Stack direction="row" alignItems="center" justifyContent="flex-end">
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            </Stack>
+    <Modal
+      open={isVisible}
+      onClose={onClose}
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{
+        backdrop: {
+          timeout: 500,
+        },
+      }}
+      sx={{ overflowY: 'scroll' }}
+    >
+      <Fade in={isVisible}>
+        <Box sx={style}>
+          <Stack direction="row" alignItems="center" justifyContent="flex-end">
+            <IconButton onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </Stack>
 
-            <Box sx={{ paddingX: 5 }}>
-              <LoginForm onLogin={handleLogin} />
-            </Box>
+          <Box sx={{ paddingX: 5 }}>
+            <LoginForm onLogin={handleLogin} />
           </Box>
-        </Fade>
-      </Modal>
-    </div>
+        </Box>
+      </Fade>
+    </Modal>
   );
 }
 

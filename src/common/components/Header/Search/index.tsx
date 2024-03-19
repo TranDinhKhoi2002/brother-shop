@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { isEmpty } from 'lodash';
@@ -8,14 +7,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import NoSearchResult from '@/modules/search/Result/components/NoResult';
 import config from '@/config';
-import CustomHit from './Hit';
+import CustomHit from './components/Hit';
 
 type SearchInputProps = {
   className: string;
   closeSearch: () => void;
 };
 
-function SearchInput({ className, closeSearch }: SearchInputProps): ReactElement {
+function SearchInput({ className, closeSearch }: SearchInputProps) {
   const { query } = useSearchBox();
   const { hits } = useHits();
   const router = useRouter();

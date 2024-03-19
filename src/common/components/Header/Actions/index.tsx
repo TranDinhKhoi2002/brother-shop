@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactElement } from 'react';
+import { MouseEventHandler } from 'react';
 import { Badge, Button, IconButton, Stack, Theme, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: ActionsProps): ReactElement {
+function Actions({ openSearch, showSideBar, showCartPreview, showWishlist }: ActionsProps) {
   const cartProducts = useAppSelector(selectCartProducts);
   const wishlistProducts = useAppSelector(selectWishlistProducts);
   const router = useRouter();

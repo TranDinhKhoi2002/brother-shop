@@ -15,7 +15,7 @@ const initialState: { products: (CartItem & { productId: Product })[] } = {
       : [],
 };
 
-export const fetchAddToCart = createAsyncThunk<any, CartPayload>('cart/fetchAddToCart', async (itemData) => {
+export const addToCartThunk = createAsyncThunk<any, CartPayload>('cart/fetchAddToCart', async (itemData) => {
   try {
     const response = await addToCartApi(itemData);
     return response;
@@ -24,7 +24,7 @@ export const fetchAddToCart = createAsyncThunk<any, CartPayload>('cart/fetchAddT
   }
 });
 
-export const fetchUpdateQuantity = createAsyncThunk<any, CartPayload>('cart/fetchUpdateQuantity', async (itemData) => {
+export const updateQuantityThunk = createAsyncThunk<any, CartPayload>('cart/fetchUpdateQuantity', async (itemData) => {
   try {
     const response = await updateQuantity(itemData);
     return response;
@@ -33,7 +33,7 @@ export const fetchUpdateQuantity = createAsyncThunk<any, CartPayload>('cart/fetc
   }
 });
 
-export const fetchRemoveItemsFromCart = createAsyncThunk<any, RemovedCartItemPayload>(
+export const removeItemsFromCartThunk = createAsyncThunk<any, RemovedCartItemPayload>(
   'cart/fetchRemoveItemsFromCart',
   async (itemsData) => {
     try {
@@ -45,7 +45,7 @@ export const fetchRemoveItemsFromCart = createAsyncThunk<any, RemovedCartItemPay
   },
 );
 
-export const fetchRemoveItemFromCart = createAsyncThunk<any, CartPayload>(
+export const removeItemFromCartThunk = createAsyncThunk<any, CartPayload>(
   'cart/fetchRemoveItemFromCart',
   async (itemData) => {
     try {
@@ -111,7 +111,7 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchAddToCart.fulfilled, (state, { payload }) => {
+    builder.addCase(addToCartThunk.fulfilled, (state, { payload }) => {
       const { success, cart } = payload;
 
       if (success) {
@@ -120,7 +120,7 @@ const cartSlice = createSlice({
         toast.success('Đã thêm vào giỏ hàng');
       }
     });
-    builder.addCase(fetchUpdateQuantity.fulfilled, (state, { payload }) => {
+    builder.addCase(updateQuantityThunk.fulfilled, (state, { payload }) => {
       const { success, cart } = payload;
 
       if (success) {
@@ -128,7 +128,7 @@ const cartSlice = createSlice({
         assignProductsToCartInLocal(cart);
       }
     });
-    builder.addCase(fetchRemoveItemsFromCart.fulfilled, (state, { payload }) => {
+    builder.addCase(removeItemsFromCartThunk.fulfilled, (state, { payload }) => {
       const { success, cart } = payload;
 
       if (success) {
@@ -137,7 +137,7 @@ const cartSlice = createSlice({
         toast.success('Đã xóa các sản phẩm khỏi giỏ hàng');
       }
     });
-    builder.addCase(fetchRemoveItemFromCart.fulfilled, (state, { payload }) => {
+    builder.addCase(removeItemFromCartThunk.fulfilled, (state, { payload }) => {
       const { success, cart, message } = payload;
 
       if (success) {

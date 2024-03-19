@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import Head from 'next/head';
 import withBreadcrumbs from '@/hocs/breadcrumbs';
 
@@ -8,18 +8,14 @@ interface BreadcrumbItem {
   name: string;
 }
 
-export type PageContainerProps = {
-  children: ReactElement;
+export type PageContainerProps = PropsWithChildren & {
   barTitle?: string;
   headTitle: string;
   breadcrumbs?: BreadcrumbItem[];
+  renderBreadcrumbs: () => ReactNode;
 };
 
-function PageContainer({
-  children,
-  headTitle,
-  renderBreadcrumbs,
-}: PageContainerProps & { renderBreadcrumbs: () => ReactElement }): ReactElement {
+function PageContainer({ children, headTitle, renderBreadcrumbs }: PageContainerProps) {
   return (
     <>
       <Head>

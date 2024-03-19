@@ -1,11 +1,11 @@
 import { PageContainerProps } from '@/common/components/Layout/PageContainer';
 import { Breadcrumbs, Typography } from '@mui/material';
-import { ComponentType, ReactElement } from 'react';
+import { ComponentType } from 'react';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Link from 'next/link';
 import config from '@/config';
 
-const withBreadcrumbs = (Component: ComponentType<PageContainerProps & { renderBreadcrumbs: () => ReactElement }>) => {
+const withBreadcrumbs = (Component: ComponentType<PageContainerProps>) => {
   const BreadcrumbsComponent = (props: PageContainerProps) => {
     const { breadcrumbs, barTitle } = props;
 

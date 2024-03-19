@@ -1,22 +1,29 @@
-import { Button as ButtonMUI, Theme, ButtonProps } from '@mui/material';
+import { Button as ButtonMUI, Theme, ButtonProps as ButtonMUIProps } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTheme } from '@mui/styles';
 
-function Button({ children, className, ...other }: ButtonProps) {
+type ButtonProps = ButtonMUIProps & {
+  loading?: boolean;
+};
+
+function Button({ children, loading, disabled, startIcon, sx, ...rest }: ButtonProps) {
   const theme = useTheme<Theme>();
 
   return (
     <ButtonMUI
+      {...rest}
       sx={{
         px: 3,
         py: '12px',
-        backgroundColor: other!.disabled ? '#cecece !important' : '#111111 !important',
+        backgroundColor: disabled ? '#cecece !important' : '#111111 !important',
         color: theme.palette.grey['200'],
         borderRadius: '4px',
         textTransform: 'uppercase',
         fontWeight: '500',
+        ...sx,
       }}
-      className={className}
-      {...other}
+      startIcon={loading ? <CircularProgress size="18px" /> : startIcon}
+      disabled={disabled || loading}
     >
       {children}
     </ButtonMUI>

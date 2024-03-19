@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 import {
   addToCart,
   assignProductsToCart,
-  fetchAddToCart,
-  fetchRemoveItemFromCart,
-  fetchRemoveItemsFromCart,
-  fetchUpdateQuantity,
+  addToCartThunk,
+  removeItemFromCartThunk,
+  removeItemsFromCartThunk,
+  updateQuantityThunk,
   removeFromCart,
   updateAmountOfProduct,
 } from '@/redux/slices/cart';
@@ -19,7 +19,6 @@ import { AutocompleteQuerySuggestionsHit } from '@algolia/autocomplete-plugin-qu
 export default function useCart() {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAuth();
-
   const handleAddToCart = (product: Product | AutocompleteQuerySuggestionsHit, size: string, quantity: number) => {
     if (!isAuthenticated) {
       dispatch(addToCart({ productId: product, size, quantity, _id: uuidv4() }));
@@ -27,7 +26,7 @@ export default function useCart() {
       return;
     }
 
-    dispatch(fetchAddToCart({ productId: product._id.toString(), size, quantity }));
+    dispatch(addToCartThunk({ productId: product._id.toString(), size, quantity }));
   };
 
   const handleRemoveOneFromCart = async (productId: string, size: string, callback: () => void) => {
@@ -38,7 +37,7 @@ export default function useCart() {
       return;
     }
 
-    const { success } = await dispatch(fetchRemoveItemFromCart({ productId, size })).unwrap();
+    const { success } = await dispatch(removeItemFromCartThunk({ productId, size })).unwrap();
     if (success) {
       callback();
     }
@@ -60,7 +59,7 @@ export default function useCart() {
       productId: (item.productId as Product)._id,
       size: item.size,
     }));
-    const { success } = await dispatch(fetchRemoveItemsFromCart({ items: removedItems })).unwrap();
+    const { success } = await dispatch(removeItemsFromCartThunk({ items: removedItems })).unwrap();
     if (success) {
       callback();
     }
@@ -78,7 +77,7 @@ export default function useCart() {
       return;
     }
 
-    dispatch(fetchUpdateQuantity({ productId, size, quantity }));
+    dispatch(updateQuantityThunk({ productId, size, quantity }));
   };
 
   return {

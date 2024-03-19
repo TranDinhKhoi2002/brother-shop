@@ -31,30 +31,23 @@ export default function ConfirmModal({
   onConfirm,
 }: ConfirmModalProps) {
   return (
-    <div>
-      <Modal
-        open={isOpen}
-        onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {title}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {subTitle}
-          </Typography>
-          <Stack direction="row" justifyContent="flex-end" spacing={2} alignItems="center" sx={{ mt: 2 }}>
-            <Button variant="text" className="text-[#111] border-[#111] !bg-white" onClick={onClose}>
-              Đóng
-            </Button>
-            <Button variant="contained" onClick={onConfirm}>
-              {confirmTextBtn}
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
-    </div>
+    <Modal open={isOpen} onClose={onClose}>
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          {title}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {subTitle}
+        </Typography>
+        <Stack direction="row" justifyContent="flex-end" spacing={2} alignItems="center" sx={{ mt: 2 }}>
+          <Button variant="text" className="text-[#111] border-[#111] !bg-white" onClick={onClose}>
+            Đóng
+          </Button>
+          <Button variant="contained" onClick={onConfirm}>
+            {confirmTextBtn}
+          </Button>
+        </Stack>
+      </Box>
+    </Modal>
   );
 }

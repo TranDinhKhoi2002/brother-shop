@@ -22,6 +22,26 @@ export default function NavigationSidebar({ isVisible, onClose }: NavigationSide
   const categories = useAppSelector<Category[]>(selectCategories);
   const theme = useTheme<Theme>();
 
+  const renderCategories = () => {
+    return categories.map((category) => {
+      if (category.types.length > 0) {
+        return <CollapseButton key={category._id} item={category} />;
+      }
+
+      return (
+        <Link
+          key={category._id}
+          href={{ pathname: `/category/${category._id}`, query: { title: category.name } }}
+          as={`/category/${category._id}`}
+        >
+          <ListItemButton>
+            <ListItemText sx={{ '.css-107jk5d-MuiTypography-root': { fontSize: '1.25rem' } }} primary={category.name} />
+          </ListItemButton>
+        </Link>
+      );
+    });
+  };
+
   return (
     <Drawer anchor="right" open={isVisible} onClose={onClose}>
       <Box sx={{ width: '18rem' }}>
@@ -51,26 +71,7 @@ export default function NavigationSidebar({ isVisible, onClose }: NavigationSide
             component="nav"
             aria-labelledby="nested-list-subheader"
           >
-            {categories.map((category) => {
-              if (category.types.length > 0) {
-                return <CollapseButton key={category._id} item={category} />;
-              }
-
-              return (
-                <Link
-                  key={category._id}
-                  href={{ pathname: `/category/${category._id}`, query: { title: category.name } }}
-                  as={`/category/${category._id}`}
-                >
-                  <ListItemButton>
-                    <ListItemText
-                      sx={{ '.css-107jk5d-MuiTypography-root': { fontSize: '1.25rem' } }}
-                      primary={category.name}
-                    />
-                  </ListItemButton>
-                </Link>
-              );
-            })}
+            {renderCategories()}
           </List>
         </Box>
       </Box>

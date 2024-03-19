@@ -1,7 +1,4 @@
-/* eslint-disable max-len */
-import { ReactElement } from 'react';
-
-function ThinPersonIcon(): ReactElement {
+function ThinPersonIcon() {
   return (
     <svg width="29" height="113" viewBox="0 0 29 113" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_1_5172)">

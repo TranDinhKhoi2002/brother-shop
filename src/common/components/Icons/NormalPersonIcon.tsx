@@ -1,7 +1,4 @@
-/* eslint-disable max-len */
-import { ReactElement } from 'react';
-
-function NormalPersonIcon(): ReactElement {
+function NormalPersonIcon() {
   return (
     <svg width="37" height="113" viewBox="0 0 37 113" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_1_5182)">
