@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -16,8 +16,7 @@ import { assignProductsToWishlist } from '@/redux/slices/wishlist';
 import config from '@/config';
 import PromotionsTab from './components/PromotionsTab';
 
-type TabPanelProps = {
-  children: React.ReactNode;
+type TabPanelProps = PropsWithChildren & {
   value: number;
   index: number;
 };
@@ -27,27 +26,14 @@ type ProfileTabsProps = {
   onTabChange: (_: React.SyntheticEvent<Element, Event>, _newValue: number) => void;
 };
 
-function TabPanel(props: TabPanelProps): React.ReactElement {
+function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
+    <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
 }
 
 export default function ProfileTabs({ tabIndex, onTabChange }: ProfileTabsProps): ReactElement {
@@ -75,10 +61,10 @@ export default function ProfileTabs({ tabIndex, onTabChange }: ProfileTabsProps)
             onChange={onTabChange}
             sx={{ borderWidth: 1, borderColor: 'divider', py: 2 }}
           >
-            <Tab label="Thông tin tài khoản" {...a11yProps(0)} sx={{ px: 6, alignItems: 'flex-start' }} />
-            <Tab label="Lịch sử mua hàng" {...a11yProps(1)} sx={{ px: 6, alignItems: 'flex-start' }} />
-            <Tab label="Địa chỉ giao hàng" {...a11yProps(2)} sx={{ px: 6, alignItems: 'flex-start' }} />
-            <Tab label="Ưu đãi của bạn" {...a11yProps(3)} sx={{ px: 6, alignItems: 'flex-start' }} />
+            <Tab label="Thông tin tài khoản" sx={{ px: 6, alignItems: 'flex-start' }} />
+            <Tab label="Lịch sử mua hàng" sx={{ px: 6, alignItems: 'flex-start' }} />
+            <Tab label="Địa chỉ giao hàng" sx={{ px: 6, alignItems: 'flex-start' }} />
+            <Tab label="Ưu đãi của bạn" sx={{ px: 6, alignItems: 'flex-start' }} />
             <Divider />
             <Typography sx={{ px: 6, pt: 2, fontWeight: 'bold', cursor: 'pointer' }} onClick={handleLogout}>
               <LogoutIcon /> Đăng xuất

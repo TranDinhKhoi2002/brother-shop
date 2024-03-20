@@ -1,15 +1,14 @@
-import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { MouseEventHandler } from 'react';
 import { IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
-import { MouseEventHandler, ReactElement } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { alpha } from '@mui/material/styles';
 
 type CartTableToolbarProps = {
   numSelected: number;
   onDelete: MouseEventHandler<HTMLButtonElement>;
 };
 
-function CartTableToolbar({ numSelected, onDelete }: CartTableToolbarProps): ReactElement {
+function CartTableToolbar({ numSelected, onDelete }: CartTableToolbarProps) {
   return (
     <Toolbar
       sx={{
@@ -40,9 +39,5 @@ function CartTableToolbar({ numSelected, onDelete }: CartTableToolbarProps): Rea
     </Toolbar>
   );
 }
-
-CartTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
 
 export default CartTableToolbar;

@@ -1,5 +1,5 @@
-import BuySteppers from '@/common/components/_shared/Payment/Steppers';
 import { Container, Grid } from '@mui/material';
+import BuySteppers from '@/common/components/_shared/Payment/Steppers';
 import OrderForm from '@/modules/payment/components/Order/components/Form';
 import DetailCart from '../Detail';
 

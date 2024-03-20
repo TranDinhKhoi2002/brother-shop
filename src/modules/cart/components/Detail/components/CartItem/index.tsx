@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { AdvancedImage, lazyload, responsive, placeholder } from '@cloudinary/react';
 import { printNumberWithCommas } from '@/utils/common';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
-import { CartItem as CartItemType } from '@/types/customer';
-import { cld } from '@/utils/lib/cloudinary';
-import { Product } from '@/types/product';
 import useCart from '@/hooks/useCart';
+import { cld } from '@/utils/lib/cloudinary';
+import { CartItem as CartItemType } from '@/types/customer';
+import { Product } from '@/types/product';
 import Cell from '../Cell';
 
 type CartItemProps = {
@@ -77,7 +77,7 @@ function CartItem({ cartItem }: CartItemProps) {
             <button className="py-1 px-2 ml-2 text-[13px] leading-6 rounded-[0.2rem] text-[#343a40] border-[1px] border-solid border-[#343a40] hover:text-white hover:bg-[#343a40] hover:border-[#343a40] transition-all duration-300 ease-linear">
               CẬP NHẬT
             </button>
-          </form>{' '}
+          </form>
           =<b> {printNumberWithCommas(cartItem.quantity * product.price)} đ</b>
         </Cell>
       </tr>

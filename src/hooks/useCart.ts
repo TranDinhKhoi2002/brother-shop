@@ -46,7 +46,7 @@ export default function useCart() {
   const handleRemoveAllFromCart = async (
     restCartItems: CartItem[],
     selectedCartItems: CartItem[],
-    callback: () => void,
+    callback: Function,
   ) => {
     if (!isAuthenticated) {
       dispatch(assignProductsToCart({ cart: restCartItems }));

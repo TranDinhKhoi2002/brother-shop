@@ -1,13 +1,7 @@
-import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import FormProvider from '@/common/components/Form/FormProvider';
-import { checkValidVietNamPhoneNumber } from '@/utils/common';
-import RHFTextField from '@/common/components/Form/RHFTextField';
-import RHFAutocomplete from '@/common/components/Form/RHFAutocomplete';
-import { ReactElement, useEffect, useState } from 'react';
-import LoadingButton from '@/common/components/Buttons/LoadingButton';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { fetchAddAddress, fetchEditAddress, selectCurrentUser } from '@/redux/slices/auth';
@@ -15,25 +9,23 @@ import { Address } from '@/types/customer';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { AddressPayload } from '@/services/types/customer';
 import { getDistricts, getProvinces, getWards } from '@/services/address';
+import { AddAddressSchema, FormValuesType, getDefaultValues } from './validation';
+import AddressFormView from './view';
 
 type AddressFormProps = {
   selectedAddress?: Address;
   onClose?: () => void;
-  onSubmitForm?: (_values: {
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    cities: string;
-    districts: string;
-    wards: string;
-  }) => void;
+  onSubmitForm?: (_values: FormValuesType) => void;
 };
 
-function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProps): ReactElement {
+function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProps) {
   const [cities, setCities] = useState<string[]>([]);
   const [districts, setDistricts] = useState<string[]>([]);
   const [wards, setWards] = useState<string[]>([]);
+
+  const dispatch = useAppDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+  const isEditMode = !!selectedAddress;
 
   const { data: citiesData } = useQuery({
     queryKey: ['vn_provinces'],
@@ -58,7 +50,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
     },
   });
 
-  const { mutate: addAddress } = useMutation({
+  const { mutate: addAddress, isPending: isAdding } = useMutation({
     mutationFn: (address: AddressPayload) => dispatch(fetchAddAddress(address)).unwrap(),
     onSuccess: (data) => {
       const { message } = data;
@@ -66,7 +58,7 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
     },
   });
 
-  const { mutate: updateAddress } = useMutation({
+  const { mutate: updateAddress, isPending: isUpdating } = useMutation({
     mutationFn: (updatedAddress: AddressPayload) => dispatch(fetchEditAddress(updatedAddress)).unwrap(),
     onSuccess: (data) => {
       const { message } = data;
@@ -80,55 +72,14 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
     setCities(cityNames);
   }, [citiesData]);
 
-  const dispatch = useAppDispatch();
-  const currentUser = useSelector(selectCurrentUser);
-  const isEditMode = !!selectedAddress;
-
-  const AddAddressSchema = Yup.object().shape({
-    name: Yup.string().required('Vui lòng nhập họ tên'),
-    email: Yup.string().required('Vui lòng nhập email').email('Email không hợp lệ'),
-    phone: Yup.string()
-      .required('Vui lòng nhập số điện thoại')
-      .test('viet_nam_phone_number', 'Số điện thoại không hợp lệ', function (phoneNumber) {
-        return checkValidVietNamPhoneNumber(phoneNumber as string);
-      }),
-    address: Yup.string().required('Vui lòng nhập địa chỉ'),
-    cities: Yup.string().required('Vui lòng chọn tỉnh/thành phố'),
-    districts: Yup.string().required('Vui lòng chọn quận/huyện'),
-    wards: Yup.string().required('Vui lòng chọn phường/xã'),
-  });
-
-  const defaultValues = {
-    name: selectedAddress?.name || '',
-    email: currentUser?.email || '',
-    phone: selectedAddress?.phone || '',
-    address: selectedAddress?.detail || '',
-    cities: selectedAddress?.city || '',
-    districts: selectedAddress?.district || '',
-    wards: selectedAddress?.ward || '',
-  };
-
   const methods = useForm({
     resolver: yupResolver(AddAddressSchema),
-    defaultValues,
+    defaultValues: getDefaultValues(selectedAddress, currentUser),
   });
 
-  const {
-    handleSubmit,
-    resetField,
-    getValues,
-    formState: { isSubmitting },
-  } = methods;
+  const { resetField, getValues } = methods;
 
-  const onSubmit = async (values: {
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    cities: string;
-    districts: string;
-    wards: string;
-  }) => {
+  const onSubmit = (values: FormValuesType) => {
     if (onSubmitForm) {
       onSubmitForm(values);
       return;
@@ -176,44 +127,18 @@ function AddressForm({ selectedAddress, onClose, onSubmitForm }: AddressFormProp
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <RHFTextField name="name" label="Họ tên" id="name" placeholder="Họ và tên" />
-      <RHFTextField name="email" label="Email" id="email" placeholder="Địa chỉ email" />
-      <RHFTextField name="phone" label="Số điện thoại" id="phone" placeholder="Số điện thoại" />
-      <RHFTextField name="address" label="Địa chỉ" id="address" placeholder="Địa chỉ" />
-      <RHFAutocomplete
-        name="cities"
-        label="Tỉnh/Thành phố (*)"
-        options={cities || []}
-        getOptionLabel={(option: string) => option}
-        isOptionEqualToValue={(option: string, value: string) => option === value}
-        sx={{ mt: 4, mb: 2 }}
-        onChangeValue={handleChangeCity}
-      />
-
-      <RHFAutocomplete
-        name="districts"
-        label="Quận/Huyện (*)"
-        options={districts}
-        getOptionLabel={(option: string) => option}
-        isOptionEqualToValue={(option: string, value: string) => option === value}
-        sx={{ mt: 4, mb: 2 }}
-        onChangeValue={handleChangeDistrict}
-      />
-
-      <RHFAutocomplete
-        name="wards"
-        label="Phường/Xã (*)"
-        options={wards}
-        getOptionLabel={(option: string) => option}
-        isOptionEqualToValue={(option: string, value: string) => option === value}
-        sx={{ mt: 4, mb: 2 }}
-      />
-
-      <LoadingButton fullWidth loading={isSubmitting} type="submit" sx={{ mt: 3, mb: 1 }}>
-        {onSubmitForm ? 'Thanh toán' : isEditMode ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
-      </LoadingButton>
-    </FormProvider>
+    <AddressFormView
+      methods={methods}
+      isEditMode={isEditMode}
+      loading={isAdding || isUpdating}
+      cities={cities}
+      districts={districts}
+      wards={wards}
+      onChangeCity={handleChangeCity}
+      onChangeDistrict={handleChangeDistrict}
+      onSubmit={onSubmit}
+      onSubmitForm={onSubmitForm}
+    />
   );
 }
 

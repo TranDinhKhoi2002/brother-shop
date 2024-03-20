@@ -32,3 +32,8 @@ export const PROFILE_TABS = Object.freeze({
   ADDRESSES: 'addresses',
   PROMOTIONS: 'promotions',
 });
+
+export const SORT_ORDER = Object.freeze({
+  DESC: 'desc',
+  ASC: 'asc',
+});

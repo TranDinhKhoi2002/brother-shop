@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -26,12 +25,10 @@ type AddAddressModalProps = {
   onClose: () => void;
 };
 
-function AddAddressModal({ address, isVisible, onClose }: AddAddressModalProps): React.ReactElement {
+function AddAddressModal({ address, isVisible, onClose }: AddAddressModalProps) {
   return (
     <div>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
         open={isVisible}
         onClose={onClose}
         closeAfterTransition
@@ -49,7 +46,7 @@ function AddAddressModal({ address, isVisible, onClose }: AddAddressModalProps):
               <CloseIcon />
             </IconButton>
             <Box>
-              <Typography id="transition-modal-title" variant="h5" component="h2" sx={{ textAlign: 'center' }}>
+              <Typography variant="h5" component="h2" sx={{ textAlign: 'center' }}>
                 {address ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ'}
               </Typography>
               <AddressForm selectedAddress={address} onClose={onClose} />

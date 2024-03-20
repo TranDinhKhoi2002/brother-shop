@@ -1,11 +1,10 @@
-import { ReactElement } from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/common/components/Buttons/Button';
 import { appAssets } from '@/common/assets';
 
-function EmptyCart(): ReactElement {
+function EmptyCart() {
   return (
     <Box sx={{ textAlign: 'center', my: 3 }}>
       <Typography sx={{ fontSize: '1.5rem', fontWeight: 500 }}>Bạn chưa chọn sản phẩm.</Typography>

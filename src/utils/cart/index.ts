@@ -11,3 +11,9 @@ export function assignProductsToCartInLocal(products: (CartItem & { productId: P
 
   localStorage.setItem(`cart-${sessionID}`, JSON.stringify(products));
 }
+
+export const getTotalPrice = (cartProducts: CartItem[]) => {
+  return cartProducts.reduce((totalPrice, cartItem) => {
+    return totalPrice + (cartItem.productId as Product).price * cartItem.quantity;
+  }, 0);
+};

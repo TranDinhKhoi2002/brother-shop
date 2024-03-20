@@ -1,15 +1,14 @@
-import { ReactElement } from 'react';
-import Button from '@/common/components/Buttons/Button';
-import { calculateTotalCart, printNumberWithCommas } from '@/utils/common';
-import config from '@/config';
-import { TRANSPORTATION_COST } from '@/utils/constants';
-import { selectCartProducts } from '@/redux/slices/cart';
-import { Card, CardContent, Divider, Stack, Typography, Button as ButtonMUI } from '@mui/material';
 import Link from 'next/link';
+import { Card, CardContent, Divider, Stack, Typography, Button as ButtonMUI } from '@mui/material';
+import Button from '@/common/components/Buttons/Button';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import useAuth from '@/hooks/useAuth';
+import { selectCartProducts } from '@/redux/slices/cart';
+import { calculateTotalCart, printNumberWithCommas } from '@/utils/common';
+import { TRANSPORTATION_COST } from '@/utils/constants';
+import config from '@/config';
 
-function PreviewInvoice(): ReactElement {
+function PreviewInvoice() {
   const cartProducts = useAppSelector(selectCartProducts);
   const totalCart = calculateTotalCart(cartProducts);
   const isAuthenticated = useAuth();
