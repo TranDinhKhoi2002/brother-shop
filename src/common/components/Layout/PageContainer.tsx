@@ -12,7 +12,7 @@ export type PageContainerProps = PropsWithChildren & {
   barTitle?: string;
   headTitle: string;
   breadcrumbs?: BreadcrumbItem[];
-  renderBreadcrumbs: () => ReactNode;
+  renderBreadcrumbs?: () => ReactNode;
 };
 
 function PageContainer({ children, headTitle, renderBreadcrumbs }: PageContainerProps) {
@@ -22,7 +22,9 @@ function PageContainer({ children, headTitle, renderBreadcrumbs }: PageContainer
         <title>{headTitle} | Brother Shop</title>
       </Head>
       <div className="xl:px-[5%]">
-        <div className="flex items-center py-1 px-4 mb-2 bg-[#e9ecef]">{renderBreadcrumbs()}</div>
+        {renderBreadcrumbs && (
+          <div className="flex items-center py-1 px-4 mb-2 bg-[#e9ecef]">{renderBreadcrumbs()}</div>
+        )}
         {children}
       </div>
     </>
