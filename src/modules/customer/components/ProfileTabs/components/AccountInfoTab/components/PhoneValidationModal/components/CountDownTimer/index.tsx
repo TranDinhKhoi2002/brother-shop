@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import { ReactElement, useEffect, useState } from 'react';
 
 type CountDownTimerProps = {
   onCounterExpired: () => void;
 };
 
-function CountDownTimer({ onCounterExpired }: CountDownTimerProps): ReactElement {
+function CountDownTimer({ onCounterExpired }: CountDownTimerProps) {
   const [counter, setCounter] = useState(60);
 
   useEffect(() => {

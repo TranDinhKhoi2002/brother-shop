@@ -1,15 +1,12 @@
-import Button from '@/common/components/Buttons/Button';
-import { Box, Stack, TextField, Typography } from '@mui/material';
-import { ReactElement, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { toast } from 'react-toastify';
-import CountDownTimer from '../CountDownTimer';
+import FormOTPView from './view';
 
 type FormOTPProps = {
   onSubmit: (_otpCode: string) => void;
 };
 
-function FormOTP({ onSubmit }: FormOTPProps): ReactElement {
-  const [counterExpired, setCounterExpired] = useState(false);
+function FormOTP({ onSubmit }: FormOTPProps) {
   const inputRefs = useRef<HTMLInputElement[]>([]);
 
   const handleKeyPress = (index: number) => () => {
@@ -36,38 +33,7 @@ function FormOTP({ onSubmit }: FormOTPProps): ReactElement {
     onSubmit(enteredOTP);
   };
 
-  return (
-    <Box>
-      <Stack direction="row" justifyContent="center" spacing={2} sx={{ mt: 3, px: { xs: 0, md: 3 } }}>
-        {[...Array(6)].map((_, index) => (
-          <TextField
-            key={index}
-            variant="standard"
-            inputProps={{
-              maxLength: 1,
-              min: 0,
-              style: { textAlign: 'center', fontSize: 20 },
-              onKeyUp: handleKeyPress(index),
-            }}
-            inputRef={(ref: HTMLInputElement) => (inputRefs.current[index] = ref)}
-            type="tel"
-          />
-        ))}
-      </Stack>
-
-      {counterExpired ? (
-        <Typography sx={{ mt: 6 }}>
-          Bạn vẫn chưa nhận được? <strong className="cursor-pointer">Gửi lại</strong>
-        </Typography>
-      ) : (
-        <CountDownTimer onCounterExpired={() => setCounterExpired(true)} />
-      )}
-
-      <Button fullWidth className="mt-8" onClick={checkEnteredOTP}>
-        Xác nhận
-      </Button>
-    </Box>
-  );
+  return <FormOTPView inputRefs={inputRefs} onCheckEnteredOTP={checkEnteredOTP} onKeyUp={handleKeyPress} />;
 }
 
 export default FormOTP;

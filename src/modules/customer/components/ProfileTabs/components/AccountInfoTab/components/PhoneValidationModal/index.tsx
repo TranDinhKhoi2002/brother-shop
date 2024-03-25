@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { Box, Fade, IconButton, Modal, Stack, Typography } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
@@ -24,7 +23,7 @@ type PhoneValidationModalProps = {
   onSubmit: (_otpCode: string) => void;
 };
 
-function PhoneValidationModal({ isVisible, onClose, onSubmit }: PhoneValidationModalProps): ReactElement {
+function PhoneValidationModal({ isVisible, onClose, onSubmit }: PhoneValidationModalProps) {
   const currentUser = useSelector(selectCurrentUser);
 
   return (
