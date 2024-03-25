@@ -1,6 +1,3 @@
-import PropTypes from 'prop-types';
-import Button from '@/common/components/Buttons/Button.tsx';
-import { fetchRemoveAddress, fetchUpdateAddressToDefault } from '@/redux/slices/auth';
 import {
   Box,
   Button as ButtonMUI,
@@ -12,65 +9,62 @@ import {
   Typography,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useTheme } from '@mui/styles';
-import { useDispatch } from 'react-redux';
-import { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import AddAddressModal from '../../../Address/components/AddAddressModal';
 import ConfirmModal from '@/common/components/Modal/ConfirmModal';
-import BackdropLoading from '@/common/components/Loading/BackdropLoading';
-import { toast } from 'react-toastify';
+import { Address } from '@/types/customer';
+import { useCustomTheme } from '@/common/styles/theme';
+import Button from '@/common/components/Buttons/Button';
 
-function AddressesTab({ addresses }) {
+type AddressesTabViewProps = {
+  addresses: Address[];
+  selectedAddress: Address | null;
+  onSelectAddress: (_address: Address | null) => void;
+  onUpdateToDefault: (_addressId: string) => void;
+  onRemoveAddress: () => void;
+};
+
+function AddressesTabView({
+  addresses,
+  selectedAddress,
+  onSelectAddress,
+  onUpdateToDefault,
+  onRemoveAddress,
+}: AddressesTabViewProps) {
   const [showAddAddressModal, setShowAddressModal] = useState(false);
   const [showConfirmRemoveModal, setShowConfirmRemoveModal] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState();
-  const [showLoadingModal, setShowLoadingModal] = useState(false);
 
-  const dispatch = useDispatch();
+  const theme = useCustomTheme();
 
-  const theme = useTheme();
-
-  const handleUpdateAddress = (item) => {
+  const handleUpdateAddress = (item: Address) => {
     setShowAddressModal(true);
-    setSelectedAddress(item);
+    onSelectAddress(item);
   };
 
   const handleCloseAddressFormModal = () => {
-    setSelectedAddress();
     setShowAddressModal(false);
+    onSelectAddress(null);
   };
 
-  const handleOpenConfirmModal = (item) => {
-    setSelectedAddress(item);
+  const handleOpenConfirmModal = (item: Address) => {
     setShowConfirmRemoveModal(true);
+    onSelectAddress(item);
   };
 
   const handleCloseConfirmModal = () => {
-    setSelectedAddress();
+    onSelectAddress(null);
     setShowConfirmRemoveModal(false);
   };
 
-  const handleRemoveAddress = async () => {
-    handleCloseConfirmModal();
-    const { success, message } = await dispatch(fetchRemoveAddress({ _id: selectedAddress._id })).unwrap();
-    if (success) {
-      toast.success(message);
-    } else {
-      toast.error(message);
-    }
+  const handleRemoveAddress = () => {
+    setShowConfirmRemoveModal(false);
+    onRemoveAddress();
   };
 
-  const handleUpdateToDefault = async (addressId) => {
-    setShowLoadingModal(true);
-
-    const { success, message } = await dispatch(fetchUpdateAddressToDefault({ _id: addressId })).unwrap();
-    if (success) {
-      toast.success(message);
-    } else {
-      toast.error(message);
+  const handleMarkAsDefault = (e: React.ChangeEvent<HTMLInputElement>, address: Address) => {
+    if (e.target.checked) {
+      onUpdateToDefault(address._id);
     }
-
-    setShowLoadingModal(false);
   };
 
   return (
@@ -114,19 +108,14 @@ function AddressesTab({ addresses }) {
                 )}
               </Box>
               <Box sx={{ mt: { xs: 1, md: 0 } }}>
-                <ButtonMUI onClick={handleUpdateAddress.bind(this, item)}>Chỉnh sửa</ButtonMUI>
-                <ButtonMUI sx={{ color: theme.palette.error.main }} onClick={handleOpenConfirmModal.bind(this, item)}>
+                <ButtonMUI onClick={() => handleUpdateAddress(item)}>Chỉnh sửa</ButtonMUI>
+                <ButtonMUI sx={{ color: theme.palette.error.main }} onClick={() => handleOpenConfirmModal(item)}>
                   Xóa
                 </ButtonMUI>
                 {!item.isDefault && (
                   <FormGroup>
                     <FormControlLabel
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          handleUpdateToDefault(item._id);
-                        }
-                      }}
-                      control={<Checkbox />}
+                      control={<Checkbox onChange={(e) => handleMarkAsDefault(e, item)} />}
                       label="Mặc định"
                     />
                   </FormGroup>
@@ -139,11 +128,13 @@ function AddressesTab({ addresses }) {
         ))}
       </Box>
 
-      <AddAddressModal
-        isVisible={showAddAddressModal}
-        address={selectedAddress}
-        onClose={handleCloseAddressFormModal}
-      />
+      {selectedAddress && (
+        <AddAddressModal
+          isVisible={showAddAddressModal}
+          address={selectedAddress}
+          onClose={handleCloseAddressFormModal}
+        />
+      )}
 
       <ConfirmModal
         isOpen={showConfirmRemoveModal}
@@ -153,18 +144,8 @@ function AddressesTab({ addresses }) {
         onClose={handleCloseConfirmModal}
         onConfirm={handleRemoveAddress}
       />
-
-      <BackdropLoading isVisible={showLoadingModal} />
     </>
   );
 }
 
-AddressesTab.propTypes = {
-  addresses: PropTypes.array.isRequired,
-};
-
-AddressesTab.defaultProps = {
-  addresses: [],
-};
-
-export default AddressesTab;
+export default AddressesTabView;

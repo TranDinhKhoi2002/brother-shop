@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { CssBaseline, createTheme } from '@mui/material';
 import { ThemeProvider as MUIThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-// import { customTheme } from './theme';
+import { useTheme } from '@mui/styles';
 import palette from './palette';
 import typography from './typography';
 import { CustomTheme } from './theme';
@@ -37,3 +37,7 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
     </StyledEngineProvider>
   );
 }
+
+export const useCustomTheme = () => {
+  return useTheme<CustomTheme>();
+};

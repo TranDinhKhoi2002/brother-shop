@@ -80,7 +80,7 @@ export default function ProfileTabs({ tabIndex, onTabChange }: ProfileTabsProps)
               <PurchaseHistoryTab orders={currentUser?.orders} />
             </TabPanel>
             <TabPanel value={tabIndex} index={2}>
-              <AddressesTab addresses={currentUser?.address} />
+              <AddressesTab addresses={currentUser?.address || []} />
             </TabPanel>
             <TabPanel value={tabIndex} index={3}>
               <PromotionsTab />
